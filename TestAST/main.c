@@ -45,11 +45,11 @@ void	init_token(char *input, t_token **token)
 		init_struct_t(tab[i], token);
 		i++;
 	}
-	while (*token)
-	{
-		printf("token : %s type : %d\n", (*token)->cmd, (*token)->type);
-		(*token) = (*token)->next;
-	}
+	// while (*token)
+	// {
+	// 	printf("token : %s type : %d\n", (*token)->cmd, (*token)->type);
+	// 	(*token) = (*token)->next;
+	// }
 }
 
 int	main(int ac, char **av) // rajouter variable d env
@@ -66,6 +66,10 @@ int	main(int ac, char **av) // rajouter variable d env
 		if (input != NULL)
 		{
 			init_token(input, &token);
+			ast = init_ast(&token);
+			printf("%d %s\n", ast->type, ast->cmd);
+			printf("%d %s\n", ast->left->type, ast->left->cmd);
+			printf("%d %s\n", ast->right->type, ast->right->cmd);
 			// init_ast
 			free(input); // Libération de la mémoire allouée
 		}
