@@ -1,5 +1,35 @@
 #include "test.h"
 
+
+
+void print_ast(t_AST *ast, int depth)
+{
+    if (!ast)
+        return;
+
+    // Indentation pour visualiser la profondeur dans l'arbre
+    for (int i = 0; i < depth; i++)
+        printf("    ");
+
+    // Affichage du type et de la commande
+    printf("Type: %d, Command: %s\n", ast->type, ast->cmd);
+
+    // Appels récursifs pour les sous-nœuds gauche et droit
+    if (ast->left)
+    {
+        for (int i = 0; i < depth; i++)
+            printf("    ");
+        printf("Gauche:\n");
+        print_ast(ast->left, depth + 1);
+    }
+    if (ast->right)
+    {
+        for (int i = 0; i < depth; i++)
+            printf("    ");
+        printf("Droite:\n");
+        print_ast(ast->right, depth + 1);
+    }
+}
 int	findtype(char *str)
 {
 	if (!strcmp(str, "<"))
@@ -67,10 +97,8 @@ int	main(int ac, char **av) // rajouter variable d env
 		{
 			init_token(input, &token);
 			ast = init_ast(&token);
-			printf("%d %s\n", ast->type, ast->cmd);
-			printf("%d %s\n", ast->left->type, ast->left->cmd);
-			printf("%d %s\n", ast->right->type, ast->right->cmd);
-			// init_ast
+			print_ast(ast, 0);
+			//printf("type = %d et args = %s\t\n", ast->left->type, ast->cmd);
 			free(input); // Libération de la mémoire allouée
 		}
 	}
