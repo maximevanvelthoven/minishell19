@@ -1,16 +1,44 @@
-// #include "test.h"
+// #include "../TestAST/test.h"
 
-// t_data *prepare_exec(t_AST *node, t_data *data)
+// void	exec_cmd(t_data *data)
 // {
-//     data->ast = node;
-//     while(data->ast->left)
-//     {
-//         if (data->ast == 1)
+// 	if (fork() == 0)
+// 	{
+// 		if (data->FD_OUT != STDOUT_FILENO)
 //         {
-//             data->FD_OUT = open(data->ast->right, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-//             data->ast = node->left;
-//             prepare_exec(data->ast, data);
+// 			dup2(data->FD_OUT, STDOUT_FILENO);
+//             close(data->FD_OUT);
 //         }
-//         else if(data->ast == )
-//     }
+// 		if (data->FD_IN != STDIN_FILENO)
+//         {
+// 			dup2(data->FD_OUT, STDOUT_FILENO);
+//             close(data->FD_IN);
+//         }
+
+// 	}
+//     else
+//         wait(NULL);
+// }
+
+// t_data	*prepare_cmd(t_AST *node, t_data *data)
+// {
+// 	if (data->ast == 1) // = ">"
+// 	{
+// 		if (data->FD_OUT != STDOUT_FILENO)
+// 			close(data->FD_OUT);
+// 		data->FD_OUT = open(node->right, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+// 		prepare_exec(node->left, data);
+// 	}
+// 	else if (data->ast == 0) // = "<"
+// 	{
+// 		if (data->FD_IN != STDIN_FILENO)
+// 			close(data->FD_IN);
+// 		data->FD_IN = open(node->right, 'r');
+// 		prepare_exec(node->left, data);
+// 	}
+// 	// else if (data->ast == 2) // = "|"
+// 	// {
+// 	// }
+// 	else if (data->ast == 3)
+// 		exec_cmd(data);
 // }
