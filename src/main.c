@@ -1,13 +1,24 @@
 #include "test.h"
 
 
-int	main(int ac, char **av) // rajouter variable d env
+void init_data(t_data *data, char **envp)
+{
+	data->ast = NULL;
+	data->token = NULL;
+	data->FD_IN = STDIN_FILENO;
+	data->FD_OUT = STDOUT_FILENO;
+	data->env = init_env(envp);
+}
+
+int	main(int ac, char **av, char **envp) // rajouter variable d env
 {
 	t_token *token;
 	t_AST *ast;
-	// t_data *data;
+	t_data *data;
 
 	(void)av; // set a void car jamais utiliser tout se fait via l input
+	data = malloc(sizeof(t_data));
+	init_data(data, envp);
 	while (1)
 	{
 		if (ac != 1)
