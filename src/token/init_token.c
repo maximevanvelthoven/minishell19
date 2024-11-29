@@ -59,24 +59,27 @@ void	init_struct_t(char *str, t_token **token)
 
 int	check_cote(char *str)
 {
-	int	i;
-	int	db_cote;
-	int	sp_cote;
-
-	db_cote = 0;
-	sp_cote = 0;
-	i = 0;
-	while (str[i])
+	while (*str)
 	{
-		if (str[i] == '"')
-			db_cote++;
-		if (str[i] == '\'')
-			sp_cote++;
-		i++;
+		if (*str == '"')
+		{
+			str++;
+			while (*str != '"' && *str != '\0')
+				str++;
+			if (*str == '\0')
+				return (1);
+		}
+		if (*str == '\'')
+		{
+			str++;
+			while (*str != '\'' && *str != '\0')
+				str++;
+			if (*str == '\0')
+				return (1);
+		}
+		str++;
 	}
-	if (sp_cote % 2 == 0 && db_cote % 2 == 0)
-		return (0);
-	return (1);
+	return (0);
 }
 
 int	check_unvalid_char(char *str)
@@ -91,42 +94,59 @@ int	check_unvalid_char(char *str)
 		return (1);
 	return (0);
 }
-int	check_syntaxe(char *str)
-{
-	int		checker;
-	char	cote;
 
-	checker = 0;
-	if (check_cote(str))
+int	check_separator(char c)
+{
+	if (c == '(' || c == ')' || c == '&')
 		return (1);
-	while (*str)
+	else if (c == '|')
+		return (1);
+	else if (c == '>')
+		return (1);
+	else if (c == '<')
+		return (1);
+	else if (c == ' ')
+		return (1);
+	return (0);
+}
+
+int	check_syntaxe(char *str, t_token **token)
+{
+	int		i;
+	int		j;
+	char	*tmp;
+
+	i = 0;
+	if (check_cote(str))
 	{
-		if (*str == '\'' || *str == '"')
+		printf("coucou");
+		return (1);
+	}
+	while (str[i])
+	{
+		while (str[i] == ' ')
+			i++;
+		j = i;
+		while (!(check_separator(str[i])) && str[i] != '\0')
 		{
-			checker = 1;
-			cote = *str;
-			while (checker == 1)
-			{
-				str++;
-				if (*str == cote)
-					checker = 0;
-			}
+			printf("salut\n");
+			i++;
 		}
-		else if (*str != '\'' || *str != '"')
-		{
-			if (check_unvalid_char(str))
-				return (1);
-		}
-		str++;
+		i++;
+		tmp = ft_substr(str, j, i - j);
+		printf("%s\n", tmp);
+		init_struct_t(tmp, token);
+		sleep(1);
 	}
 	return (0);
 }
 void	init_token(char *input, t_token **token)
 {
-	char *str;
+	char	*str;
+
 	(void)token;
 	str = ft_strtrim(input, "\f\t\r\n\v ");
 	printf("%s\n", str);
-	if (check_syntaxe(str))
+	if (check_syntaxe(str, token))
 		printf("fuck syntax error\n");
 }
