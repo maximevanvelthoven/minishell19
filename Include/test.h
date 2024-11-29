@@ -13,6 +13,13 @@
 # include <unistd.h>
 
 // pour les types on commence avec des int arbitraire qui seront remplacer par des macros contenu dans une structure
+typedef struct s_env
+{
+	char			*value;
+	char			*content;
+
+	struct s_env	*next;
+}					t_env;
 
 typedef struct s_token
 {
@@ -37,11 +44,20 @@ typedef struct s_data
 	struct s_token	*token;
 	int				FD_IN;
 	int				FD_OUT;
+	struct s_env	*env;
 }					t_data;
 
+// initialisation env
+t_env				*init_env(char **envp);
+
+// initialisation token lexer
 t_AST				*init_ast(t_token **token);
 void				init_token(char *input, t_token **token);
+
+// parsing AST
 void				print_ast(t_AST *ast, int depth);
+
+// execution de l ast
 t_data				*prepare_exec(t_AST *node, t_data *data);
 
 #endif
