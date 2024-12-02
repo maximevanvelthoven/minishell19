@@ -31,10 +31,14 @@ int	findtype(char *str)
 		return (0);
 	else if (!strcmp(str, ">"))
 		return (1);
-	else if (!strcmp(str, "|"))
+	else if (!strcmp(str, ">>"))
 		return (2);
-	else
+	else if (!strcmp(str, "<<"))
 		return (3);
+	else if (!strcmp(str, "|"))
+		return (4);
+	else
+		return (5);
 }
 
 void	init_struct_t(char *str, t_token **token)
@@ -44,10 +48,13 @@ void	init_struct_t(char *str, t_token **token)
 
 	node = malloc(sizeof(t_token));
 	node->type = findtype(str);
-	node->cmd = str;
+	node->cmd = ft_strdup(str);
 	node->next = NULL;
 	if (!(*token))
+	{
 		(*token) = node;
+		printf("premier node = %s\n", str);
+	}
 	else
 	{
 		current = (*token);
@@ -82,61 +89,76 @@ int	check_cote(char *str)
 	return (0);
 }
 
-int	check_unvalid_char(char *str)
+void	token_separator(t_token **token, char **str)
 {
-	if (*str == '(' || *str == ')' || *str == '&')
-		return (1);
-	if (*str == '|' && *(str + 1) == '|')
-		return (1);
-	if (*str == '>' && *(str + 1) == '<')
-		return (1);
-	if (*str == '<' && *(str + 1) == '>')
-		return (1);
-	return (0);
+	if (**str == '<')
+	{
+		if (*(*str + 1) == '<')
+			init_struct_t("<<", token);
+		else
+			init_struct_t("<", token);
+		(*str)++;
+	}
+	else if (**str == '>')
+	{
+		if (*(*str + 1) == '>')
+			init_struct_t(">>", token);
+		else
+			init_struct_t(">", token);
+		(*str)++;
+	}
+	else if (**str == '|')
+	{
+		init_struct_t("|", token);
+		(*str)++;
+	}
 }
 
-int	check_separator(char c)
+void	token_word(t_token **token, char **str)
 {
-	if (c == '(' || c == ')' || c == '&')
-		return (1);
-	else if (c == '|')
-		return (1);
-	else if (c == '>')
-		return (1);
-	else if (c == '<')
-		return (1);
-	else if (c == ' ')
-		return (1);
-	return (0);
+	char	*tmp;
+	int		db_cote;
+	size_t	len;
+	char	*result;
+
+	db_cote = 0;
+	tmp = *str;
+	while (*str && ft_strchr(" |<>", **str) == NULL)
+	{
+		if (**str == '\'')
+		{
+			while (**str != '\'')
+				(*str)++;
+		}
+		if (**str == '"')
+		{
+			db_cote = 1;
+			while (**str != '"')
+				(*str)++;
+		}
+		(*str)++;
+	}
+	len = *str - tmp;
+	result = strndup(tmp, len);
+	init_struct_t(result, token);
+	free(result);
 }
 
 int	check_syntaxe(char *str, t_token **token)
 {
-	int		i;
-	int		j;
-	char	*tmp;
-
-	i = 0;
 	if (check_cote(str))
 	{
-		printf("coucou");
+		printf("problem with cote");
 		return (1);
 	}
-	while (str[i])
+	while (*str)
 	{
-		while (str[i] == ' ')
-			i++;
-		j = i;
-		while (!(check_separator(str[i])) && str[i] != '\0')
-		{
-			printf("salut\n");
-			i++;
-		}
-		i++;
-		tmp = ft_substr(str, j, i - j);
-		printf("%s\n", tmp);
-		init_struct_t(tmp, token);
-		sleep(1);
+		while (ft_strchr(" \t\n", *str) && *str)
+			str++;
+		if (ft_strchr("<>|", *str))
+			token_separator(token, &str);
+		else
+			token_word(token, &str);
 	}
 	return (0);
 }
@@ -144,7 +166,6 @@ void	init_token(char *input, t_token **token)
 {
 	char	*str;
 
-	(void)token;
 	str = ft_strtrim(input, "\f\t\r\n\v ");
 	printf("%s\n", str);
 	if (check_syntaxe(str, token))

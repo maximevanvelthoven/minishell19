@@ -11,6 +11,7 @@
 # include <string.h>
 # include <sys/wait.h>
 # include <unistd.h>
+# include <string.h>
 
 // pour les types on commence avec des int arbitraire qui seront remplacer par des macros contenu dans une structure
 typedef struct s_env

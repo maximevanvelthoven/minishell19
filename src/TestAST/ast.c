@@ -54,7 +54,7 @@ t_AST	*crea_red(t_token **token)
 		{
 			node = create_node_ast(&next_token);
 			(*token)->next = next_token->next->next;
-			//printf("type = %d et args = %s\t\n", node->type, node->cmd);
+			printf("type = %d et args = %s\t\n", node->type, node->cmd);
 			node->right = crea_file(&(next_token->next)); // create file
 			node->left = crea_red(&tmp);
 			return (node);
@@ -74,11 +74,11 @@ t_AST	*crea_ast(t_token **token)
 	while ((*token)->next)
 	{
 		next_token = (*token)->next;
-		if (next_token->type == 2)
+		if (next_token->type == 4)
 		{
 			node = create_node_ast(&next_token);
 			(*token)->next = NULL;
-			//printf("type = %d et args = %s\t\n", node->type, node->cmd);
+			printf("type = %d et args = %s\t\n", node->type, node->cmd);
 			node->left = crea_red(&tmp);
 			node->right = crea_ast(&(next_token->next));
 			return (node);
