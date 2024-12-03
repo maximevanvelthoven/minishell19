@@ -9,7 +9,9 @@ t_AST	*create_node_ast(t_token **token)
 	//     return(NULL);
 	node->left = NULL;
 	node->right = NULL;
-	node->cmd = (*token)->cmd;
+	node->cmd = malloc(sizeof(char *) * 2);
+	node->cmd[0] = (*token)->cmd;
+	node->cmd[1] = NULL;
 	node->type = (*token)->type;
 	return (node);
 }
@@ -22,7 +24,9 @@ t_AST	*crea_file(t_token **token)
 	// il faudra malloc pour le fichier un double tab avec le 2eme arg a NULL
 	node->left = NULL;
 	node->right = NULL;
-	node->cmd = (*token)->cmd;
+	node->cmd = malloc(sizeof(char *) * 2);
+	node->cmd[0] = (*token)->cmd;
+	node->cmd[1] = NULL;
 	node->type = (*token)->type;
 	return (node);
 }
@@ -30,12 +34,16 @@ t_AST	*crea_file(t_token **token)
 t_AST	*crea_cmd(t_token **token)
 {
 	t_AST	*node;
+	char *tmp;
 
 	node = malloc(sizeof(t_AST));
 	// il faudra malloc pour la cmd un double tab avec cmd1 et tous ses arg + 1 prc NULL pr execve
 	node->left = NULL;
 	node->right = NULL;
-	node->cmd = (*token)->cmd;
+	tmp = ft_strtrim((*token)->cmd, " ");  // a modifier juste apres push parsing
+	node->cmd = malloc(sizeof(char *) * 2);
+	node->cmd[0] = tmp;
+	node->cmd[1] = NULL;
 	node->type = (*token)->type;
 	return (node);
 }

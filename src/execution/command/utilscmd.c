@@ -25,7 +25,7 @@ char **get_real_env(t_data *node, int i)
     char *tmp2;
 
     size = ft_strlen_node(node);
-    env = malloc(sizeof(char *) * size);
+    env = malloc(sizeof(char *) * (size + 1));
     current = node->env;
     while(current)
     {
@@ -37,6 +37,7 @@ char **get_real_env(t_data *node, int i)
         free(tmp2);
         current = current->next;
     }
+    env[i] = NULL;
     return(env);
 }
 void	ft_free_cmd(char **tab, char *str, int i)

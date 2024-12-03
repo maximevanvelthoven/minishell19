@@ -8,7 +8,7 @@ void	print_ast(t_AST *ast, int depth)
 	for (int i = 0; i < depth; i++)
 		printf("    ");
 	// Affichage du type et de la commande
-	printf("Type: %d, Command: %s\n", ast->type, ast->cmd);
+	printf("Type: %d, Command: %s\n", ast->type, ast->cmd[0]);
 	// Appels récursifs pour les sous-nœuds gauche et droit
 	if (ast->left)
 	{
@@ -119,7 +119,6 @@ int	check_syntaxe(char *str, t_token **token)
 	i = 0;
 	if (check_cote(str))
 	{
-		printf("coucou");
 		return (1);
 	}
 	while (str[i])
@@ -129,14 +128,12 @@ int	check_syntaxe(char *str, t_token **token)
 		j = i;
 		while (!(check_separator(str[i])) && str[i] != '\0')
 		{
-			printf("salut\n");
 			i++;
 		}
 		i++;
 		tmp = ft_substr(str, j, i - j);
 		printf("%s\n", tmp);
 		init_struct_t(tmp, token);
-		sleep(1);
 	}
 	return (0);
 }
