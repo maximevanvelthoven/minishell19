@@ -49,6 +49,7 @@ void	init_struct_t(char *str, t_token **token)
 	node = malloc(sizeof(t_token));
 	node->type = findtype(str);
 	node->cmd = ft_strdup(str);
+	printf("<%s>\n", node->cmd);
 	node->next = NULL;
 	if (!(*token))
 		(*token) = node;
@@ -91,7 +92,10 @@ void	token_separator(t_token **token, char **str)
 	if (**str == '<')
 	{
 		if (*(*str + 1) == '<')
+		{
 			init_struct_t("<<", token);
+			(*str)++;
+		}
 		else
 			init_struct_t("<", token);
 		(*str)++;
@@ -99,7 +103,10 @@ void	token_separator(t_token **token, char **str)
 	else if (**str == '>')
 	{
 		if (*(*str + 1) == '>')
+		{
 			init_struct_t(">>", token);
+			(*str)++;
+		}
 		else
 			init_struct_t(">", token);
 		(*str)++;

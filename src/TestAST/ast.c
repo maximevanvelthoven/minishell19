@@ -58,7 +58,7 @@ t_AST	*crea_red(t_token **token)
 	while ((*token)->next)
 	{
 		next_token = (*token)->next;
-		if (next_token->type == 0 || next_token->type == 1)
+		if (next_token->type == 0 || next_token->type == 1 || next_token->type == 3 || next_token->type == 2)
 		{
 			node = create_node_ast(&next_token);
 			(*token)->next = next_token->next->next;
