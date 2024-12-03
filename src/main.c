@@ -24,7 +24,12 @@ void	init_data(t_data *data, char **envp)
 } */
 int	main(int ac, char **av, char **envp) // rajouter variable d env
 {
-	(void)av; // set a void car jamais utiliser tout se fait via l input
+	t_data	*data;
+	char	*input;
+	t_token *token;
+	t_AST *ast;
+	(void)av;
+	 // set a void car jamais utiliser tout se fait via l input
 	data = malloc(sizeof(t_data));
 	init_data(data, envp);
 	while (1)

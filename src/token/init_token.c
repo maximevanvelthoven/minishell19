@@ -51,10 +51,7 @@ void	init_struct_t(char *str, t_token **token)
 	node->cmd = ft_strdup(str);
 	node->next = NULL;
 	if (!(*token))
-	{
 		(*token) = node;
-		printf("premier node = %s\n", str);
-	}
 	else
 	{
 		current = (*token);
