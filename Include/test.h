@@ -33,7 +33,7 @@ typedef struct s_token
 typedef struct s_AST
 {
 	int				type;
-	char			*cmd;
+	char			**cmd;
 	// mieux de mettre ca en double pointeur pour y rattacher les arguements
 	struct s_AST	*left;
 	struct s_AST	*right;
@@ -60,5 +60,17 @@ void				print_ast(t_AST *ast, int depth);
 
 // execution de l ast
 t_data				*prepare_exec(t_AST *node, t_data *data);
+
+// execution
+void				ft_exec(t_data *data, t_AST *node);
+
+// execution redirection out
+void				red_out_exec(t_data *data, t_AST *node);
+
+// execution cmd
+void				cmd_exec(t_data *data, t_AST *node);
+void				ft_free_cmd(char **tab, char *str, int i);
+char				**get_real_env(t_data *node, int i);
+int					ft_strlen_node(t_data *node);
 
 #endif

@@ -43,6 +43,7 @@ int	main(int ac, char **av, char **envp) // rajouter variable d env
 			ast = init_ast(&token);
 			print_ast(ast, 0);
 			// printf("type = %d et args = %s\t\n", ast->left->type, ast->cmd);
+			ft_exec(data, ast);
 			free(input); // Libération de la mémoire allouée
 		}
 	}
