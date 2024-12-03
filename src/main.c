@@ -39,7 +39,7 @@ int	main(int ac, char **av, char **envp) // rajouter variable d env
 		input = readline("> minishell ");
 		if (input != NULL)
 		{
-			init_token(input, &token);
+			init_token(input, &token, data);
 			ast = init_ast(&token);
 			print_ast(ast, 0);
 			// printf("type = %d et args = %s\t\n", ast->left->type, ast->cmd);

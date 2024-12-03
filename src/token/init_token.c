@@ -118,37 +118,114 @@ void	token_separator(t_token **token, char **str)
 	}
 }
 
-void	token_word(t_token **token, char **str)
+void	handle_cote(char **str)
+{
+	if (**str == '"')
+	{
+		(*str)++;
+		while (**str != '"')
+			(*str)++;
+	}
+	else if (**str == '\'')
+	{
+		(*str)++;
+		while (**str != '\'')
+			(*str)++;
+	}
+}
+
+/* void	init_l_word(char *str, t_env **l_word)
+{
+	t_env	*node;
+	t_env	*current;
+
+	printf("%s\n", str);
+	node = malloc(sizeof(t_env));
+	node->content = NULL;
+	node->value = ft_strdup(str);
+	node->next = NULL;
+	if (!(*l_word))
+		(*l_word) = node;
+	else
+	{
+		current = (*l_word);
+		while (current->next)
+			current = current->next;
+		current->next = node;
+	}
+}
+
+char	*expandable(char **str, t_data *data)
+{
+	char	*tmp;
+	(void)data;
+	size_t	len;
+	char	*result;
+	t_env	*l_word;
+
+	 	while (data->env)
+		{
+			printf("data content = %s  et data value = %s\n",
+				data->env->content, data->env->value);
+			data->env = data->env->next;
+		} 
+	*str = ft_strtrim(*str, "\"");
+	while (**str)
+	{
+		tmp = *str;
+		while (**str != '$' && **str)
+			(*str)++;
+		len = *str - tmp;
+		result = strndup(tmp, len);
+		init_l_word(result, &l_word);
+		if (**str == '$')
+		{
+			tmp = *str;
+			while (**str != ' ')
+				(*str)++;
+			len = *str - tmp;
+			result = strndup(tmp, len);
+			init_l_word(result, &l_word);
+		}
+	}
+	while (l_word)
+	{
+		printf("content = %s  et value = %s\n",
+			l_word->content, l_word->value);
+		l_word = l_word->next;
+	}
+	return (*str);
+} */
+void	token_word(t_token **token, char **str, t_data *data)
 {
 	char	*tmp;
 	int		db_cote;
 	size_t	len;
 	char	*result;
+	(void)data;
 
 	db_cote = 0;
 	tmp = *str;
 	while (*str && ft_strchr(" |<>", **str) == NULL)
 	{
 		if (**str == '\'')
-		{
-			while (**str != '\'')
-				(*str)++;
-		}
+			handle_cote(str);
 		if (**str == '"')
 		{
+			handle_cote(str);
 			db_cote = 1;
-			while (**str != '"')
-				(*str)++;
 		}
 		(*str)++;
 	}
 	len = *str - tmp;
 	result = strndup(tmp, len);
+	/* if (db_cote == 1)
+		result = expandable(&result, data); */
 	init_struct_t(result, token);
 	free(result);
 }
 
-int	check_syntaxe(char *str, t_token **token)
+int	check_syntaxe(char *str, t_token **token, t_data *data)
 {
 	if (check_cote(str))
 	{
@@ -162,16 +239,16 @@ int	check_syntaxe(char *str, t_token **token)
 		if (ft_strchr("<>|", *str))
 			token_separator(token, &str);
 		else
-			token_word(token, &str);
+			token_word(token, &str, data);
 	}
 	return (0);
 }
-void	init_token(char *input, t_token **token)
+void	init_token(char *input, t_token **token, t_data *data)
 {
 	char	*str;
 
 	str = ft_strtrim(input, "\f\t\r\n\v ");
 	printf("%s\n", str);
-	if (check_syntaxe(str, token))
+	if (check_syntaxe(str, token, data))
 		printf("fuck syntax error\n");
 }

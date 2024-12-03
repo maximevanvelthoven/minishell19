@@ -53,7 +53,7 @@ t_env				*init_env(char **envp);
 
 // initialisation token lexer
 t_AST				*init_ast(t_token **token);
-void				init_token(char *input, t_token **token);
+void				init_token(char *input, t_token **token, t_data *data);
 
 // parsing AST
 void				print_ast(t_AST *ast, int depth);
