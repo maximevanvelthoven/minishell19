@@ -8,7 +8,7 @@ void	print_ast(t_AST *ast, int depth)
 	for (int i = 0; i < depth; i++)
 		printf("    ");
 	// Affichage du type et de la commande
-	printf("Type: %d, Command: <%s>\n", ast->type, ast->cmd[0]);
+	printf("Type: %d, Command: <%s> <%s>\n", ast->type, ast->cmd[0], ast->cmd[1]);
 	// Appels récursifs pour les sous-nœuds gauche et droit
 	if (ast->left)
 	{

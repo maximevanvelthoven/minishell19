@@ -11,7 +11,6 @@
 # include <string.h>
 # include <sys/wait.h>
 # include <unistd.h>
-# include <string.h>
 
 // pour les types on commence avec des int arbitraire qui seront remplacer par des macros contenu dans une structure
 typedef struct s_env
@@ -64,8 +63,14 @@ t_data				*prepare_exec(t_AST *node, t_data *data);
 // execution
 void				ft_exec(t_data *data, t_AST *node);
 
+// execution de pipe
+void				pipe_exec(t_data *data, t_AST *node);
+
 // execution redirection out
 void				red_out_exec(t_data *data, t_AST *node);
+
+// execution de la redirection in
+void				red_in_exec(t_data *data, t_AST *node);
 
 // execution cmd
 void				cmd_exec(t_data *data, t_AST *node);

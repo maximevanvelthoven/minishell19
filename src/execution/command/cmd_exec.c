@@ -53,16 +53,6 @@ void	cmd_exec(t_data *data, t_AST *node)
 	path = get_exec(node->cmd, tmp_env, 0);
 	if (!(pid = fork()))
 	{
-		if (data->FD_IN != STDIN_FILENO)
-		{
-		//	dup2(data->FD_IN, STDIN_FILENO);
-		//	close(data->FD_IN);
-		}
-		if (data->FD_OUT != STDOUT_FILENO)
-		{
-		//	dup2(data->FD_OUT, STDOUT_FILENO);
-		//	close(data->FD_OUT);
-		}
 		if (execve(path, node->cmd, tmp_env) == -1)
 		{
 			perror("execve failed");

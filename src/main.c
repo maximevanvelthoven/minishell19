@@ -1,5 +1,42 @@
 #include "test.h"
 
+void ft_free_ast(t_AST *ast)
+{
+	int i;
+
+	i = 0;
+	if(!ast)
+		return;
+	if(ast->type == 5 && ast->cmd)
+	{
+		while(ast->cmd[i])
+		{
+			printf("ast->cmd : %s\n", ast->cmd[i]);
+			free(ast->cmd[i]);
+			i++;
+		}
+		free(ast->cmd);
+	}
+	ft_free_ast(ast->left);
+	ft_free_ast(ast->right);
+	free(ast);
+}
+
+void ft_free_token(t_token *token)
+{
+	t_token *tmp;
+
+	while(token)
+	{
+		tmp = token;
+		free(tmp->cmd);
+		free(tmp);
+		token = token->next;
+	}
+}
+///////////// A VERIFIER !!
+
+
 void	init_data(t_data *data, char **envp)
 {
 	data->ast = NULL;
@@ -41,9 +78,12 @@ int	main(int ac, char **av, char **envp) // rajouter variable d env
 		{
 			init_token(input, &token, data);
 			ast = init_ast(&token);
-			print_ast(ast, 0);
+			// printf("juste avant print ast\n");
+			print_ast(ast, 0);  //PRINT_AST a modifier car mnt les cmd sont en char **;
 			// printf("type = %d et args = %s\t\n", ast->left->type, ast->cmd);
 			ft_exec(data, ast);
+			// ft_free_token(token); // rencontreun probleme avec le free tokens;
+			ft_free_ast(ast);  //la commande se retrouve vide;
 			free(input); // Libération de la mémoire allouée
 		}
 	}
