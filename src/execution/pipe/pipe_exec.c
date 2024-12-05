@@ -36,5 +36,4 @@ void	pipe_exec(t_data *data, t_AST *node)
 		waitpid(pid_left, NULL, 0);
 		waitpid(pid_right, NULL, 0);
 	}
-	exit(0);
 }

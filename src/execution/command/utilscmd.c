@@ -40,6 +40,7 @@ char **get_real_env(t_data *node, int i)
     env[i] = NULL;
     return(env);
 }
+
 void	ft_free_cmd(char **tab, char *str, int i)
 {
 	if (tab)

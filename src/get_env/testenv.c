@@ -63,6 +63,7 @@ t_env	*init_env(char **envp)
 	// t_env	*current; utiliser pour print si necessaire
 
 	i = 0;
+	env = NULL;
 	while (envp[i])
 	{
 		create_node_env(envp[i], &env);

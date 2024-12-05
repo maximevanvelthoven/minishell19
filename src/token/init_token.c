@@ -3,7 +3,10 @@
 void	print_ast(t_AST *ast, int depth)
 {
 	if (!ast)
+	{
+		printf("bien free\n");
 		return ;
+	}
 	// Indentation pour visualiser la profondeur dans l'arbre
 	for (int i = 0; i < depth; i++)
 		printf("    ");
@@ -57,9 +60,12 @@ void	init_struct_t(char *str, t_token **token)
 	{
 		current = (*token);
 		while (current->next)
+		{
 			current = current->next;
+		}
 		current->next = node;
 	}
+	printf("LAAA\n");
 }
 
 int	check_cote(char *str)
@@ -196,15 +202,14 @@ char	*expandable(char **str, t_data *data)
 	}
 	return (*str);
 } */
+
 void	token_word(t_token **token, char **str, t_data *data)
 {
 	char	*tmp;
-	int		db_cote;
 	size_t	len;
 	char	*result;
 	(void)data;
 
-	db_cote = 0;
 	tmp = *str;
 	while (*str && ft_strchr(" |<>", **str) == NULL)
 	{
@@ -213,7 +218,6 @@ void	token_word(t_token **token, char **str, t_data *data)
 		if (**str == '"')
 		{
 			handle_cote(str);
-			db_cote = 1;
 		}
 		(*str)++;
 	}
@@ -234,6 +238,7 @@ int	check_syntaxe(char *str, t_token **token, t_data *data)
 	}
 	while (*str)
 	{
+		printf("ici\n");
 		while (ft_strchr(" \t\n", *str) && *str)
 			str++;
 		if (ft_strchr("<>|", *str))
