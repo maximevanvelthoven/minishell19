@@ -175,8 +175,8 @@ void search_dollar(char **str, t_env **l_word)
 		init_l_word(result, l_word);
 		if (**str == '$' && **str)
 		{
-			tmp = *str + 1;
-			while (**str != ' ')
+			tmp = *str;
+			while (**str != ' ' && **str)
 				(*str)++;
 			len = *str - tmp;
 			result = strndup(tmp, len);
@@ -192,24 +192,56 @@ void replace_var_env(t_env **l_word, t_data *data)
 	context = *l_word;
 	while (context)
 	{
-		tmp = data->env;
-		while(tmp)
+		if (context->value[0] == '$' && context)
 		{
-			if (!strcmp(tmp->value, context->value))
+			tmp = data->env;
+			// faire une fonction pour check si context de value existe dans env si oui juste remplacer la value si non kill le node 
+			while(tmp)
 			{
-				printf("<%s>\n", tmp->value);
-				free(context->value);
-				context->value = ft_strdup(tmp->content);
+				context->value = ft_strtrim(context->value, "$");
+				if (!strcmp(tmp->value, context->value))
+				{
+					free(context->value);
+					context->value = ft_strdup(tmp->content);
+				}
+				tmp = tmp->next;
 			}
-			tmp = tmp->next;
 		}
 		context = context->next;
+	}
+}
+char	*join_list(t_env **l_word)
+{
+	char	*tmp;
+	t_env	*context;
+
+	tmp = ft_strdup("");
+	context = *l_word;
+	while (context)
+	{
+		tmp = ft_strjoin(tmp, context->value);
+		context = context->next;
+	}
+	return(tmp);
+}
+
+void ft_free_list(t_env *list)
+{
+	t_env *tmp;
+
+	while(list)
+	{
+		tmp = list;
+		free(list->value);
+		free(tmp);
+		list = list->next;
 	}
 }
 
 char	*expandable(char **str, t_data *data)
 {
 	t_env	*l_word;
+	char	*result;
 
 	l_word = NULL;
 	if (**str == '\'')
@@ -217,13 +249,9 @@ char	*expandable(char **str, t_data *data)
 	*str = ft_strtrim(*str, "\"");
 	search_dollar(str, &l_word);
 	replace_var_env(&l_word, data);
-	while (l_word)
-	{
-		printf("content = %s  et value = <%s>\n",
-			l_word->content, l_word->value);
-		l_word = l_word->next;
-	}
-	return (NULL);
+	result = join_list(&l_word);
+	ft_free_list(l_word);
+	return (result);
 }
 
 void	token_word(t_token **token, char **str, t_data *data)
