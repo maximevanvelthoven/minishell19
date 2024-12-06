@@ -80,6 +80,7 @@ int	main(int ac, char **av, char **envp) // rajouter variable d env
 			// printf("juste avant print ast\n");
 			// print_ast(ast, 0);  //PRINT_AST a modifier car mnt les cmd sont en char **;
 			// printf("type = %d et args = %s\t\n", ast->left->type, ast->cmd);
+			printf("pas bonne commande\n");
 			echo_test(ast);
 			// ft_exec(data, ast);
 			ft_free_token(token); // rencontreun probleme avec le free tokens;

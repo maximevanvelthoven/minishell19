@@ -1,12 +1,26 @@
 #include "test.h"
 
-void echo_test(t_AST * node)
+int ft_strlen_tab(char **tab)
 {
     int i;
+
+    i = 0;
+    while(tab[i])
+    {
+        i++;
+    }
+    return(i);
+}
+
+void echo_test(t_AST *node)
+{
+    int i;
+    int size;
     int flag;
     char *tmp;
 
     flag = 0;
+    size = ft_strlen_tab(node->cmd);
     tmp = ft_strdup("");
     i = 0;
     if(strcmp(node->cmd[i], "echo"))
@@ -16,15 +30,14 @@ void echo_test(t_AST * node)
     }
     while(node->cmd[i])
     {
-        if(!strcmp(node->cmd[i], "echo"))
-            i++;
+        
         else if(!strcmp(node->cmd[1], "-n"))
             flag = 1;
         i++;
     }
-    if (i == 1)
+    if (i == 1 && flag == 0)
     {
-        printf("\n");
+    printf("\n");
        return;
     }
     if (i == 2 && flag == 1)
