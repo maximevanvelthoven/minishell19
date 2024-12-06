@@ -65,7 +65,6 @@ void	init_struct_t(char *str, t_token **token)
 		}
 		current->next = node;
 	}
-	printf("LAAA\n");
 }
 
 int	check_cote(char *str)
@@ -140,12 +139,11 @@ void	handle_cote(char **str)
 	}
 }
 
-/* void	init_l_word(char *str, t_env **l_word)
+void	init_l_word(char *str, t_env **l_word)
 {
 	t_env	*node;
 	t_env	*current;
 
-	printf("%s\n", str);
 	node = malloc(sizeof(t_env));
 	node->content = NULL;
 	node->value = ft_strdup(str);
@@ -161,21 +159,12 @@ void	handle_cote(char **str)
 	}
 }
 
-char	*expandable(char **str, t_data *data)
+void search_dollar(char **str, t_env **l_word)
 {
-	char	*tmp;
-	(void)data;
 	size_t	len;
 	char	*result;
-	t_env	*l_word;
+	char	*tmp;
 
-	 	while (data->env)
-		{
-			printf("data content = %s  et data value = %s\n",
-				data->env->content, data->env->value);
-			data->env = data->env->next;
-		} 
-	*str = ft_strtrim(*str, "\"");
 	while (**str)
 	{
 		tmp = *str;
@@ -183,48 +172,83 @@ char	*expandable(char **str, t_data *data)
 			(*str)++;
 		len = *str - tmp;
 		result = strndup(tmp, len);
-		init_l_word(result, &l_word);
-		if (**str == '$')
+		init_l_word(result, l_word);
+		if (**str == '$' && **str)
 		{
-			tmp = *str;
+			tmp = *str + 1;
 			while (**str != ' ')
 				(*str)++;
 			len = *str - tmp;
 			result = strndup(tmp, len);
-			init_l_word(result, &l_word);
+			init_l_word(result, l_word);
 		}
 	}
+}
+void replace_var_env(t_env **l_word, t_data *data)
+{
+	t_env *context;
+	t_env *tmp;
+
+	context = *l_word;
+	while (context)
+	{
+		tmp = data->env;
+		while(tmp)
+		{
+			if (!strcmp(tmp->value, context->value))
+			{
+				printf("<%s>\n", tmp->value);
+				free(context->value);
+				context->value = ft_strdup(tmp->content);
+			}
+			tmp = tmp->next;
+		}
+		context = context->next;
+	}
+}
+
+char	*expandable(char **str, t_data *data)
+{
+	t_env	*l_word;
+
+	l_word = NULL;
+	if (**str == '\'')
+		return (ft_strtrim(*str, "'"));
+	*str = ft_strtrim(*str, "\"");
+	search_dollar(str, &l_word);
+	replace_var_env(&l_word, data);
 	while (l_word)
 	{
-		printf("content = %s  et value = %s\n",
+		printf("content = %s  et value = <%s>\n",
 			l_word->content, l_word->value);
 		l_word = l_word->next;
 	}
-	return (*str);
-} */
+	return (NULL);
+}
 
 void	token_word(t_token **token, char **str, t_data *data)
 {
 	char	*tmp;
 	size_t	len;
 	char	*result;
-	(void)data;
+	int		cote;
 
 	tmp = *str;
+	cote = 0;
 	while (*str && ft_strchr(" |<>", **str) == NULL)
 	{
-		if (**str == '\'')
-			handle_cote(str);
-		if (**str == '"')
+		if (**str == '\'' || **str == '"')
 		{
 			handle_cote(str);
+			cote = 1;
 		}
 		(*str)++;
 	}
 	len = *str - tmp;
 	result = strndup(tmp, len);
-	/* if (db_cote == 1)
-		result = expandable(&result, data); */
+	printf("%s\n", result);
+	if (cote == 1)
+		result = expandable(&result, data);
 	init_struct_t(result, token);
 	free(result);
 }
@@ -238,7 +262,6 @@ int	check_syntaxe(char *str, t_token **token, t_data *data)
 	}
 	while (*str)
 	{
-		printf("ici\n");
 		while (ft_strchr(" \t\n", *str) && *str)
 			str++;
 		if (ft_strchr("<>|", *str))
@@ -248,6 +271,7 @@ int	check_syntaxe(char *str, t_token **token, t_data *data)
 	}
 	return (0);
 }
+
 void	init_token(char *input, t_token **token, t_data *data)
 {
 	char	*str;
