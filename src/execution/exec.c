@@ -11,7 +11,7 @@ void	ft_exec(t_data *data, t_AST *node)
 	     red_in_exec(data, node);
 	else if (node->type == 5) // cmd
 		cmd_exec(data, node);
-	// else if(node->type == ??) // append
-	//     cmd_exec(data, node);
+	else if(node->type == 3) // append
+	     red_append_exec(data, node);
 	// potentiellement renvoie NULL pointeur pour je ne sais quelle raison
 }

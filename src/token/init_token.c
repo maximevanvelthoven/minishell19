@@ -65,7 +65,6 @@ void	init_struct_t(char *str, t_token **token)
 		}
 		current->next = node;
 	}
-	printf("LAAA\n");
 }
 
 int	check_cote(char *str)

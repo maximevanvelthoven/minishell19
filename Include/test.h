@@ -72,10 +72,16 @@ void				red_out_exec(t_data *data, t_AST *node);
 // execution de la redirection in
 void				red_in_exec(t_data *data, t_AST *node);
 
+// execution de la redirection append
+void 				red_append_exec(t_data *data, t_AST *node);
+
 // execution cmd
 void				cmd_exec(t_data *data, t_AST *node);
 void				ft_free_cmd(char **tab, char *str, int i);
 char				**get_real_env(t_data *node, int i);
 int					ft_strlen_node(t_data *node);
+
+// builtins
+void echo_test(t_AST * node);
 
 #endif
