@@ -45,19 +45,17 @@ void	init_data(t_data *data, char **envp)
 	data->env = init_env(envp);
 }
 
-/* void	print_token(t_token *token)
-{
-	t_token	*token;
-	t_AST	*ast;
-	t_data	*data;
-	char	*input;
+// void	print_token(t_token *token)
+// {
+// 	t_token	*token;
 
-	while (token)
-	{
-		printf("%s\n", token->cmd);
-		token = token->next;
-	}
-} */
+// 	while (token)
+// 	{
+// 		printf("%s\n", token->cmd);
+// 		token = token->next;
+// 	}
+// } 
+
 int	main(int ac, char **av, char **envp) // rajouter variable d env
 {
 	t_data	*data;
