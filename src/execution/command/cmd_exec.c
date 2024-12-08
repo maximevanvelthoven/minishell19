@@ -49,6 +49,8 @@ void	cmd_exec(t_data *data, t_AST *node)
 	char	*path;
 	char	**tmp_env;
 
+	if (check_builtins(node->cmd));
+		return;
 	tmp_env = get_real_env(data, 0);
 	path = get_exec(node->cmd, tmp_env, 0);
 	if (!(pid = fork()))
