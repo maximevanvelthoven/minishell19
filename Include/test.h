@@ -47,6 +47,19 @@ typedef struct s_data
 	struct s_env	*env;
 }					t_data;
 
+//initialisation liste token
+void	init_struct_t(char *str, t_token **token);
+
+//fontcion expender
+char	*expandable(char **str, t_data *data);
+void	init_l_word(char *str, t_env **l_word);
+char	*join_list(t_env **l_word);
+void ft_free_list(t_env *list);
+
+//fonction lexing
+void	handle_cote(char **str);
+int	check_cote(char *str);
+
 // initialisation env
 t_env				*init_env(char **envp);
 
