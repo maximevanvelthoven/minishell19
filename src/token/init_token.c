@@ -72,7 +72,6 @@ void	token_word(t_token **token, char **str, t_data *data)
 	}
 	len = *str - tmp;
 	result = strndup(tmp, len);
-	printf("%s\n", result);
 	if (cote == 1)
 		result = expandable(&result, data);
 	init_struct_t(result, token);
@@ -103,7 +102,7 @@ void	init_token(char *input, t_token **token, t_data *data)
 	char	*str;
 
 	str = ft_strtrim(input, "\f\t\r\n\v ");
-	printf("%s\n", str);
+	printf("input trim = <%s>\n", str);
 	if (check_syntaxe(str, token, data))
 		printf("fuck syntax error\n");
 }

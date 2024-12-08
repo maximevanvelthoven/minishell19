@@ -78,7 +78,7 @@ int	main(int ac, char **av, char **envp) // rajouter variable d env
 			init_token(input, &token, data);
 			ast = init_ast(&token);
 			// printf("juste avant print ast\n");
-			// print_ast(ast, 0);  //PRINT_AST a modifier car mnt les cmd sont en char **;
+			//print_ast(ast, 0);  //PRINT_AST a modifier car mnt les cmd sont en char **;
 			// printf("type = %d et args = %s\t\n", ast->left->type, ast->cmd);
 			ft_exec(data, ast);
 			ft_free_token(token); // rencontreun probleme avec le free tokens;
