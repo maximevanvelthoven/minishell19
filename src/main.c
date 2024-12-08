@@ -77,13 +77,11 @@ int	main(int ac, char **av, char **envp) // rajouter variable d env
 			ast = NULL;
 			init_token(input, &token, data);
 			ast = init_ast(&token);
-			// printf("juste avant print ast\n");
-			//print_ast(ast, 0);  //PRINT_AST a modifier car mnt les cmd sont en char **;
-			// printf("type = %d et args = %s\t\n", ast->left->type, ast->cmd);
+			// print_ast(ast, 0);  //PRINT_AST a modifier car mnt les cmd sont en char **;
 			ft_exec(data, ast);
 			ft_free_token(token); // rencontreun probleme avec le free tokens;
 			ft_free_ast(ast);  //la commande se retrouve vide;
-			// print_ast(ast, 0);  //PRINT_AST a modifier car mnt les cmd sont en char **;
+			add_history(input);
 			free(input); // Libération de la mémoire allouée
 		}
 	}
