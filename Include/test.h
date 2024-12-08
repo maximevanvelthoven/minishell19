@@ -95,6 +95,8 @@ char				**get_real_env(t_data *node, int i);
 int					ft_strlen_node(t_data *node);
 
 // builtins
-void echo_test(t_AST * node);
+int check_builtins(char **cmd);
+void echo_test(char **cmd);
+
 
 #endif
