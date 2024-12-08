@@ -65,7 +65,7 @@ void	init_struct_t(char *str, t_token **token)
 	node = malloc(sizeof(t_token));
 	node->type = findtype(str);
 	node->cmd = ft_strdup(str);
-	printf("<%s>\n", node->cmd);
+	printf("<%s>, <%d>\n", node->cmd, node->type);
 	node->next = NULL;
 	if (!(*token))
 		(*token) = node;
