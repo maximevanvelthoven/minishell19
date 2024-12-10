@@ -95,8 +95,10 @@ char				**get_real_env(t_data *node, int i);
 int					ft_strlen_node(t_data *node);
 
 // builtins
-int check_builtins(char **cmd);
+int check_builtins(char **cmd, t_data *data);
 void echo_test(char **cmd);
+int ft_strlen_tab(char **tab);
+void pwd_test(char **tab);
+void env_test(t_data *data);
 
-
-#endif
+# endif
