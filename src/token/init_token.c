@@ -52,14 +52,33 @@ void	init_l_word(char *str, t_env **l_word)
 	}
 }
 
+char	*replace_tild(t_data *data)
+{
+	char	*result;
+	
+	result = NULL;
+	while (data->env)
+	{
+		if (!strcmp(data->env->value, "HOME"))
+		{
+			result = ft_strdup(data->env->content);
+			return (result);
+		}
+		data->env = data->env->next;
+	}
+	return (NULL);
+}
+
 void	token_word(t_token **token, char **str, t_data *data)
 {
 	char	*tmp;
 	size_t	len;
 	char	*result;
 	int		cote;
+	t_env	*caca;
 
 	tmp = *str;
+	caca = NULL;
 	cote = 0;
 	while (*str && ft_strchr(" |<>", **str) == NULL)
 	{
@@ -72,11 +91,19 @@ void	token_word(t_token **token, char **str, t_data *data)
 	}
 	len = *str - tmp;
 	result = strndup(tmp, len);
+	printf("<%s> in token word\n", result);
 	if (cote == 1)
-		result = expandable(&result, data);
+		result = expender(&result, data);
+	else
+	{
+		result = search_dollar(&result, &caca, data);
+		if (ft_strlen(result) == 1 && *result == '~')
+			result = replace_tild(data);
+	}
 	init_struct_t(result, token);
 	free(result);
 }
+
 
 int	check_syntaxe(char *str, t_token **token, t_data *data)
 {

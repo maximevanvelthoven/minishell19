@@ -17,7 +17,6 @@ typedef struct s_env
 {
 	char			*value;
 	char			*content;
-
 	struct s_env	*next;
 }					t_env;
 
@@ -51,13 +50,16 @@ typedef struct s_data
 void	init_struct_t(char *str, t_token **token);
 
 //fontcion expender
-char	*expandable(char **str, t_data *data);
+void replace_var_env(t_env **l_word, t_data *data);
+char *search_dollar(char **str, t_env **l_word, t_data *data);
+char    *cut_word(char **str, t_data *data);
+char	*expender(char **str, t_data *data);
 void	init_l_word(char *str, t_env **l_word);
 char	*join_list(t_env **l_word);
 void ft_free_list(t_env *list);
 
 //fonction lexing
-void	handle_cote(char **str);
+void handle_cote(char **str);
 int	check_cote(char *str);
 
 // initialisation env
