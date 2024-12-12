@@ -48,7 +48,10 @@ void replace_var_env(t_env **l_word, t_data *data)
 	{
 		if (context->value[0] == '$' && context)
 		{
-			printf("<%s>\n", context->value);
+			// if (context->value[1] == '?')
+			// {
+
+			// }
 			if (check_env_value(context, data))
 				replace_node(&context, data);
 			else
@@ -63,7 +66,7 @@ void replace_var_env(t_env **l_word, t_data *data)
 	}
 }
 
-void search_dollar(char **str, t_env **l_word)
+char *search_dollar(char **str, t_env **l_word, t_data *data)
 {
 	size_t	len;
 	char	*result;
@@ -80,6 +83,14 @@ void search_dollar(char **str, t_env **l_word)
 		if (**str == '$' && **str)
 		{
 			tmp = *str;
+			if (*(*str + 1) == '?')
+			{
+				(*str)++;
+				len = *str - tmp;
+				result = strndup(tmp, len);
+				init_l_word(result, l_word);
+				tmp = *str;
+			}
 			while (**str != ' ' && **str)
 				(*str)++;
 			len = *str - tmp;
@@ -87,20 +98,8 @@ void search_dollar(char **str, t_env **l_word)
 			init_l_word(result, l_word);
 		}
 	}
-}
-
-char	*expandable(char **str, t_data *data)
-{
-	t_env	*l_word;
-	char	*result;
-
-	l_word = NULL;
-	if (**str == '\'')
-		return (ft_strtrim(*str, "'"));
-	*str = ft_strtrim(*str, "\"");
-	search_dollar(str, &l_word);
-	replace_var_env(&l_word, data);
-	result = join_list(&l_word);
-	ft_free_list(l_word);
+	replace_var_env(l_word, data);
+	result = join_list(l_word);
+	ft_free_list(*l_word);
 	return (result);
 }
