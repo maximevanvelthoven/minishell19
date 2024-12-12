@@ -17,6 +17,11 @@ int check_builtins(char **cmd, t_data *data)
         env_test(data);
         return(1);
     }
+    if(!strcmp(cmd[0], "export"))
+    {
+        export_test(cmd, data);
+        return(1);
+    }
     // rajouter les autres builtins;
     return(0);
 }

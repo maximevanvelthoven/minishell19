@@ -62,6 +62,8 @@ int	check_cote(char *str);
 
 // initialisation env
 t_env				*init_env(char **envp);
+char	*ft_strndup(int start, int lenght, char *src);
+int	find_equal(char *str);
 
 // initialisation token lexer
 t_AST				*init_ast(t_token **token);
@@ -100,5 +102,6 @@ void echo_test(char **cmd);
 int ft_strlen_tab(char **tab);
 void pwd_test(char **tab);
 void env_test(t_data *data);
+void export_test(char **cmd, t_data *data);
 
 # endif

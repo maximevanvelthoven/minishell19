@@ -29,12 +29,15 @@ char **get_real_env(t_data *node, int i)
     current = node->env;
     while(current)
     {
-        tmp1 = ft_strdup(current->value);
-        tmp2 = ft_strjoin(tmp1, "=");
-        env[i] = ft_strjoin(tmp2, current->content);
-        i++;
-        free(tmp1);
-        free(tmp2);
+        if(current->content)
+        {
+            tmp1 = ft_strdup(current->value);
+            tmp2 = ft_strjoin(tmp1, "=");
+            env[i] = ft_strjoin(tmp2, current->content);
+            i++;
+            free(tmp1);
+            free(tmp2);
+        }
         current = current->next;
     }
     env[i] = NULL;
