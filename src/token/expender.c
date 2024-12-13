@@ -19,6 +19,7 @@ int	check_env_value(t_env *l_word, t_data *data)
 	return (0);
 }
 
+
 void	replace_node(t_env **l_word, t_data *data)
 {
 	t_env *context;
@@ -48,11 +49,13 @@ void replace_var_env(t_env **l_word, t_data *data)
 	{
 		if (context->value[0] == '$' && context)
 		{
-			// if (context->value[1] == '?')
-			// {
-
-			// }
-			if (check_env_value(context, data))
+			if (context->value[1] == '?')
+			{
+				free(context->value);
+				context->value = ft_strdup("$HOME");
+				replace_node(&context, data);
+			}
+			else if (check_env_value(context, data))
 				replace_node(&context, data);
 			else
 			{
@@ -85,6 +88,7 @@ char *search_dollar(char **str, t_env **l_word, t_data *data)
 			tmp = *str;
 			if (*(*str + 1) == '?')
 			{
+				(*str)++;
 				(*str)++;
 				len = *str - tmp;
 				result = strndup(tmp, len);

@@ -77,30 +77,30 @@ void add_to_env(char *str, t_data *data, int flag)
     current->next = node;
 }
 
-void export_test(char **cmd, t_data *data)
-{
-    int i;
-    int test;
+// void export_test(char **cmd, t_data *data)
+// {
+//     int i;
+//     int test;
 
-    i = 1;
-    if (!cmd[1])
-    {
-        print_export(data);
-        return;
-    }
-    while(cmd[i])
-    {
-        test = test_export_valid(cmd[i], 0);
-        if (!test)
-        {
-            ft_putstr_fd("bash: export: ", 2);
-            ft_putstr_fd(cmd[i], 2);
-            ft_putendl_fd(": not a valid identifier", 2);
-        }
-        if(check_exist_var(cmd[i], data))
-            replace_in_env(cmd[i],data);
-        else
-            add_to_env(cmd[i], data, test);
-        i++;
-    }
-}
+//     i = 1;
+//     if (!cmd[1])
+//     {
+//         print_export(data);
+//         return;
+//     }
+//     while(cmd[i])
+//     {
+//         test = test_export_valid(cmd[i], 0);
+//         if (!test)
+//         {
+//             ft_putstr_fd("bash: export: ", 2);
+//             ft_putstr_fd(cmd[i], 2);
+//             ft_putendl_fd(": not a valid identifier", 2);
+//         }
+//         if(check_exist_var(cmd[i], data))
+//             replace_in_env(cmd[i],data);
+//         else
+//             add_to_env(cmd[i], data, test);
+//         i++;
+//     }
+// }
