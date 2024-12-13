@@ -43,6 +43,7 @@ typedef struct s_data
 	struct s_token	*token;
 	int				FD_IN;
 	int				FD_OUT;
+	int				exit_code;
 	struct s_env	*env;
 }					t_data;
 

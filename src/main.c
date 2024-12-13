@@ -42,6 +42,7 @@ void	init_data(t_data *data, char **envp)
 	data->token = NULL;
 	data->FD_IN = STDIN_FILENO;
 	data->FD_OUT = STDOUT_FILENO;
+	data->exit_code = 0;
 	data->env = init_env(envp);
 }
 
