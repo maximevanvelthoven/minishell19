@@ -105,5 +105,9 @@ int ft_strlen_tab(char **tab);
 void pwd_test(char **tab);
 void env_test(t_data *data);
 void export_test(char **cmd, t_data *data);
+void prepare_to_export(char *str, t_data *data);
+t_env	*find_last_node(t_env *env);
+void ft_free_tab(char **tab, int i);
+void ft_unset(char **cmd, t_data *data);
 
 # endif

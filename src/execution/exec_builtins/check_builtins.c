@@ -22,6 +22,11 @@ int check_builtins(char **cmd, t_data *data)
         export_test(cmd, data);
         return(1);
     }
+    if(!strcmp(cmd[0], "unset"))
+    {
+        ft_unset(cmd, data);
+        return(1);
+    }
     // rajouter les autres builtins;
     return(0);
 }
