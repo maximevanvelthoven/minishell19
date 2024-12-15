@@ -68,6 +68,19 @@ char	*replace_tild(t_data *data)
 	}
 	return (NULL);
 }
+int		check_last_token(t_token **token)
+{
+	t_token *tmp;
+
+	if (!(*token))
+		return (0);
+	tmp = *token;
+	while (tmp->next)
+		tmp = tmp->next;
+	if (tmp->type == 3)
+		return (1);
+	return (0);
+}
 
 void	token_word(t_token **token, char **str, t_data *data)
 {
@@ -92,15 +105,20 @@ void	token_word(t_token **token, char **str, t_data *data)
 	len = *str - tmp;
 	result = strndup(tmp, len);
 	printf("<%s> in token word\n", result);
-	if (cote == 1)
+	if (check_last_token(token))
+		init_struct_t(result, token);
+	else if (cote == 1)
+	{
 		result = expender(&result, data);
+		init_struct_t(result, token);
+	}
 	else
 	{
 		result = search_dollar(&result, &caca, data);
 		if (ft_strlen(result) == 1 && *result == '~')
 			result = replace_tild(data);
+		init_struct_t(result, token);
 	}
-	init_struct_t(result, token);
 	free(result);
 }
 

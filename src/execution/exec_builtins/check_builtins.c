@@ -27,6 +27,5 @@ int check_builtins(char **cmd, t_data *data)
         ft_unset(cmd, data);
         return(1);
     }
-    // rajouter les autres builtins;
     return(0);
 }
