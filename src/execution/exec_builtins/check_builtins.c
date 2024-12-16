@@ -17,11 +17,15 @@ int check_builtins(char **cmd, t_data *data)
         env_test(data);
         return(1);
     }
-    // if(!strcmp(cmd[0], "export"))
-    // {
-    //     export_test(cmd, data);
-    //     return(1);
-    // }
-    // rajouter les autres builtins;
+    if(!strcmp(cmd[0], "export"))
+    {
+        export_test(cmd, data);
+        return(1);
+    }
+    if(!strcmp(cmd[0], "unset"))
+    {
+        ft_unset(cmd, data);
+        return(1);
+    }
     return(0);
 }

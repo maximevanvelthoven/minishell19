@@ -30,7 +30,7 @@ char	*get_exec(char **cmd, char **envp, int i)
 	{
 		tmp = ft_strjoin(bigpath[i], "/");
 		executable = ft_strjoin(tmp, cmd[0]);
-		if (access(executable, X_OK) != -1)
+		if (access(executable, X_OK) != -1)   // potentiel de double free avec join qui free retirer les free tmp
 		{
 			ft_free_cmd(bigpath, tmp, 0);
 			return(executable);
