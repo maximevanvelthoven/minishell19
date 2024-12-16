@@ -28,8 +28,8 @@ char	*get_exec(char **cmd, char **envp, int i)
 	bigpath = get_path(envp, 0);
 	while (bigpath && bigpath[i])
 	{
-		tmp = ft_strjoin(bigpath[i], "/");
-		executable = ft_strjoin(tmp, cmd[0]);
+		tmp = ft_strjoin_cmd(bigpath[i], "/");
+		executable = ft_strjoin_cmd(tmp, cmd[0]);
 		if (access(executable, X_OK) != -1)   // potentiel de double free avec join qui free retirer les free tmp
 		{
 			ft_free_cmd(bigpath, tmp, 0);

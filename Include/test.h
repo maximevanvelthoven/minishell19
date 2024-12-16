@@ -98,6 +98,11 @@ void				cmd_exec(t_data *data, t_AST *node);
 void				ft_free_cmd(char **tab, char *str, int i);
 char				**get_real_env(t_data *node, int i);
 int					ft_strlen_node(t_data *node);
+char	*ft_strjoin_cmd(char const *s1, char const *s2);
+
+//execution de heredoc
+void exec_heredoc(t_data *data, t_AST *node);
+char *get_good_delimiteur(char **str);
 
 // builtins
 int check_builtins(char **cmd, t_data *data);
