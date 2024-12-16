@@ -60,8 +60,8 @@ char **get_real_env(t_data *node, int i)
         if(current->content)
         {
             tmp1 = ft_strdup(current->value);
-            tmp2 = ft_strjoin(tmp1, "=");
-            env[i] = ft_strjoin(tmp2, current->content);
+            tmp2 = ft_strjoin_cmd(tmp1, "=");
+            env[i] = ft_strjoin_cmd(tmp2, current->content);
             i++;
             free(tmp1);
             free(tmp2);
