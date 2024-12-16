@@ -37,11 +37,13 @@ void ft_free_list(t_env *list)
 {
 	t_env *tmp;
 
-	while(list)
+	while(list != NULL)
 	{
 		tmp = list;
-		free(list->value);
-		free(tmp);
 		list = list->next;
+        if (tmp->content)
+            free(tmp->content);
+		free(tmp->value);
+		free(tmp);
 	}
 }
