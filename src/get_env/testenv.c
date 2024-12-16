@@ -53,6 +53,7 @@ t_env	*create_node_env(char *str, t_env **list)
 			current = current->next;
 		current->next = node;
 	}
+	// free(str);
 	return (node);
 }
 

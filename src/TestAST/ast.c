@@ -68,6 +68,7 @@ t_AST	*crea_file(t_token **token)
 	node->cmd[0] = ft_strdup((*token)->cmd);
 	node->cmd[1] = NULL;
 	node->type = (*token)->type;
+	free(*token);
 	return (node);
 }
 
@@ -85,7 +86,7 @@ t_AST	*crea_cmd(t_token **token)
 	node->right = NULL;
 	// tmp = ft_strtrim((*token)->cmd, " ");  // a modifier juste apres push parsing
 	fill_cmd_node(node, token, size_cmd);
-	// print_cmd(node->cmd);
+	//print_cmd(node->cmd);
 	node->type = (*token)->type;
 	return (node);
 }
@@ -106,6 +107,8 @@ t_AST	*crea_red(t_token **token)
 			(*token)->next = next_token->next->next;
 			node->right = crea_file(&(next_token->next)); // create file
 			node->left = crea_red(&tmp);
+			free(next_token->cmd);
+			free(next_token);
 			return (node);
 		}
 		*token = next_token;
@@ -129,6 +132,8 @@ t_AST	*crea_ast(t_token **token)
 			(*token)->next = NULL;
 			node->left = crea_red(&tmp);
 			node->right = crea_ast(&(next_token->next));
+			free(next_token->cmd);
+			free(next_token);
 			return (node);
 		}
 		*token = next_token;

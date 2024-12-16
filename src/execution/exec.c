@@ -1,8 +1,8 @@
 #include "test.h"
 
-void	ft_exec(t_data *data, t_AST *node)
-		// envp a retirer car censer ete sauvegarder dans une structure
+void	ft_exec(t_data *data, t_AST *node) // envp a retirer car censer ete sauvegarder dans une structure
 {
+	printf("node contenu = %s\n", node->cmd[0]);
 	if (node->type == 4) // |
 	     pipe_exec(data, node);
 	else if (node->type == 1) // >

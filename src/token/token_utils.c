@@ -1,30 +1,5 @@
 #include "test.h"
 
-int	check_cote(char *str)
-{
-	while (*str)
-	{
-		if (*str == '"')
-		{
-			str++;
-			while (*str != '"' && *str != '\0')
-				str++;
-			if (*str == '\0')
-				return (1);
-		}
-		if (*str == '\'')
-		{
-			str++;
-			while (*str != '\'' && *str != '\0')
-				str++;
-			if (*str == '\0')
-				return (1);
-		}
-		str++;
-	}
-	return (0);
-}
-
 void	handle_cote(char **str)
 {
 	if (**str == '"')
@@ -80,6 +55,26 @@ void	init_struct_t(char *str, t_token **token)
 	}
 }
 
+void	init_l_word(char *str, t_env **l_word)
+{
+	t_env	*node;
+	t_env	*current;
+
+	node = malloc(sizeof(t_env));
+	node->content = NULL;
+	node->value = ft_strdup(str);
+	node->next = NULL;
+	if (!(*l_word))
+		(*l_word) = node;
+	else
+	{
+		current = (*l_word);
+		while (current->next)
+			current = current->next;
+		current->next = node;
+	}
+}
+
 char	*join_list(t_env **l_word)
 {
 	char	*tmp;
@@ -94,3 +89,46 @@ char	*join_list(t_env **l_word)
 	}
 	return(tmp);
 }
+
+char	*replace_tild(t_data *data)
+{
+	char	*result;
+	
+	result = NULL;
+	while (data->env)
+	{
+		if (!strcmp(data->env->value, "HOME"))
+		{
+			result = ft_strdup(data->env->content);
+			return (result);
+		}
+		data->env = data->env->next;
+	}
+	return (NULL);
+}
+int		check_last_token(t_token **token)
+{
+	t_token *tmp;
+
+	if (!(*token))
+		return (0);
+	tmp = *token;
+	while (tmp->next)
+		tmp = tmp->next;
+	if (tmp->type == 3)
+		return (1);
+	return (0);
+}
+
+
+int     cote_word(char  *str)
+{
+    while (*str)
+    {
+        if (*str == '"' || *str == '\'')
+            return (1);
+        str++;
+    }
+    return (0);
+}
+
