@@ -35,5 +35,5 @@ void lexing(char *input)
 		printf("problem with Quote");
 		exit(1);
 	}
-    free(trimmed_input);
+    //free(trimmed_input);
 }

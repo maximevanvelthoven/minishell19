@@ -53,9 +53,11 @@ void replace_var_env(t_env **l_word, t_data *data)
 			if (context->value[1] == '?')
 			{
 				free(context->value);
-				context->value = ft_strdup("");
+				context->value = ft_strdup(ft_itoa(data->exit_code));
 				replace_node(&context, data);
 			}
+			else if (context->value[1] == '\0')
+				return;
 			else if (check_env_value(context, data))
 				replace_node(&context, data);
 			else

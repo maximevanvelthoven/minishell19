@@ -118,6 +118,8 @@ void    add_to_list(char    **str, char *tmp, t_env **l_word)
 
     len = *str - tmp;
     result = strndup(tmp, len);
+	printf("%s in add to list\n", result);
+	printf("tmp = %c str = %s\n", *tmp, *str);
     init_l_word(result, l_word);
     free(result);
 }
@@ -143,8 +145,12 @@ char *search_dollar(char **str, t_env **l_word, t_data *data)
                 add_to_list(str, tmp, l_word);
 				tmp = *str;
 			}
-			while (**str != ' ' && **str)
+			else
+			{
 				(*str)++;
+				while (**str != ' ' && **str && **str != '$')
+					(*str)++;
+			}
 			add_to_list(str, tmp, l_word);
 		}
 	}
@@ -228,7 +234,7 @@ char	*expender(char **str, t_data *data)
         // else if (*tmp == '"')
         //     init_l_word(tmp, &final_string);
         init_l_word(tmp, &final_string);
-       free(tmp);
+      	free(tmp);
     }
     result = join_list(&final_string);
     ft_free_list(final_string);

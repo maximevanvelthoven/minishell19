@@ -80,10 +80,9 @@ int	main(int ac, char **av, char **envp) // rajouter variable d env
 			ast = init_ast(&token);
 			// print_ast(ast, 0);  //PRINT_AST a modifier car mnt les cmd sont en char **;
 			ft_exec(data, ast);
-			//ft_free_token(token); // rencontreun probleme avec le free tokens;
-			//ft_free_list(data->env);
-			// free(data);
-			//ft_free_ast(ast);  //la commande se retrouve vide;
+			// ft_free_token(token); // rencontreun probleme avec le free tokens;
+			//free(data);
+			ft_free_ast(ast);  //la commande se retrouve vide;
 			add_history(input);
 			free(input); // Libération de la mémoire allouée
 		}

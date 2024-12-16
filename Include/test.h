@@ -53,6 +53,7 @@ int		check_last_token(t_token **token);
 int     cote_word(char  *str);
 void	init_data(t_data *data, char **envp);
 void ft_free_token(t_token *token);
+char	*replace_tild(t_data *data);
 
 //fontcion expender
 void replace_var_env(t_env **l_word, t_data *data);
