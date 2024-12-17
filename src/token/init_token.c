@@ -49,7 +49,6 @@ void    handle_word(char    *word, t_token **token, t_data *data)
 			free(result);
 			result = ft_strdup(getenv("HOME"));
 		}
-			// result = replace_tild(data);
 		init_struct_t(result, token);
         free(result);
 	}

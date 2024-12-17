@@ -1,121 +1,11 @@
 #include "test.h"
 
-// int	check_env_value(t_env *l_word, t_data *data)
-// {
-// 	t_env	*tmp;
-
-// 	tmp = data->env;
-// 	l_word->value = ft_strtrim(l_word->value, "$");
-// 	while (l_word)
-// 	{
-// 		while (tmp)
-// 		{
-// 			if (!strcmp(l_word->value, tmp->value))
-// 				return (1);
-// 			tmp = tmp->next;
-// 		}
-// 		l_word = l_word->next;
-// 	}
-// 	return (0);
-// }
-
-
-// void	replace_node(t_env **l_word, t_data *data)
-// {
-// 	t_env *context;
-// 	t_env *tmp;
-
-// 	tmp = data->env;
-// 	context = *l_word;
-// 	context->value = ft_strtrim(context->value, "$");
-// 	while (tmp)
-// 	{
-// 		if (!strcmp(tmp->value, context->value))
-// 		{
-// 			free(context->value);
-// 			context->value = ft_strdup(tmp->content);
-// 		}
-// 		tmp = tmp->next;
-// 	}
-// }
-
-// void replace_var_env(t_env **l_word, t_data *data)
-// {
-// 	t_env *context;
-// 	t_env *tmp;
-
-// 	context = *l_word;
-// 	while (context)
-// 	{
-// 		if (context->value[0] == '$' && context)
-// 		{
-// 			if (context->value[1] == '?')
-// 			{
-// 				free(context->value);
-// 				context->value = ft_strdup("");
-// 				replace_node(&context, data);
-// 			}
-// 			else if (check_env_value(context, data))
-// 				replace_node(&context, data);
-// 			else
-// 			{
-// 				tmp->next = context->next;
-// 				free(context->value);
-// 				free(context);
-// 			}
-// 		}
-// 		tmp = context;
-// 		context = context->next;
-// 	}
-// }
-
-// char *search_dollar(char **str, t_env **l_word, t_data *data)
-// {
-// 	size_t	len;
-// 	char	*result;
-// 	char	*tmp;
-
-// 	while (**str)
-// 	{
-// 		tmp = *str;
-// 		while (**str != '$' && **str)
-// 			(*str)++;
-// 		len = *str - tmp;
-// 		result = strndup(tmp, len);
-// 		init_l_word(result, l_word); //ajout a la liste chaine 
-// 		free(result);
-// 		if (**str == '$' && **str)
-// 		{
-// 			tmp = *str;
-// 			if (*(*str + 1) == '?')
-// 			{
-// 				(*str)++;
-// 				(*str)++;
-// 				len = *str - tmp;
-// 				result = strndup(tmp, len);
-// 				init_l_word(result, l_word);
-// 				free(result);
-// 				tmp = *str;
-// 			}
-// 			while (**str != ' ' && **str)
-// 				(*str)++;
-// 			len = *str - tmp;
-// 			result = strndup(tmp, len);
-// 			init_l_word(result, l_word);
-// 			free(result);
-// 		}
-// 	}
-// 	replace_var_env(l_word, data);
-// 	result = join_list(l_word);
-// 	ft_free_list(*l_word);
-// 	return (result);
-// }
-
 void    add_to_list(char    **str, char *tmp, t_env **l_word)
 {
     size_t  len;
     char    *result;
 
+    result = NULL;
     len = *str - tmp;
     result = strndup(tmp, len);
 	printf("%s in add to list\n", result);
@@ -124,9 +14,30 @@ void    add_to_list(char    **str, char *tmp, t_env **l_word)
     free(result);
 }
 
+int    check_exit_code(char **str, char *tmp, t_env **l_word)
+{
+    if (*(*str + 1) == '?')
+	{
+		(*str)++;
+		(*str)++;
+        add_to_list(str, tmp, l_word);
+        return (1);
+    }
+    return (0);
+}
+
+char    *final_string(t_env **l_word, t_data *data)
+{
+    char    *result;
+
+    replace_var_env(l_word, data);
+	result = join_list(l_word);
+	ft_free_list(*l_word);
+    return (result);
+
+}
 char *search_dollar(char **str, t_env **l_word, t_data *data)
 {
-	char	*result;
 	char	*tmp;
 
 	while (**str)
@@ -138,13 +49,8 @@ char *search_dollar(char **str, t_env **l_word, t_data *data)
 		if (**str == '$' && **str)
 		{
 			tmp = *str;
-			if (*(*str + 1) == '?')
-			{
-				(*str)++;
-				(*str)++;
-                add_to_list(str, tmp, l_word);
-				tmp = *str;
-			}
+            if (check_exit_code(str, tmp, l_word) == 1)
+                tmp = *str;
 			else
 			{
 				(*str)++;
@@ -154,21 +60,15 @@ char *search_dollar(char **str, t_env **l_word, t_data *data)
 			add_to_list(str, tmp, l_word);
 		}
 	}
-	replace_var_env(l_word, data);
-	result = join_list(l_word);
-	ft_free_list(*l_word);
-	return (result);
+    return (final_string(l_word, data));
 }
 
-char    *quote(char **str, int c, t_data *data)
+char    *quote(char **str, int c)
 {
     size_t len;
-    t_env  *dollar_list;
     char    *tmp;
-    char    *trimmed;
     char    *result;
 
-    dollar_list = NULL;
     tmp = *str;
     (*str)++;
     while (**str != c && **str)
@@ -176,18 +76,6 @@ char    *quote(char **str, int c, t_data *data)
     (*str)++;
     len = *str - tmp;
     result = strndup(tmp, len); //malloc une partie de l'entierte du mot
-    if (c == '"')
-    {
-        trimmed = ft_strtrim(result, "\"");
-        free(result); //liberation de result quand encore cote
-        result = search_dollar(&trimmed, &dollar_list, data);
-    }
-    else
-    {
-        trimmed = ft_strtrim(result, "'");
-       free(result);
-        result = trimmed;
-    }
     return (result);
 }
 
@@ -206,16 +94,36 @@ char    *inter_quote(char **str, t_data *data)
     len = *str - tmp;
     tmp1 = strndup(tmp, len);
     result = search_dollar(&tmp1, &dollar_list, data);
+    // free(tmp1);
     return (result);
 }
 
 char    *cut_word(char **str, t_data *data)
 {
     int c;
+    char    *result;
+    char    *trimmed;
+    t_env  *dollar_list;
 
+    dollar_list = NULL;
     c = **str;
     if (c == '\'' || c == '"')
-        return(quote(str, c, data));
+    {
+        result = quote(str, c);
+        if (c == '"')
+        {
+            trimmed = ft_strtrim(result, "\"");
+            free(result); //liberation de result quand encore cote
+            result = search_dollar(&trimmed, &dollar_list, data);
+        }
+        else
+        {
+            trimmed = ft_strtrim(result, "'");
+            free(result);
+            result = trimmed;
+        }
+        return (result);
+    }
     return (inter_quote(str, data));
 }
 
@@ -229,10 +137,6 @@ char	*expender(char **str, t_data *data)
     while(**str)
     {
         tmp = cut_word(str, data); //malloc le mot en plusieur mot en fonction des cote
-        // if (*tmp == '\'')
-        //     init_l_word(tmp, &final_string); //ajout a la liste chaine final que je vais join
-        // else if (*tmp == '"')
-        //     init_l_word(tmp, &final_string);
         init_l_word(tmp, &final_string);
       	free(tmp);
     }
