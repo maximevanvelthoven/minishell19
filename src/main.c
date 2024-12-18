@@ -44,6 +44,10 @@ void	init_data(t_data *data, char **envp)
 	data->FD_OUT = STDOUT_FILENO;
 	data->exit_code = 0;
 	data->FD_IN_DOC = -1;
+	data->nbr_pipe = 0;
+	data->pipe_doc = 0;
+	data->flag_doc = 0;
+	data->fd_exec = 0;
 	data->env = init_env(envp);
 }
 
@@ -78,6 +82,7 @@ int	main(int ac, char **av, char **envp) // rajouter variable d env
 			token = NULL;
 			ast = NULL;
 			init_token(input, &token, data);
+			handle_doc(data, &token);
 			ast = init_ast(&token);
 			// print_ast(ast, 0);  //PRINT_AST a modifier car mnt les cmd sont en char **;
 			ft_exec(data, ast);

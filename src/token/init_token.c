@@ -1,6 +1,6 @@
 #include "test.h"
 
-void	token_separator(t_token **token, char **str)
+void	token_separator(t_token **token, char **str, t_data *data)
 {
 	if (**str == '<')
 	{
@@ -23,7 +23,10 @@ void	token_separator(t_token **token, char **str)
 			init_struct_t(">", token);
 	}
 	else if (**str == '|')
+	{
+		data->nbr_pipe++;
 		init_struct_t("|", token);
+	}
 }
 
 void    handle_word(char    *word, t_token **token, t_data *data)
@@ -34,8 +37,8 @@ void    handle_word(char    *word, t_token **token, t_data *data)
     list = NULL;
     result = NULL;
     if (check_last_token(token))
-		exec_heredoc(data, token, word);
-     //   init_struct_t(word, token); //malloc regarde si node avant est heredoc si oui pas de modif
+		//exec_heredoc(data, token, word);
+     	init_struct_t(word, token); //malloc regarde si node avant est heredoc si oui pas de modif
     else if (cote_word(word)) //si quote dans le mot alors...
     {
         result = expender(&word, data); //renvoie string sans les quotes et avec dollard gere
@@ -85,7 +88,7 @@ int	tokenizer(char *str, t_token **token, t_data *data)
 			str++;
 		if (ft_strchr("<>|", *str))
 		{
-			token_separator(token, &str);
+			token_separator(token, &str, data);
 			str++;
 		}
 		else

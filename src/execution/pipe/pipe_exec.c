@@ -28,7 +28,10 @@ void	pipe_exec(t_data *data, t_AST *node)
 	if (!(pid_left = fork()))
 		child_left(data, node, pipefd);
 	if (!(pid_right = fork()))
+	{
+		data->fd_exec++;
 		child_right(data, node, pipefd);
+	}
 	else
 	{
 		close(pipefd[1]);

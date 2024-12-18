@@ -45,6 +45,11 @@ typedef struct s_data
 	int				FD_OUT;
 	int				FD_IN_DOC;
 	int				exit_code;
+	int				nbr_pipe;
+	int				**pipefd;
+	int				pipe_doc;
+	int				flag_doc;
+	int				fd_exec;
 	struct s_env	*env;
 }					t_data;
 
@@ -114,7 +119,8 @@ int					ft_strlen_node(t_data *node);
 char	*ft_strjoin_cmd(char const *s1, char const *s2);
 
 //execution de heredoc
-void exec_heredoc(t_data *data, t_token **token, char *delim);
+void    handle_doc(t_data *data, t_token **token);
+void exec_heredoc(t_data *data, char *delim);
 char *get_good_delimiteur(char **str);
 void fork_and_exec_doc(t_data *data, t_AST *node);
 char *search_dollar_doc(char **str, t_env **l_word, t_data *data);
