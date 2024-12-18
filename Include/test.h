@@ -43,6 +43,7 @@ typedef struct s_data
 	struct s_token	*token;
 	int				FD_IN;
 	int				FD_OUT;
+	int				FD_IN_DOC;
 	int				exit_code;
 	struct s_env	*env;
 }					t_data;
@@ -52,7 +53,7 @@ void	init_struct_t(char *str, t_token **token);
 int		check_last_token(t_token **token);
 int     cote_word(char  *str);
 void	init_data(t_data *data, char **envp);
-void ft_free_token(t_token *token);
+void 	ft_free_token(t_token *token);
 char	*replace_tild(t_data *data);
 
 //fontcion expender
@@ -63,6 +64,9 @@ char	*expender(char **str, t_data *data);
 void	init_l_word(char *str, t_env **l_word);
 char	*join_list(t_env **l_word);
 void ft_free_list(t_env *list);
+void    add_to_list(char    **str, char *tmp, t_env **l_word);
+char    *final_string(t_env **l_word, t_data *data);
+int    check_exit_code(char **str, char *tmp, t_env **l_word);
 
 //fonction lexing
 void handle_cote(char **str);
@@ -82,6 +86,10 @@ void				print_ast(t_AST *ast, int depth);
 
 // execution de l ast
 t_data				*prepare_exec(t_AST *node, t_data *data);
+t_AST *crea_and_redirec(t_token **token, t_token *tmp);
+t_AST	*create_node_ast(t_token **token);
+t_AST	*crea_file(t_token **token);
+t_AST	*crea_red(t_token **token);
 
 // execution
 void				ft_exec(t_data *data, t_AST *node);
@@ -106,8 +114,10 @@ int					ft_strlen_node(t_data *node);
 char	*ft_strjoin_cmd(char const *s1, char const *s2);
 
 //execution de heredoc
-void exec_heredoc(t_data *data, t_AST *node);
+void exec_heredoc(t_data *data, t_token **token, char *delim);
 char *get_good_delimiteur(char **str);
+void fork_and_exec_doc(t_data *data, t_AST *node);
+char *search_dollar_doc(char **str, t_env **l_word, t_data *data);
 
 // builtins
 int check_builtins(char **cmd, t_data *data);

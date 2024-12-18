@@ -98,6 +98,9 @@ t_AST	*crea_red(t_token **token)
 	t_token	*next_token;
 
 	tmp = (*token);
+	
+	if((*token)->type >= 0 && (*token)->type < 4)
+		return(crea_and_redirec(token, tmp));
 	while ((*token)->next)
 	{
 		next_token = (*token)->next;

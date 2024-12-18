@@ -8,8 +8,8 @@ void    add_to_list(char    **str, char *tmp, t_env **l_word)
     result = NULL;
     len = *str - tmp;
     result = strndup(tmp, len);
-	printf("%s in add to list\n", result);
-	printf("tmp = %c str = %s\n", *tmp, *str);
+	// printf("%s in add to list\n", result);
+	// printf("tmp = %c str = %s\n", *tmp, *str);
     init_l_word(result, l_word);
     free(result);
 }

@@ -56,3 +56,29 @@ char *get_good_delimiteur(char **str)
     }
     return(final_d);
 }
+char *search_dollar_doc(char **str, t_env **l_word, t_data *data)
+{
+	char	*tmp;
+
+	while (**str)
+	{
+		tmp = *str;
+		while (**str != '$' && **str)
+			(*str)++;
+        add_to_list(str, tmp, l_word);
+		if (**str == '$' && **str)
+		{
+			tmp = *str;
+            if (check_exit_code(str, tmp, l_word) == 1)
+                tmp = *str;
+			else
+			{
+				(*str)++;
+				while (**str != ' ' && **str && **str != '$' && **str != '\'' && **str != '\"')
+					(*str)++;
+			}
+			add_to_list(str, tmp, l_word);
+		}
+	}
+    return (final_string(l_word, data));
+}

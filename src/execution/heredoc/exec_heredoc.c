@@ -14,20 +14,24 @@ int	find_cote(char *str)
 	}
 	return (0);
 }
-char *convert_input(char *str,int type)
+char *convert_input(char *str,int type, t_data *data)
 {
     char *tmp;
-    
+    t_env *l_word;
+
+    l_word = NULL;
     tmp = NULL;
     if(type)
     {
         tmp = ft_strdup(str);
+        printf("je passe sans chengement\n");
         return(tmp);
     }
+    tmp = search_dollar_doc(&str, &l_word, data);
     return(tmp);
 }
 
-void prepare_to_heredoc(char *str, int pipefd[2], int type)
+void prepare_to_heredoc(char *str, int type, t_data *data)
 {
     char *input;
     char *realinput;
@@ -40,58 +44,62 @@ void prepare_to_heredoc(char *str, int pipefd[2], int type)
             free(input);
             break;
         }
-        realinput = convert_input(input, type);
+        realinput = convert_input(input, type, data);
         if(realinput)
         {
-            write(pipefd[1], realinput, ft_strlen(realinput));
-            write(pipefd[1], "\n", 1);
+            write(data->FD_IN_DOC, realinput, ft_strlen(realinput));
+            write(data->FD_IN_DOC, "\n", 1);
             free(realinput);
         }
         free(input);
     }
-    close(pipefd[1]);
+    // close(data->FD_IN_DOC);
 }
-void fork_and_exec_doc(int pipefd[2], t_data *data, t_AST *node)
+void fork_and_exec_doc(t_data *data, t_AST *node)
 {
     int pid;
 
-    data->FD_IN = pipefd[0];
+    close(data->FD_IN_DOC);
+    data->FD_IN_DOC = open("obj/.heredoc", O_RDONLY);
     if(!(pid = fork()))
     {
-        close(pipefd[1]);
-        dup2(data->FD_IN, STDIN_FILENO);
-        close(pipefd[0]);
+        dup2(data->FD_IN_DOC, STDIN_FILENO);
         ft_exec(data, node->left);
-        close(data->FD_IN);
+        close(data->FD_IN_DOC);
         exit(0);
     }
     else  
     {
-        close(pipefd[0]);
-        close(pipefd[1]);
+        close(data->FD_IN_DOC);
         waitpid(pid, NULL, 0);
+        unlink("obj/.heredoc");
     }
 }
 
-void exec_heredoc(t_data *data, t_AST *node)
+void exec_heredoc(t_data *data, t_token **token, char *delim)
 {
-    int pipefd[2];
     char *delimiteur;
     char *tmp;
+    char  *file_name;
+    char *tmp1;
 
-    tmp = ft_strdup(node->right->cmd[0]);
-    if((pipe(pipefd)) == -1)
+    if(data->FD_IN_DOC)
+        unlink("obj/.heredoc");
+    data->FD_IN_DOC = open("obj/.heredoc", O_RDWR | O_CREAT | O_TRUNC, 0644);
+    file_name = ft_strdup("obj/.heredoc");
+    init_struct_t(file_name, token);
+    tmp = ft_strdup(delim);
+    tmp1 = tmp;
+    if(find_cote(delim))
     {
-        perror("error in heredoc pipe\n");
-        exit(1);
-    }
-    if(find_cote(node->right->cmd[0]))
         delimiteur = get_good_delimiteur(&tmp);
+        printf("tmp : %s\n", tmp);
+        printf("tmp : %s\n", tmp1);
+    }
     else
         delimiteur = ft_strdup(tmp);
-    prepare_to_heredoc(delimiteur, pipefd, (find_cote(node->right->cmd[0])));
-    if(node->left)
-        fork_and_exec_doc(pipefd, data, node);
-    // free(tmp);
-    // free(delimiteur);
+    prepare_to_heredoc(delimiteur, (find_cote(delim)), data);
+    free(tmp1);  //comprend pas pourquoi il dit que ca double free a verifier par la suite
+    free(delimiteur);
+    free(file_name);
 }
