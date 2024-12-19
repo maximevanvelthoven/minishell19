@@ -4,17 +4,25 @@ void ft_free_pipe(t_data *data)
 {
 	int i;
 
-	while(data->pipefd[i])
+	i = 0;
+	while(i <= data->nbr_pipe)
 	{
 		if(data->pipefd[i][0])
 			close(data->pipefd[i][0]);
 		if(data->pipefd[i][1])
-			close(data->pipefd[i][0]);
+			close(data->pipefd[i][1]);
 		if(data->pipefd[i][2])
-			close(data->pipefd[i][0]);
-		free(data->pipefd[i]);
+			close(data->pipefd[i][2]);
+		if (data->pipefd[i])
+			free(data->pipefd[i]);
 		i++;
 	}
+	free(data->pipefd);
+	data->pipefd = NULL;
+	data->nbr_pipe = 0;
+	data->pipe_doc = 0;
+	data->flag_doc = 0;
+	data->fd_exec = 0;
 }
 
 void ft_free_ast(t_AST *ast)
@@ -105,7 +113,7 @@ int	main(int ac, char **av, char **envp) // rajouter variable d env
 			// ft_free_token(token); // rencontreun probleme avec le free tokens;
 			//free(data);
 			ft_free_ast(ast);  //la commande se retrouve vide;
-			// ft_free_pipe(data);
+			ft_free_pipe(data);
 			add_history(input);
 			free(input); // Libération de la mémoire allouée
 		}
