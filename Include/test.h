@@ -43,7 +43,6 @@ typedef struct s_data
 	struct s_token	*token;
 	int				FD_IN;
 	int				FD_OUT;
-	int				FD_IN_DOC;
 	int				exit_code;
 	int				nbr_pipe;
 	int				**pipefd;

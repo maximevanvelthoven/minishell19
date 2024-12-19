@@ -53,6 +53,7 @@ void prepare_to_heredoc(char *str, int type, t_data *data)
         }
         free(input);
     }
+    printf("%d\n", data->pipe_doc);
     close(data->pipefd[data->pipe_doc][1]);
 }
 void fork_and_exec_doc(t_data *data, t_AST *node)
@@ -84,8 +85,9 @@ void exec_heredoc(t_data *data, char *delim)
         close(data->pipefd[data->pipe_doc][0]);
         close(data->pipefd[data->pipe_doc][1]);
     }
-    if (pipe(data->pipefd[data->pipe_doc]) == -1)
+    if ((pipe(data->pipefd[data->pipe_doc])) == -1)
     {
+        printf("%d\n", data->pipe_doc);
         perror("bad initialisation of pipe");
     }
     tmp = ft_strdup(delim);

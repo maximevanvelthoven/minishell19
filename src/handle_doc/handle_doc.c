@@ -39,6 +39,5 @@ void    handle_doc(t_data *data, t_token **token)
     else
         data->pipefd = malloc(sizeof(int **) * (data->nbr_pipe + 1));
     set_pipe(data);
-    find_doc(data, token);
-    
+    find_doc(data, token);  
 }
