@@ -101,6 +101,8 @@ int	main(int ac, char **av, char **envp) // rajouter variable d env
 		if (ac != 1)
 			break ;
 		input = readline("> minishell ");
+		if (input == NULL)
+			return (0);
 		if (input != NULL)
 		{
 			token = NULL;

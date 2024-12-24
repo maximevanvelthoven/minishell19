@@ -27,5 +27,10 @@ int check_builtins(char **cmd, t_data *data)
         ft_unset(cmd, data);
         return(1);
     }
+    if(!strcmp(cmd[0], "cd"))
+    {
+        cd_test(cmd, data);
+        return(1);
+    }
     return(0);
 }
