@@ -30,6 +30,8 @@ void ft_unset(char **cmd, t_data *data)
         return;
     while(cmd[i])
     {
+        if(!strcmp(cmd[i], "OLDPWD"))
+            data->flag_oldpwd = 1;
         check_var_exist(data, cmd[i]);
         i++;
     }

@@ -49,6 +49,8 @@ typedef struct s_data
 	int				pipe_doc;
 	int				flag_doc;
 	int				fd_exec;
+	int				flag_oldpwd;
+	char			*oldpwd;
 	struct s_env	*env;
 }					t_data;
 

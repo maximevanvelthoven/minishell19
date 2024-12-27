@@ -44,7 +44,7 @@ void check_exist(t_data *data, char **str, int type)
     }
     create_export(str, data, type);
 }
-char **get_argument(char *str, int type)
+char **get_argument(char *str, int type, t_data *data)
 {
     char **tmp;
     int size;
@@ -55,20 +55,20 @@ char **get_argument(char *str, int type)
     {
         tmp[0] = ft_strdup(str);
         tmp[1] = NULL;
-        tmp[2] = NULL;
     }
     if(type == 2)
     {
         tmp[0] = ft_strndup(0, find_equal(str), str);
         tmp[1] = ft_strndup(find_equal(str) + 1, size - find_equal(str), str);
-        tmp[2] = NULL;
     }
     if(type == 3)
     {
         tmp[0] = ft_strndup(0, find_equal(str) - 1, str);
         tmp[1] = ft_strndup(find_equal(str) + 1, size - find_equal(str), str);
-        tmp[2] = NULL;
     }
+    if(!strcmp(tmp[0], "OLDPWD"))
+        data->flag_oldpwd = 0;
+    tmp[2] = NULL;
     return(tmp);
 }
 int check_type(char *str)
@@ -90,17 +90,17 @@ void prepare_to_export(char *str, t_data *data)
 
     if (check_type(str) == 1) // pas de =
     {
-        argument = get_argument(str, 1);
+        argument = get_argument(str, 1, data);
         check_exist(data, argument, 1);
     }
     if (check_type(str) == 2) // =
     {
-        argument = get_argument(str, 2);
+        argument = get_argument(str, 2, data);
         check_exist(data, argument, 2);
     }
     if (check_type(str) == 3) // +=
     {
-        argument = get_argument(str, 3);
+        argument = get_argument(str, 3, data);
         check_exist(data, argument, 3);
     }
     ft_free_tab(argument, check_type(str));
