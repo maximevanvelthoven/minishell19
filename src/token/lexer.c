@@ -1,5 +1,49 @@
 #include "test.h"
 
+int	check_word(char	*word)
+{
+	while (*word)
+	{
+		if (*word == '\\' || *word == ';')
+			return (1);
+		word++;
+	}
+	return (0);
+}
+
+int	check_caract(char	*str)
+{
+	char	*tmp;
+	char	*word;
+	size_t	len;
+
+	tmp = NULL;
+	word = NULL;
+	while (*str)
+	{
+		while (ft_strchr(" \t\n", *str) && *str)
+			str++;
+		if (*str == '\'' || *str == '"')
+		{
+			handle_cote(&str);
+			str++;
+		}
+		else
+		{
+			tmp = str;
+			while (*str != ' ' && *str && *str != '\'' && *str != '"')
+				str++;
+			len = str - tmp;
+			word = strndup(tmp, len);
+			printf("<%s>\n", word);
+			if (check_word(word))
+				return (free(word), 1);
+			free(word);
+		}
+	}
+	return (0);
+}
+
 int	check_cote(char *str)
 {
 	while (*str)
@@ -32,8 +76,13 @@ void lexing(char *input)
     trimmed_input = ft_strtrim(input, "\f\t\r\n\v ");
     if (check_cote(trimmed_input)) //check si quote bien ferme
 	{
-		printf("problem with Quote");
+		printf("problem with Quote\n");
 		exit(1);
 	}
-    //free(trimmed_input);
+	if (check_caract(trimmed_input))
+	{
+		printf("invalid input\n");
+		exit(1);
+	}
+    free(trimmed_input);
 }

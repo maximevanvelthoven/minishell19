@@ -46,6 +46,7 @@ void set_old_pwd(t_data *data, char *str)
         env = env->next;
     }
     node = create_node_oldpwd("OLDPWD", str);
+    printf("%s\n", node->content);
     env->next = node;
     return;
 }
@@ -129,7 +130,7 @@ void cd_test(char **cmd, t_data *data)
         {
             ft_putstr_fd("bash: cd: ", 2);
             ft_putstr_fd(cmd[1], 2);
-            ft_putstr_fd(": No such file or directory", 2);
+            ft_putstr_fd(": No such file or directory\n", 2);
             return ;
         }
     }

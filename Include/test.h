@@ -75,6 +75,7 @@ int    check_exit_code(char **str, char *tmp, t_env **l_word);
 //fonction lexing
 void handle_cote(char **str);
 int	check_cote(char *str);
+void lexing(char *input);
 
 // initialisation env
 t_env				*init_env(char **envp);

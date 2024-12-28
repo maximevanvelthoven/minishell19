@@ -75,16 +75,17 @@ void	init_data(t_data *data, char **envp)
 	data->env = init_env(envp);
 }
 
-// void	print_token(t_token *token)
-// {
-// 	t_token	*token;
+void	print_token(t_token *token)
+{
+	t_token	*current;
 
-// 	while (token)
-// 	{
-// 		printf("%s\n", token->cmd);
-// 		token = token->next;
-// 	}
-// } 
+	current = token;
+	while (current)
+	{
+		printf("token = %s type %d\n", current->cmd, current->type);
+		current = current->next;
+	}
+} 
 
 int	main(int ac, char **av, char **envp) // rajouter variable d env
 {
@@ -107,7 +108,10 @@ int	main(int ac, char **av, char **envp) // rajouter variable d env
 		{
 			token = NULL;
 			ast = NULL;
+			lexing(input);
 			init_token(input, &token, data);
+			// print_token(token);
+			//last_check(token);
 			handle_doc(data, &token);
 			ast = init_ast(&token);
 			// print_ast(ast, 0);  //PRINT_AST a modifier car mnt les cmd sont en char **;
