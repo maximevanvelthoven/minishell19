@@ -78,6 +78,8 @@ int    check_exit_code(char **str, char *tmp, t_env **l_word);
 void handle_cote(char **str);
 int	check_cote(char *str);
 void lexing(char *input);
+t_token	*find_last_tok(t_token *token);
+char    *last_check(t_token *token);
 
 // initialisation env
 t_env				*init_env(char **envp);

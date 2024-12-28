@@ -4,7 +4,7 @@ int	check_word(char	*word)
 {
 	while (*word)
 	{
-		if (*word == '\\' || *word == ';')
+		if (*word == '\\' || *word == ';' || *word == '&')
 			return (1);
 		word++;
 	}
@@ -35,7 +35,6 @@ int	check_caract(char	*str)
 				str++;
 			len = str - tmp;
 			word = strndup(tmp, len);
-			printf("<%s>\n", word);
 			if (check_word(word))
 				return (free(word), 1);
 			free(word);

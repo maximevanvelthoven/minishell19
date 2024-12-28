@@ -89,6 +89,24 @@ void	print_token(t_token *token)
 	}
 } 
 
+void	parsing(char **input, t_data *data, t_token **token)
+{
+	char *str;
+
+	lexing(*input);
+	init_token(*input, token, data);
+	str = last_check(*token);
+	if(str)
+	{
+		*input = ft_strjoin(*input, str);
+		printf("input : %s\n", *input);
+		parsing(input, data, token);
+		free(str);
+		return;
+	}
+	handle_doc(data, token);
+}
+
 int	main(int ac, char **av, char **envp) // rajouter variable d env
 {
 	t_data	*data;
@@ -101,20 +119,16 @@ int	main(int ac, char **av, char **envp) // rajouter variable d env
 	init_data(data, envp);
 	while (1)
 	{
+		token = NULL;
+		ast = NULL;
 		if (ac != 1)
 			break ;
 		input = readline("> minishell ");
-		if (input == NULL)
-			return (0);
-		if (input != NULL)
+		if (input[0] != '\0')
 		{
-			token = NULL;
-			ast = NULL;
-			lexing(input);
-			init_token(input, &token, data);
+			parsing(&input, data, &token);
+			printf("input 2 : %s\n", input);
 			// print_token(token);
-			//last_check(token);
-			handle_doc(data, &token);
 			ast = init_ast(&token);
 			// print_ast(ast, 0);  //PRINT_AST a modifier car mnt les cmd sont en char **;
 			ft_exec(data, ast);
@@ -123,7 +137,7 @@ int	main(int ac, char **av, char **envp) // rajouter variable d env
 			ft_free_ast(ast);  //la commande se retrouve vide;
 			ft_free_pipe(data);
 			add_history(input);
-			free(input); // Libération de la mémoire allouée
+			//free(input); // Libération de la mémoire allouée
 		}
 	}
 	return (0);

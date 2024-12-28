@@ -105,6 +105,11 @@ void	init_token(char *input, t_token **token, t_data *data)
 {
 	char	*trimmed_input;
 
+	if(*token != NULL)
+	{
+		ft_free_token(*token);
+		*token = NULL;
+	}
 	trimmed_input = ft_strtrim(input, "\f\t\r\n\v "); //malloc trimmed input
 	// printf("input trim = <%s>\n", trimmed_input);
 	if (tokenizer(trimmed_input, token, data))
