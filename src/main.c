@@ -72,6 +72,8 @@ void	init_data(t_data *data, char **envp)
 	data->pipe_doc = 0;
 	data->flag_doc = 0;
 	data->fd_exec = 0;
+	data->flag_oldpwd = 0;
+	data->oldpwd = NULL;
 	data->env = init_env(envp);
 }
 

@@ -1,16 +1,5 @@
 #include "test.h"
 
-t_env *create_node_oldpwd(char *s1, char *s2)
-{
-    t_env *node;
-
-    node = malloc(sizeof(t_env));
-    node->value = ft_strdup(s1);
-    node->content = ft_strdup(s2);
-    node->next = NULL;
-    return(node);
-}
-
 void   set_new_pwd(t_data *data, char *str)
 {
     t_env *env;
@@ -31,11 +20,9 @@ void   set_new_pwd(t_data *data, char *str)
 void set_old_pwd(t_data *data, char *str)
 {
     t_env *env;
-    t_env *node;
 
-    node = NULL;
     env = data->env;
-    while(env->next)
+    while(env)
     {
         if(!strcmp(env->value, "OLDPWD"))
         {
@@ -45,9 +32,6 @@ void set_old_pwd(t_data *data, char *str)
         }
         env = env->next;
     }
-    node = create_node_oldpwd("OLDPWD", str);
-    printf("%s\n", node->content);
-    env->next = node;
     return;
 }
 
@@ -100,10 +84,20 @@ void    oldpwd(t_data *data)
 {
     char    *tmp;
 
-    tmp = check_cd_env(data ,"OLDPWD");
+    if(data->oldpwd && data->flag_oldpwd != 0)
+        tmp = data->oldpwd;
+    else    
+        tmp = check_cd_env(data ,"OLDPWD");
     if (!tmp)
     {
         ft_putstr_fd("bash: cd: OLDPWD : not set\n", 2);
+        return;
+    }
+    if ((access(tmp, F_OK) == -1))
+    {
+        ft_putstr_fd("bash: cd: ", 2);
+        ft_putstr_fd(tmp, 2);
+        ft_putstr_fd(": No such file or directory\n", 2);
         return;
     }
     chdir(tmp);
@@ -112,12 +106,12 @@ void    oldpwd(t_data *data)
 
 void cd_test(char **cmd, t_data *data)
 {
-    char    *pwd;
+    char    pwd[1024];
     char    tmp[1024];
 
     if (!check_nbr_args(cmd))
         return;
-    pwd = ft_strdup(check_cd_env(data, "PWD"));       /// RAJOUTER LES SECURITES
+    getcwd(pwd, sizeof(pwd));
     if (!cmd[1])
         cd_no_args(data);
     else if(!strcmp(cmd[1], "-"))
@@ -138,8 +132,10 @@ void cd_test(char **cmd, t_data *data)
     if (strcmp(tmp, pwd))
     {
         set_new_pwd(data, tmp);
-        set_old_pwd(data, pwd);
+        if(data->flag_oldpwd == 0)
+            set_old_pwd(data, pwd);
+        else
+            data->oldpwd = ft_strdup(pwd);
     }
-    free(pwd);
     return;
 }
