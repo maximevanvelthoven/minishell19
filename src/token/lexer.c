@@ -68,20 +68,23 @@ int	check_cote(char *str)
 	return (0);
 }
 
-void lexing(char *input)
+int lexing(char *input)
 {
     char    *trimmed_input;
 
     trimmed_input = ft_strtrim(input, "\f\t\r\n\v ");
     if (check_cote(trimmed_input)) //check si quote bien ferme
 	{
-		printf("problem with Quote\n");
-		exit(1);
+		ft_putendl_fd("problem with Quote", 2);
+		free(trimmed_input);
+		return (1);
 	}
 	if (check_caract(trimmed_input))
 	{
-		printf("invalid input\n");
-		exit(1);
+		ft_putendl_fd("invalid input", 2);
+		free(trimmed_input);
+		return (1);
 	}
-    free(trimmed_input);
+	free(trimmed_input);
+	return(0);
 }

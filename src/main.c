@@ -58,6 +58,19 @@ void ft_free_token(t_token *token)
 		free(tmp);
 	}
 }
+
+void ft_free_token2(t_token **token)
+{
+	t_token *tmp;
+
+	while(*token != NULL)
+	{
+		tmp = *token;
+		*token = (*token)->next;
+		free(tmp->cmd);
+		free(tmp);
+	}
+}
 ///////////// A VERIFIER !!
 
 
@@ -93,13 +106,23 @@ void	parsing(char **input, t_data *data, t_token **token)
 {
 	char *str;
 
-	lexing(*input);
+	if (lexing(*input)) //si errerur mssg error si msg erreur return
+		return;
 	init_token(*input, token, data);
+	if (check_list_token(*token)) 	//pour double pipe,>>>... si pas bon free token + return
+	{
+		ft_free_token2(token);
+		token = NULL;
+		ft_putendl_fd("Bad input in check_list_token", 2);
+		return;
+	}
 	str = last_check(*token);
 	if(str)
 	{
 		*input = ft_strjoin(*input, str);
 		printf("input : %s\n", *input);
+		// ft_free_token2(token);
+		// token = NULL;
 		parsing(input, data, token);
 		free(str);
 		return;
@@ -113,8 +136,7 @@ int	main(int ac, char **av, char **envp) // rajouter variable d env
 	char	*input;
 	t_token *token;
 	t_AST *ast;
-	(void)av;
-	 // set a void car jamais utiliser tout se fait via l input
+	(void)av;  // set a void car jamais utiliser tout se fait via l input
 	data = malloc(sizeof(t_data));
 	init_data(data, envp);
 	while (1)
@@ -127,15 +149,18 @@ int	main(int ac, char **av, char **envp) // rajouter variable d env
 		if (input[0] != '\0')
 		{
 			parsing(&input, data, &token);
-			printf("input 2 : %s\n", input);
+			if (token != NULL)
+			{
+				printf ("coucouc\n");
 			// print_token(token);
-			ast = init_ast(&token);
+				ast = init_ast(&token);
 			// print_ast(ast, 0);  //PRINT_AST a modifier car mnt les cmd sont en char **;
-			ft_exec(data, ast);
+				ft_exec(data, ast);
 			// ft_free_token(token); // rencontreun probleme avec le free tokens;
 			//free(data);
-			ft_free_ast(ast);  //la commande se retrouve vide;
-			ft_free_pipe(data);
+				ft_free_ast(ast);  //la commande se retrouve vide;
+				ft_free_pipe(data);
+			}
 			add_history(input);
 			//free(input); // Libération de la mémoire allouée
 		}
