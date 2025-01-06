@@ -39,8 +39,10 @@ void prepare_to_heredoc(char *str, int type, t_data *data)
     while(1)
     {
         input = readline("> ");
-        if(!strcmp(str, input))
+        if(!input || !strcmp(str, input))
         {
+            if(!input)
+            printf("ERROR WAS WAITING FOR '%s' BUT STILL EOF\n", str);
             free(input);
             break;
         }
@@ -53,7 +55,6 @@ void prepare_to_heredoc(char *str, int type, t_data *data)
         }
         free(input);
     }
-    printf("%d\n", data->pipe_doc);
     close(data->pipefd[data->pipe_doc][1]);
 }
 void fork_and_exec_doc(t_data *data, t_AST *node)
