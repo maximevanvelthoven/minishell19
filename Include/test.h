@@ -13,6 +13,9 @@
 # include <sys/wait.h>
 # include <unistd.h>
 
+// variable globale exit status
+extern int exit_code;
+
 // pour les types on commence avec des int arbitraire qui seront remplacer par des macros contenu dans une structure
 typedef struct s_env
 {
@@ -44,7 +47,6 @@ typedef struct s_data
 	struct s_token	*token;
 	int				FD_IN;
 	int				FD_OUT;
-	int				exit_code;
 	int				nbr_pipe;
 	int				**pipefd;
 	int				pipe_doc;

@@ -1,5 +1,12 @@
 #include "test.h"
 
+void ctrl_c_doc(int sig)
+{
+    (void)sig;
+    exit_code = 1000;
+    rl_done = 1;
+}
+
 int	find_cote(char *str)
 {
 	int	i;
@@ -36,13 +43,20 @@ void prepare_to_heredoc(char *str, int type, t_data *data)
     char *input;
     char *realinput;
 
+    signal(SIGINT, ctrl_c_doc);
     while(1)
-    {
+    { 
         input = readline("> ");
-        if(!input || !strcmp(str, input))
+        if(exit_code == 1000)
         {
+            free(input);
+            break;
+        }
+        if(!input || !strcmp(str, input) || exit_code == 1000)
+        {
+            printf("%d\n", exit_code);
             if(!input)
-            printf("ERROR WAS WAITING FOR '%s' BUT STILL EOF\n", str);
+                printf("ERROR WAS WAITING FOR '%s' BUT STILL EOF\n", str);
             free(input);
             break;
         }

@@ -1,12 +1,12 @@
 #include "test.h"
 
-int in_process = 0;
+int exit_code = 0;
 
 void control_c(int sig)
 {
     (void)sig;
 	printf("\n");
-    rl_replace_line("", 0);
+    // rl_replace_line("", 0);
     rl_on_new_line();
 	rl_redisplay();
 }
@@ -97,7 +97,6 @@ void	init_data(t_data *data, char **envp)
 	data->token = NULL;
 	data->FD_IN = STDIN_FILENO;
 	data->FD_OUT = STDOUT_FILENO;
-	data->exit_code = 0;
 	data->nbr_pipe = 0;
 	data->pipe_doc = 0;
 	data->flag_doc = 0;
