@@ -41,7 +41,7 @@ void    handle_word(char    *word, t_token **token, t_data *data)
      	init_struct_t(word, token); //malloc regarde si node avant est heredoc si oui pas de modif
     else if (cote_word(word)) //si quote dans le mot alors...
     {
-        result = expender(&word, data); //renvoie string sans les quotes et avec dollard gere
+        result = expender(&word, data);
 		init_struct_t(result, token); //ajoute le mot dans list token
         free(result);
     }
@@ -53,7 +53,8 @@ void    handle_word(char    *word, t_token **token, t_data *data)
 			free(result);
 			result = ft_strdup(getenv("HOME"));
 		}
-		init_struct_t(result, token);
+		if ((*result))
+			init_struct_t(result, token);
         free(result);
 	}
 }
@@ -73,7 +74,6 @@ char	*token_word(char **str)
 	}
 	len = *str - tmp;
 	result = strndup(tmp, len);
-	// printf("<%s> in token word\n", result);
     return (result); //return string exemple : "salut"top'ok'bien
 }
 

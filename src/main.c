@@ -6,7 +6,6 @@ void control_c(int sig)
 {
     (void)sig;
 	printf("\n");
-    // rl_replace_line("", 0);
     rl_on_new_line();
 	rl_redisplay();
 }
@@ -174,7 +173,7 @@ int	main(int ac, char **av, char **envp) // rajouter variable d env
 			parsing(&input, data, &token);
 			if (token != NULL)
 			{
-			// print_token(token);
+			    //print_token(token);
 				ast = init_ast(&token);
 			// print_ast(ast, 0);  //PRINT_AST a modifier car mnt les cmd sont en char **;
 				ft_exec(data, ast);

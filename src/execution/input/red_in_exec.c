@@ -3,24 +3,29 @@
 void    red_in_exec(t_data *data, t_AST *node)
 {
     int pid;
+    int status;
 
     // rajouter par la suite l handle d error si fichier pas valide
-    printf("je suis dnas la red_in FD_IN = %s\n", node->right->cmd[0]);
-    printf("je suis dnas la red_uidfnjuvfivnf FD_IN = %d\n", data->FD_IN);
     if((data->FD_IN = open(node->right->cmd[0], O_RDONLY)) == -1)
     {
-        // mettre un put fd str pour dire quelle est le fichier compromis
+        ft_putstr_fd("bash: ", 2);
+        ft_putstr_fd(node->right->cmd[0], 2);
+        ft_putstr_fd(": No such file or directory\n", 2);
+        exit_code = 1;
         return;
     }
-    printf("je suis dnas la red_in FD_IN = %d\n", data->FD_IN);
     if(!(pid = fork()))
     {
         dup2(data->FD_IN, STDIN_FILENO);
         if (node->left)
             ft_exec(data, node->left);
         close(data->FD_IN);
-        exit(0);
+        exit(exit_code);
     }
     else 
-        waitpid(pid, NULL, 0);
+        waitpid(pid, &status, 0);
+    if (WIFEXITED(status))
+		exit_code = WEXITSTATUS(status); // On récupère l'exit code du dernier processus
+    else
+        exit_code = 1;
 }

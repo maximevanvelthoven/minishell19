@@ -1,11 +1,13 @@
 #include "test.h"
 
-void ctrl_c_doc(int sig)
-{
-    (void)sig;
-    exit_code = 1000;
-    rl_done = 1;
-}
+// void ctrl_c_doc(int sig)
+// {
+//     (void)sig;
+//     //exit_code = 1;
+//     rl_on_new_line();
+// 	rl_redisplay();
+//     exit(1);
+// }
 
 int	find_cote(char *str)
 {
@@ -43,18 +45,11 @@ void prepare_to_heredoc(char *str, int type, t_data *data)
     char *input;
     char *realinput;
 
-    signal(SIGINT, ctrl_c_doc);
     while(1)
-    { 
+    {
         input = readline("> ");
-        if(exit_code == 1000)
+        if(!input || !strcmp(str, input))
         {
-            free(input);
-            break;
-        }
-        if(!input || !strcmp(str, input) || exit_code == 1000)
-        {
-            printf("%d\n", exit_code);
             if(!input)
                 printf("ERROR WAS WAITING FOR '%s' BUT STILL EOF\n", str);
             free(input);
@@ -71,22 +66,25 @@ void prepare_to_heredoc(char *str, int type, t_data *data)
     }
     close(data->pipefd[data->pipe_doc][1]);
 }
+
 void fork_and_exec_doc(t_data *data, t_AST *node)
 {
     int pid;
-
+    int status;
 
     if(!(pid = fork()))
     {
         dup2(data->pipefd[data->fd_exec][0], STDIN_FILENO);
         ft_exec(data, node->left);
         close(data->pipefd[data->fd_exec][0]);
-        exit(0);
+        exit(exit_code);
     }
-    else  
-    {
-        waitpid(pid, NULL, 0);
-    }
+    else
+        waitpid(pid, &status, 0);
+    if (WIFEXITED(status))
+		exit_code = WEXITSTATUS(status); // On récupère l'exit code du dernier processus
+    else
+        exit_code = 1;
 }
 
 void exec_heredoc(t_data *data, char *delim)
