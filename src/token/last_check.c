@@ -20,7 +20,6 @@ char   *last_check(t_token *token)
     last_token = find_last_tok(token);
     if (last_token->type == 4)
     {
-
         new_input = readline("> ");
         return (new_input);
     }

@@ -147,5 +147,6 @@ t_env	*find_last_node(t_env *env);
 void ft_free_tab(char **tab, int i);
 void ft_unset(char **cmd, t_data *data);
 void cd_test(char **cmd, t_data *data);
+void exit_test(char **cmd);
 
 # endif

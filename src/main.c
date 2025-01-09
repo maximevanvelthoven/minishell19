@@ -9,6 +9,7 @@ void control_c(int sig)
     rl_replace_line("", 0);
     rl_on_new_line();
 	rl_redisplay();
+	exit_code = 130;
 }
 
 void control(void)
@@ -167,8 +168,9 @@ int	main(int ac, char **av, char **envp) // rajouter variable d env
 		if(!input)
 		{
 			free(input);
+			free(data);
 			printf("exit\n");
-			break;
+			exit(exit_code);
 		}
 		if (input[0] != '\0')
 		{
@@ -180,7 +182,7 @@ int	main(int ac, char **av, char **envp) // rajouter variable d env
 			// print_ast(ast, 0);  //PRINT_AST a modifier car mnt les cmd sont en char **;
 				ft_exec(data, ast);
 			// ft_free_token(token); // rencontreun probleme avec le free tokens;
-			//free(data);
+			// free(data);
 				ft_free_ast(ast);  //la commande se retrouve vide;
 				ft_free_pipe(data);
 			}
@@ -188,5 +190,6 @@ int	main(int ac, char **av, char **envp) // rajouter variable d env
 			//free(input); // Libération de la mémoire allouée
 		}
 	}
+	free(data);
 	return (0);
 }
