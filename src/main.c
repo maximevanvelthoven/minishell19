@@ -1,18 +1,12 @@
 #include "test.h"
 
-int in_process = 0;
-
 void control_c(int sig)
 {
     (void)sig;
 	printf("\n");
-	if(in_process == 0)
-	{
-    	rl_replace_line("", 0);
-    	rl_on_new_line();
-		rl_redisplay();
-		in_process = 0;
-	}
+    rl_replace_line("", 0);
+    rl_on_new_line();
+	rl_redisplay();
 }
 
 void control(void)
@@ -181,9 +175,7 @@ int	main(int ac, char **av, char **envp) // rajouter variable d env
 			// print_token(token);
 				ast = init_ast(&token);
 			// print_ast(ast, 0);  //PRINT_AST a modifier car mnt les cmd sont en char **;
-				in_process = 1;
 				ft_exec(data, ast);
-				in_process = 0;
 			// ft_free_token(token); // rencontreun probleme avec le free tokens;
 			//free(data);
 				ft_free_ast(ast);  //la commande se retrouve vide;
