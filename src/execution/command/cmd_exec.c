@@ -1,5 +1,7 @@
 #include "test.h"
 
+struct stat file_info;
+
 char	**get_path(char **envp, int i)
 {
 	char	**bigpath;
@@ -22,7 +24,10 @@ char	*get_exec(char **cmd, char **envp, int i)
 	char	*executable;
 
 	if (access(cmd[0], X_OK) != -1)
-		return (cmd[0]);
+	{
+		exit_code = 126;
+		return (ft_strdup(cmd[0]));
+	}
 	if (!envp[0])
 		return (NULL);
 	bigpath = get_path(envp, 0);
@@ -40,7 +45,8 @@ char	*get_exec(char **cmd, char **envp, int i)
 		i++;
 	}
 	ft_free_cmd(bigpath, NULL, 0);
-	return (NULL);
+	exit_code = 127;
+	return (ft_strdup(cmd[0]));
 }
 
 void	cmd_exec(t_data *data, t_AST *node)
@@ -48,6 +54,7 @@ void	cmd_exec(t_data *data, t_AST *node)
 	int		pid;
 	char	*path;
 	char	**tmp_env;
+	int status;
 
 	if (check_builtins(node->cmd, data))
 		return;
@@ -57,11 +64,23 @@ void	cmd_exec(t_data *data, t_AST *node)
 	{
 		if (execve(path, node->cmd, tmp_env) == -1)
 		{
-			perror("execve failed");
-			exit(1);
-		}
+			if (access(path, F_OK) != -1 && path[0] == '/')
+			{
+				ft_putstr_fd(" Is a directory\n", 2);
+				exit(exit_code);
+			}
+			if (path[0] == '.' || path[0] == '/')
+			{
+				ft_putstr_fd(" No such file or directory\n", 2);
+				exit(exit_code);
+			}
+			ft_putstr_fd(" command not found\n", 2);
+			exit(exit_code);
+		}		
 	}
 	else
-		waitpid(pid, NULL, 0);
+		waitpid(pid, &status, 0);
+	if (WIFEXITED(status))
+		exit_code = WEXITSTATUS(status); // On récupère l'exit code du dernier processus
 	ft_free_cmd(tmp_env, path, 0);
 }

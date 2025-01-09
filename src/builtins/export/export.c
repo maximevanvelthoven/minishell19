@@ -61,6 +61,7 @@ void export_test(char **cmd, t_data *data)
             ft_putstr_fd("bash: export: ", 2);
             ft_putstr_fd(cmd[i], 2);
             ft_putendl_fd(": not a valid identifier", 2);
+            exit_code = 1;
         }
         else 
             prepare_to_export(cmd[i], data);

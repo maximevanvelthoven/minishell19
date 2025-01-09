@@ -4,11 +4,17 @@ int check_list_token(t_token *token)
 {
     t_token *tmp;
 
+    if (token == NULL)
+        return (0);
     tmp = token;
     if (tmp->type == 4)
         return (1);
+    if (tmp->type == 3 && tmp->next == NULL)
+        return (1);
     while (tmp->next)
     {
+         if (tmp->type == 3 && tmp->next->type != 5) 
+            return (1);
         if (tmp->type == 3 && tmp->next->type == 0) // si heredoc + red in
             return (1);
         if (tmp->type == 2 && tmp->next->type == 1) // si append + red out
@@ -25,5 +31,7 @@ int check_list_token(t_token *token)
             return (1);
         tmp = tmp->next;
     }
+    if (tmp->type == 3)
+        return (1);
     return (0);
 }

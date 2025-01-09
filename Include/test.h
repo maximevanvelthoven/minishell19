@@ -12,6 +12,10 @@
 # include <string.h>
 # include <sys/wait.h>
 # include <unistd.h>
+# include <sys/stat.h>
+
+// variable globale exit status
+extern int exit_code;
 
 // pour les types on commence avec des int arbitraire qui seront remplacer par des macros contenu dans une structure
 typedef struct s_env
@@ -44,7 +48,6 @@ typedef struct s_data
 	struct s_token	*token;
 	int				FD_IN;
 	int				FD_OUT;
-	int				exit_code;
 	int				nbr_pipe;
 	int				**pipefd;
 	int				pipe_doc;
@@ -62,6 +65,7 @@ int     cote_word(char  *str);
 void	init_data(t_data *data, char **envp);
 void 	ft_free_token(t_token *token);
 char	*replace_tild(t_data *data);
+void	print_token(t_token *token);
 
 //fontcion expender
 void replace_var_env(t_env **l_word, t_data *data);

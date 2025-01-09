@@ -15,6 +15,8 @@ char   *last_check(t_token *token)
     t_token *last_token;
     char    *new_input;
 
+    if (!token)
+        return (NULL);
     last_token = find_last_tok(token);
     if (last_token->type == 4)
     {

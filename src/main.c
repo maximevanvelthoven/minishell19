@@ -1,5 +1,7 @@
 #include "test.h"
 
+int exit_code = 0;
+
 void control_c(int sig)
 {
     (void)sig;
@@ -12,6 +14,7 @@ void control_c(int sig)
 void control(void)
 {
     signal(SIGINT, control_c);
+	signal(SIGQUIT, SIG_IGN);
 }
 
 void ft_free_pipe(t_data *data)
@@ -55,8 +58,10 @@ void ft_free_ast(t_AST *ast)
 		}
 		free(ast->cmd);
 	}
-	ft_free_ast(ast->left);
-	ft_free_ast(ast->right);
+	if (ast->left)
+		ft_free_ast(ast->left);
+	if (ast->right)
+		ft_free_ast(ast->right);
 	free(ast);
 }
 
@@ -94,7 +99,6 @@ void	init_data(t_data *data, char **envp)
 	data->token = NULL;
 	data->FD_IN = STDIN_FILENO;
 	data->FD_OUT = STDOUT_FILENO;
-	data->exit_code = 0;
 	data->nbr_pipe = 0;
 	data->pipe_doc = 0;
 	data->flag_doc = 0;
@@ -134,7 +138,6 @@ void	parsing(char **input, t_data *data, t_token **token)
 	if(str)
 	{
 		*input = ft_strjoin(*input, str);
-		printf("input : %s\n", *input);
 		// ft_free_token2(token);
 		// token = NULL;
 		parsing(input, data, token);
@@ -172,7 +175,7 @@ int	main(int ac, char **av, char **envp) // rajouter variable d env
 			parsing(&input, data, &token);
 			if (token != NULL)
 			{
-			// print_token(token);
+			    //print_token(token);
 				ast = init_ast(&token);
 			// print_ast(ast, 0);  //PRINT_AST a modifier car mnt les cmd sont en char **;
 				ft_exec(data, ast);
