@@ -52,6 +52,7 @@ typedef struct s_data
 	int				**pipefd;
 	int				pipe_doc;
 	int				flag_doc;
+	int				check_ifdoc;
 	int				fd_exec;
 	int				flag_oldpwd;
 	char			*oldpwd;

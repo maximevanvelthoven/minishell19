@@ -41,8 +41,8 @@ void ft_free_list(t_env *list)
 	{
 		tmp = list;
 		list = list->next;
-        if (tmp->content)
-            free(tmp->content);
+        // if (tmp->content)
+        //     free(tmp->content);
 		free(tmp->value);
 		free(tmp);
 	}

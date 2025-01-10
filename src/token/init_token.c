@@ -53,10 +53,12 @@ void    handle_word(char    *word, t_token **token, t_data *data)
 			free(result);
 			result = ft_strdup(getenv("HOME"));
 		}
-		//printf("%s\n", result);
+		printf("value = %s adress = %p\n", result, result);
 		if ((*result))
 			init_struct_t(result, token);
-        free(result);
+		free(result);
+		result = NULL;
+		printf("value = %s adress = %p\n", result, result);
 	}
 }
 
@@ -82,9 +84,9 @@ int	tokenizer(char *str, t_token **token, t_data *data)
 {
     char    *word;
 
-    word = NULL;
 	while (*str)
 	{
+		word = NULL;
 		while (ft_strchr(" \t\n", *str) && *str)
 			str++;
 		if (ft_strchr("<>|", *str))

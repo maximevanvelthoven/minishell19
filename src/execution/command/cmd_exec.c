@@ -5,15 +5,21 @@ struct stat file_info;
 char	**get_path(char **envp, int i)
 {
 	char	**bigpath;
+	char *tmp;
+	char *tmp2;
 
 	while (envp[i])
 	{
 		if (ft_strnstr(envp[i], "PATH=", 5))
 		{
-			bigpath = ft_split(ft_substr(envp[i], 5, ft_strlen(envp[i])), ':');
+			tmp = ft_strdup(envp[i]);
+			tmp2 = ft_substr(tmp, 5, ft_strlen(envp[i]));
+			free(tmp);
+			bigpath = ft_split(tmp2, ':');
 		}
 		i++;
 	}
+	free(tmp2);
 	return (bigpath);
 }
 

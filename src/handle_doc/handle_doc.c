@@ -39,7 +39,7 @@ void    find_doc(t_data *data, t_token **token)
         }
         if (tmp->type == 3)
         {
-            printf("je suis dans le heredoc\n");
+            data->check_ifdoc = 1;
             exec_heredoc(data, tmp->next->cmd);
             data->flag_doc++;
         }

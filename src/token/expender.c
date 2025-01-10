@@ -34,7 +34,6 @@ char    *final_string(t_env **l_word, t_data *data)
 	result = join_list(l_word);
 	ft_free_list(*l_word);
     return (result);
-
 }
 char *search_dollar(char **str, t_env **l_word, t_data *data)
 {

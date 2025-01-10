@@ -32,11 +32,13 @@ void fill_cmd_node(t_AST *node, t_token **token, int size)
 	int i;
 
 	i = 0;
-	tmp = (*token);
 	while (i < size)
 	{
-		node->cmd[i] = ft_strdup(tmp->cmd);
-		tmp = tmp->next;
+		node->cmd[i] = ft_strdup((*token)->cmd);
+		tmp = (*token);
+		*token = (*token)->next;
+		free(tmp->cmd);
+		free(tmp);
 		i++;
 	}
 	node->cmd[size] = NULL;
@@ -47,8 +49,8 @@ t_AST	*create_node_ast(t_token **token)
 	t_AST	*node;
 
 	node = malloc(sizeof(t_AST));
-	// if (!node)
-	//     return(NULL);
+	if (!node)
+	    return(NULL);
 	node->left = NULL;
 	node->right = NULL;
 	node->cmd = NULL;
@@ -68,6 +70,7 @@ t_AST	*crea_file(t_token **token)
 	node->cmd[0] = ft_strdup((*token)->cmd);
 	node->cmd[1] = NULL;
 	node->type = (*token)->type;
+	free((*token)->cmd);
 	free(*token);
 	return (node);
 }
@@ -75,7 +78,6 @@ t_AST	*crea_file(t_token **token)
 t_AST	*crea_cmd(t_token **token)
 {
 	t_AST	*node;
-	// char *tmp;
 	int size_cmd;
 
 	size_cmd = ft_strlen_node_t((*token));
@@ -84,10 +86,10 @@ t_AST	*crea_cmd(t_token **token)
 	node->cmd = malloc(sizeof(char *) * (size_cmd + 1));
 	node->left = NULL;
 	node->right = NULL;
-	// tmp = ft_strtrim((*token)->cmd, " ");  // a modifier juste apres push parsing
 	fill_cmd_node(node, token, size_cmd);
-	//print_cmd(node->cmd);
-	node->type = (*token)->type;
+	node->type = 5;
+	// free((*token)->cmd);
+	// free(*token);
 	return (node);
 }
 
@@ -98,12 +100,11 @@ t_AST	*crea_red(t_token **token)
 	t_token	*next_token;
 
 	tmp = (*token);
-
 	if(!tmp)
 		return(NULL);
 	if((*token)->type >= 0 && (*token)->type < 4)
 		return(crea_and_redirec(token, tmp));
-	while ((*token)->next)
+	while (*token && (*token)->next)
 	{
 		next_token = (*token)->next;
 		if (next_token->type == 0 || next_token->type == 1 || next_token->type == 3 || next_token->type == 2)
@@ -128,7 +129,7 @@ t_AST	*crea_ast(t_token **token)
 	t_token	*next_token;
 
 	tmp = (*token);
-	while ((*token)->next)
+	while (*token && (*token)->next)
 	{
 		next_token = (*token)->next;
 		if (next_token->type == 4)
