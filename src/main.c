@@ -175,8 +175,9 @@ int	main(int ac, char **av, char **envp) // rajouter variable d env
 			parsing(&input, data, &token);
 			if (token != NULL)
 			{
-			    //print_token(token);
+			    print_token(token);
 				ast = init_ast(&token);
+				print_token(token);
 			// print_ast(ast, 0);  //PRINT_AST a modifier car mnt les cmd sont en char **;
 				ft_exec(data, ast);
 			// ft_free_token(token); // rencontreun probleme avec le free tokens;
