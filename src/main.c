@@ -9,6 +9,7 @@ void control_c(int sig)
     rl_replace_line("", 0);
     rl_on_new_line();
 	rl_redisplay();
+	exit_code = 130;
 }
 
 void control(void)
@@ -17,6 +18,21 @@ void control(void)
 	signal(SIGQUIT, SIG_IGN);
 }
 
+void ft_free_env(t_data *data)
+{
+	t_env *tmp;
+
+
+	while(data->env != NULL)
+	{
+		tmp = data->env;
+		data->env = data->env->next;
+		free(tmp->value);
+		free(tmp->content);
+		free(tmp);
+	}
+	free(data);
+}
 void ft_free_pipe(t_data *data)
 {
 	int i;
@@ -24,12 +40,15 @@ void ft_free_pipe(t_data *data)
 	i = 0;
 	while(i <= data->nbr_pipe)
 	{
-		if(data->pipefd[i][0])
-			close(data->pipefd[i][0]);
-		if(data->pipefd[i][1])
-			close(data->pipefd[i][1]);
-		if(data->pipefd[i][2])
-			close(data->pipefd[i][2]);
+		if(data->check_ifdoc == 1)
+		{
+			if(data->pipefd[i][0])
+				close(data->pipefd[i][0]);
+			if(data->pipefd[i][1])
+				close(data->pipefd[i][1]);
+			if(data->pipefd[i][2])
+				close(data->pipefd[i][2]);
+		}
 		if (data->pipefd[i])
 			free(data->pipefd[i]);
 		i++;
@@ -40,6 +59,7 @@ void ft_free_pipe(t_data *data)
 	data->pipe_doc = 0;
 	data->flag_doc = 0;
 	data->fd_exec = 0;
+	data->check_ifdoc = 0;
 }
 
 void ft_free_ast(t_AST *ast)
@@ -102,6 +122,7 @@ void	init_data(t_data *data, char **envp)
 	data->nbr_pipe = 0;
 	data->pipe_doc = 0;
 	data->flag_doc = 0;
+	data->check_ifdoc = 0;
 	data->fd_exec = 0;
 	data->flag_oldpwd = 0;
 	data->oldpwd = NULL;
@@ -138,8 +159,6 @@ void	parsing(char **input, t_data *data, t_token **token)
 	if(str)
 	{
 		*input = ft_strjoin(*input, str);
-		// ft_free_token2(token);
-		// token = NULL;
 		parsing(input, data, token);
 		free(str);
 		return;
@@ -167,27 +186,28 @@ int	main(int ac, char **av, char **envp) // rajouter variable d env
 		if(!input)
 		{
 			free(input);
+			ft_free_env(data);
 			printf("exit\n");
-			break;
+			exit(exit_code);
 		}
 		if (input[0] != '\0')
 		{
 			parsing(&input, data, &token);
 			if (token != NULL)
 			{
-			    print_token(token);
 				ast = init_ast(&token);
 				print_token(token);
 			// print_ast(ast, 0);  //PRINT_AST a modifier car mnt les cmd sont en char **;
 				ft_exec(data, ast);
 			// ft_free_token(token); // rencontreun probleme avec le free tokens;
-			//free(data);
-				ft_free_ast(ast);  //la commande se retrouve vide;
+			// free(data);
+				ft_free_ast(ast); //la commande se retrouve vide;
 				ft_free_pipe(data);
 			}
 			add_history(input);
-			//free(input); // Libération de la mémoire allouée
+			free(input); // Libération de la mémoire allouée
 		}
 	}
+	ft_free_env(data);
 	return (0);
 }

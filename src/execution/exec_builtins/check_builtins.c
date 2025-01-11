@@ -32,5 +32,10 @@ int check_builtins(char **cmd, t_data *data)
         cd_test(cmd, data);    
         return(1);
     }
+    if(!strcmp(cmd[0], "exit"))
+    {
+        exit_test(cmd);
+        return(1);
+    }
     return(0);
 }
