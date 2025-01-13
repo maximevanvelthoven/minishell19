@@ -126,6 +126,7 @@ void	init_data(t_data *data, char **envp)
 	data->fd_exec = 0;
 	data->flag_oldpwd = 0;
 	data->oldpwd = NULL;
+	// exit_code = 0;
 	data->env = init_env(envp);
 }
 

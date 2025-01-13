@@ -53,7 +53,7 @@ char *search_dollar(char **str, t_env **l_word, t_data *data)
 			else
 			{
 				(*str)++;
-				while (**str != ' ' && **str && **str != '$')
+				while (**str != ' ' && **str && **str != '$' && **str != '\'')
 					(*str)++;
 			}
 			add_to_list(str, tmp, l_word);

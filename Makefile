@@ -22,8 +22,6 @@ LIB_DIR	=	libft42
 
 LIB		=	$(LIB_DIR)/libft.a
 
-.PHONY: all lib clean fclean libclean re
-
 #---------------------------------------------------------#
 NAME	=	minishell
 
@@ -53,3 +51,5 @@ libclean:
 	rm -rf $(LIB)
 
 re: fclean all
+
+.PHONY: all lib clean fclean libclean re

@@ -31,8 +31,6 @@ void	ft_exec(t_data *data, t_AST *node) // envp a retirer car censer ete sauvega
 	else if(node->type == 2) // append
 	    red_append_exec(data, node);
 	else if(node->type == 3) // heredoc
-	{
 		fork_and_exec_doc(data, node);
-	}
 	// potentiellement renvoie NULL pointeur pour je ne sais quelle raison
 }

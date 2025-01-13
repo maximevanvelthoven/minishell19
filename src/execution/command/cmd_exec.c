@@ -8,6 +8,7 @@ char	**get_path(char **envp, int i)
 	char *tmp;
 	char *tmp2;
 
+	bigpath = NULL;
 	while (envp[i])
 	{
 		if (ft_strnstr(envp[i], "PATH=", 5))
@@ -19,6 +20,8 @@ char	**get_path(char **envp, int i)
 		}
 		i++;
 	}
+	if (bigpath == NULL)
+		return (NULL);
 	free(tmp2);
 	return (bigpath);
 }
@@ -37,7 +40,7 @@ char	*get_exec(char **cmd, char **envp, int i)
 	if (!envp[0])
 		return (NULL);
 	bigpath = get_path(envp, 0);
-	while (bigpath && bigpath[i])
+	while (bigpath && bigpath[i] && bigpath != NULL)
 	{
 		tmp = ft_strjoin_cmd(bigpath[i], "/");
 		executable = ft_strjoin_cmd(tmp, cmd[0]);
@@ -50,8 +53,10 @@ char	*get_exec(char **cmd, char **envp, int i)
 		free(executable);
 		i++;
 	}
-	ft_free_cmd(bigpath, NULL, 0);
 	exit_code = 127;
+	if (bigpath == NULL)
+		return(ft_strdup(""));
+	ft_free_cmd(bigpath, NULL, 0);
 	return (ft_strdup(cmd[0]));
 }
 
@@ -68,19 +73,22 @@ void	cmd_exec(t_data *data, t_AST *node)
 	path = get_exec(node->cmd, tmp_env, 0);
 	if (!(pid = fork()))
 	{
+		printf("<%s>\n", path);
 		if (execve(path, node->cmd, tmp_env) == -1)
 		{
+			ft_putstr_fd("bash : ", 2);
+			ft_putstr_fd(node->cmd[0], 2);
 			if (access(path, F_OK) != -1 && path[0] == '/')
 			{
-				ft_putstr_fd(" Is a directory\n", 2);
+				ft_putstr_fd(": Is a directory\n", 2);
 				exit(exit_code);
 			}
-			if (path[0] == '.' || path[0] == '/')
+			if (path[0] == '.' || path[0] == '/' || path[0] == '\0')
 			{
-				ft_putstr_fd(" No such file or directory\n", 2);
+				ft_putstr_fd(": No such file or directory\n", 2);
 				exit(exit_code);
 			}
-			ft_putstr_fd(" command not found\n", 2);
+			ft_putstr_fd(": command not found\n", 2);
 			exit(exit_code);
 		}		
 	}
