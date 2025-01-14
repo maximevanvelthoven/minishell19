@@ -18,7 +18,6 @@ void	control_child(void)
 	signal(SIGQUIT, ctrl_b);
 }
 void	ft_exec(t_data *data, t_AST *node)
-	// envp a retirer car censer ete sauvegarder dans une structure
 {
 	control_child();
 	if (node->type == 4) // |
@@ -33,5 +32,4 @@ void	ft_exec(t_data *data, t_AST *node)
 		red_append_exec(data, node);
 	else if (node->type == 3) // heredoc
 		fork_and_exec_doc(data, node);
-	// potentiellement renvoie NULL pointeur pour je ne sais quelle raison
 }

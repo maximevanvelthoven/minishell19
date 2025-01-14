@@ -15,7 +15,7 @@
 # include <unistd.h>
 
 // variable globale exit status
-extern int			exit_code;
+extern int			g_exit_code;
 
 // pour les types on commence avec des int arbitraire qui seront remplacer par des macros contenu dans une structure
 typedef struct s_env

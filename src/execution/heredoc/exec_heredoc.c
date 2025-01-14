@@ -1,14 +1,5 @@
 #include "test.h"
 
-// void ctrl_c_doc(int sig)
-// {
-//     (void)sig;
-//     //exit_code = 1;
-//     rl_on_new_line();
-// 	rl_redisplay();
-//     exit(1);
-// }
-
 int	find_cote(char *str)
 {
 	int	i;
@@ -78,15 +69,15 @@ void	fork_and_exec_doc(t_data *data, t_AST *node)
 		dup2(data->pipefd[data->fd_exec][0], STDIN_FILENO);
 		ft_exec(data, node->left);
 		close(data->pipefd[data->fd_exec][0]);
-		exit(exit_code);
+		exit(g_exit_code);
 	}
 	else
 		waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
-		exit_code = WEXITSTATUS(status);
+		g_exit_code = WEXITSTATUS(status);
 			// On récupère l'exit code du dernier processus
 	else
-		exit_code = 1;
+		g_exit_code = 1;
 }
 
 void	exec_heredoc(t_data *data, char *delim)

@@ -2,12 +2,11 @@
 
 void	child_left(t_data *data, t_AST *node, int pipefd[2])
 {
-	//control_pipe();
 	dup2(pipefd[1], STDOUT_FILENO);
 	close(pipefd[0]);
 	ft_exec(data, node->left);
 	close(pipefd[1]);
-	exit(exit_code);
+	exit(g_exit_code);
 }
 
 void	child_right(t_data *data, t_AST *node, int pipefd[2])
@@ -16,7 +15,7 @@ void	child_right(t_data *data, t_AST *node, int pipefd[2])
 	close(pipefd[1]);
 	ft_exec(data, node->right);
 	close(pipefd[0]);
-	exit(exit_code);
+	exit(g_exit_code);
 }
 
 void	pipe_exec(t_data *data, t_AST *node)
@@ -44,7 +43,7 @@ void	pipe_exec(t_data *data, t_AST *node)
 	}
 	waitpid(pid_right, &status2, 0);
 	if (WIFEXITED(status2))
-		exit_code = WEXITSTATUS(status2);
+		g_exit_code = WEXITSTATUS(status2);
 	else
-		exit_code = 1;
+		g_exit_code = 1;
 }

@@ -54,7 +54,7 @@ void	replace_var_env(t_env **l_word, t_data *data)
 			if (context->value[1] == '?')
 			{
 				free(context->value);
-				context->value = ft_itoa(exit_code);
+				context->value = ft_itoa(g_exit_code);
 			}
 			else if (context->value[1] == '\0')
 				return ;

@@ -61,7 +61,7 @@ int	check_nbr_args(char **cmd)
 	if (i > 2)
 	{
 		ft_putstr_fd("bash: cd: too many arguments\n", 2);
-		exit_code = 1;
+		g_exit_code = 1;
 		return (0);
 	}
 	return (1);
@@ -126,7 +126,7 @@ void	cd_test(char **cmd, t_data *data)
 			ft_putstr_fd("bash: cd: ", 2);
 			ft_putstr_fd(cmd[1], 2);
 			ft_putstr_fd(": No such file or directory\n", 2);
-			exit_code = 1;
+			g_exit_code = 1;
 			return ;
 		}
 	}

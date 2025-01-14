@@ -1,19 +1,5 @@
 #include "test.h"
 
-// void heredoc_signal_handler(int sig)
-// {
-//     (void)sig;
-//     printf("\n");
-//     rl_replace_line("", 0);
-//     rl_on_new_line();
-// 	rl_redisplay();
-// }
-
-// void control_heredoc(void)
-// {
-//     signal(SIGINT, heredoc_signal_handler);  // Pour les heredocs
-// }
-
 void	set_pipe(t_data *data)
 {
 	int	i;

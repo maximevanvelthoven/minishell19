@@ -53,24 +53,24 @@ void	exit_test(char **cmd)
 
 	printf("exit\n");
 	if (!cmd[1])
-		exit(exit_code);
+		exit(g_exit_code);
 	if (cmd[1])
 	{
 		number = ft_atol(cmd[1]);
 		if (!isalpha_exit(cmd[1], 0) && (number != 0 && ft_strlen(cmd[1]) != 1))
-			exit_code = (number % 256);
+			g_exit_code = (number % 256);
 		else
 		{
-			exit_code = 2;
+			g_exit_code = 2;
 			ft_putstr_fd("bash : exit : ", 2);
 			ft_putstr_fd(cmd[1], 2);
 			ft_putstr_fd(" argument not numerik\n", 2);
 		}
 	}
-	if (cmd[2] && exit_code != 2)
+	if (cmd[2] && g_exit_code != 2)
 	{
-		exit_code = 1;
+		g_exit_code = 1;
 		ft_putstr_fd("bash : exit : too many argument\n", 2);
 	}
-	exit(exit_code);
+	exit(g_exit_code);
 }

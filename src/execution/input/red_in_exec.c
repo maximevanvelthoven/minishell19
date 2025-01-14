@@ -10,7 +10,7 @@ void	red_in_exec(t_data *data, t_AST *node)
 		ft_putstr_fd("bash: ", 2);
 		ft_putstr_fd(node->right->cmd[0], 2);
 		ft_putstr_fd(": No such file or directory\n", 2);
-		exit_code = 1;
+		g_exit_code = 1;
 		return ;
 	}
 	if (!(pid = fork()))
@@ -19,12 +19,12 @@ void	red_in_exec(t_data *data, t_AST *node)
 		if (node->left)
 			ft_exec(data, node->left);
 		close(data->FD_IN);
-		exit(exit_code);
+		exit(g_exit_code);
 	}
 	else
 		waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
-		exit_code = WEXITSTATUS(status);
+		g_exit_code = WEXITSTATUS(status);
 	else
-		exit_code = 1;
+		g_exit_code = 1;
 }

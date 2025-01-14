@@ -53,7 +53,6 @@ t_env	*create_node_env(char *str, t_env **list)
 			current = current->next;
 		current->next = node;
 	}
-	// free(str);
 	return (node);
 }
 
@@ -62,7 +61,6 @@ t_env	*init_env(char **envp)
 	int		i;
 	t_env	*env;
 
-	// t_env	*current; utiliser pour print si necessaire
 	i = 0;
 	env = NULL;
 	while (envp[i])
@@ -70,12 +68,5 @@ t_env	*init_env(char **envp)
 		create_node_env(envp[i], &env);
 		i++;
 	}
-	// current = env;
-	// while (current)
-	// {
-	// 	printf("value : %s   content : %s \n", current->value,
-	// 		current->content);
-	// 	current = current->next;
-	// }
 	return (env);
 }

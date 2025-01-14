@@ -34,7 +34,7 @@ char	*get_exec(char **cmd, char **envp, int i)
 
 	if (access(cmd[0], X_OK) != -1)
 	{
-		exit_code = 126;
+		g_exit_code = 126;
 		return (ft_strdup(cmd[0]));
 	}
 	if (!envp[0])
@@ -53,7 +53,7 @@ char	*get_exec(char **cmd, char **envp, int i)
 		free(executable);
 		i++;
 	}
-	exit_code = 127;
+	g_exit_code = 127;
 	if (bigpath == NULL)
 		return (ft_strdup(""));
 	ft_free_cmd(bigpath, NULL, 0);
@@ -80,20 +80,20 @@ void	cmd_exec(t_data *data, t_AST *node)
 			if (access(path, F_OK) != -1 && path[0] == '/')
 			{
 				ft_putstr_fd(": Is a directory\n", 2);
-				exit(exit_code);
+				exit(g_exit_code);
 			}
 			if (path[0] == '.' || path[0] == '/' || path[0] == '\0')
 			{
 				ft_putstr_fd(": No such file or directory\n", 2);
-				exit(exit_code);
+				exit(g_exit_code);
 			}
 			ft_putstr_fd(": command not found\n", 2);
-			exit(exit_code);
+			exit(g_exit_code);
 		}
 	}
 	else
 		waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
-		exit_code = WEXITSTATUS(status);
+		g_exit_code = WEXITSTATUS(status);
 	ft_free_cmd(tmp_env, path, 0);
 }

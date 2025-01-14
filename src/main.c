@@ -1,6 +1,6 @@
 #include "test.h"
 
-int		exit_code = 0;
+int		g_exit_code = 0;
 
 void	control_c(int sig)
 {
@@ -9,7 +9,7 @@ void	control_c(int sig)
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
-	exit_code = 130;
+	g_exit_code = 130;
 }
 
 void	control(void)
@@ -187,7 +187,7 @@ int	main(int ac, char **av, char **envp)
 			free(input);
 			ft_free_env(data);
 			printf("exit\n");
-			exit(exit_code);
+			exit(g_exit_code);
 		}
 		if (input[0] != '\0')
 		{
