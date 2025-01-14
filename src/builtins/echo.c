@@ -19,7 +19,7 @@ void echo_test(char **cmd)
 
   i = 1;
   flag = 0;
-  while(cmd[i] && !strcmp(cmd[i], "-n"))
+  while(cmd[i] && !ft_strcmp(cmd[i], "-n"))
   {
      i++;
      flag += 1;

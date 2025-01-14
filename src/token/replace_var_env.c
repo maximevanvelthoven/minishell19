@@ -15,7 +15,7 @@ int	check_env_value(t_env **l_word, t_data *data)
 	// {
 		while (tmp)
 		{
-			if (!strcmp((*l_word)->value, tmp->value))
+			if (!ft_strcmp((*l_word)->value, tmp->value))
 				return (1);
 			tmp = tmp->next;
 		}
@@ -35,7 +35,7 @@ void	replace_node(t_env **l_word, t_data *data)
 	context->value = ft_strtrim(context->value, "$");
 	while (tmp)
 	{
-		if (!strcmp(tmp->value, context->value))
+		if (!ft_strcmp(tmp->value, context->value))
 		{
 			free(context->value);
 			context->value = ft_strdup(tmp->content);

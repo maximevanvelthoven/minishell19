@@ -18,15 +18,15 @@ void	handle_cote(char **str)
 
 int	findtype(char *str)
 {
-	if (!strcmp(str, "<"))
+	if (!ft_strcmp(str, "<"))
 		return (0);
-	else if (!strcmp(str, ">"))
+	else if (!ft_strcmp(str, ">"))
 		return (1);
-	else if (!strcmp(str, ">>"))
+	else if (!ft_strcmp(str, ">>"))
 		return (2);
-	else if (!strcmp(str, "<<"))
+	else if (!ft_strcmp(str, "<<"))
 		return (3);
-	else if (!strcmp(str, "|"))
+	else if (!ft_strcmp(str, "|"))
 		return (4);
 	else
 		return (5);
@@ -97,7 +97,7 @@ char	*replace_tild(t_data *data)
 	result = NULL;
 	while (data->env)
 	{
-		if (!strcmp(data->env->value, "HOME"))
+		if (!ft_strcmp(data->env->value, "HOME"))
 		{
 			result = ft_strdup(data->env->content);
 			return (result);
