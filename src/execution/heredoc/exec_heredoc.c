@@ -49,7 +49,7 @@ void prepare_to_heredoc(char *str, int type, t_data *data)
     while(1)
     {
         input = readline("> ");
-        if(!input || !strcmp(str, input))
+        if(!input || !ft_strcmp(str, input))
         {
             if(!input)
                 printf("ERROR WAS WAITING FOR '%s' BUT STILL EOF\n", str);

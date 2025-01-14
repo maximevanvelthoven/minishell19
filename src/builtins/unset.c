@@ -9,7 +9,7 @@ void check_var_exist(t_data *data, char *str)
     while(env->next)
     {
         current = env->next;
-        if(!strcmp(current->value, str))
+        if(!ft_strcmp(current->value, str))
         {
             env->next = current->next;
             free(current->value);
@@ -30,7 +30,7 @@ void ft_unset(char **cmd, t_data *data)
         return;
     while(cmd[i])
     {
-        if(!strcmp(cmd[i], "OLDPWD"))
+        if(!ft_strcmp(cmd[i], "OLDPWD"))
             data->flag_oldpwd = 1;
         check_var_exist(data, cmd[i]);
         i++;

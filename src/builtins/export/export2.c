@@ -24,7 +24,7 @@ void check_exist(t_data *data, char **str, int type)
     env = data->env;
     while(env)
     {
-        if(!strcmp(env->value, str[0]))
+        if(!ft_strcmp(env->value, str[0]))
         {
             if(type == 2)
             {
@@ -66,7 +66,7 @@ char **get_argument(char *str, int type, t_data *data)
         tmp[0] = ft_strndup(0, find_equal(str) - 1, str);
         tmp[1] = ft_strndup(find_equal(str) + 1, size - find_equal(str), str);
     }
-    if(!strcmp(tmp[0], "OLDPWD"))
+    if(!ft_strcmp(tmp[0], "OLDPWD"))
         data->flag_oldpwd = 0;
     tmp[2] = NULL;
     return(tmp);

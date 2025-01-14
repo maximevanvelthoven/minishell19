@@ -115,7 +115,7 @@ void cd_test(char **cmd, t_data *data)
     getcwd(pwd, sizeof(pwd));
     if (!cmd[1])
         cd_no_args(data);
-    else if(!strcmp(cmd[1], "-"))
+    else if(!ft_strcmp(cmd[1], "-"))
         oldpwd(data);
     else
     {
@@ -131,7 +131,7 @@ void cd_test(char **cmd, t_data *data)
         }
     }
     getcwd(tmp, sizeof(tmp));
-    if (strcmp(tmp, pwd))
+    if (ft_strcmp(tmp, pwd))
     {
         set_new_pwd(data, tmp);
         if(data->flag_oldpwd == 0)
