@@ -62,7 +62,6 @@ void replace_var_env(t_env **l_word, t_data *data)
 			{
 				free(context->value);
 				context->value = ft_itoa(exit_code);
-				//replace_node(&context, data);
 			}
 			else if (context->value[1] == '\0')
 				return;
