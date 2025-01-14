@@ -167,13 +167,13 @@ void	parsing(char **input, t_data *data, t_token **token)
 	handle_doc(data, token);
 }
 
-int	main(int ac, char **av, char **envp) // rajouter variable d env
+int	main(int ac, char **av, char **envp)
 {
 	t_data	*data;
 	char	*input;
 	t_token *token;
 	t_AST *ast;
-	(void)av;  // set a void car jamais utiliser tout se fait via l input
+	(void)av;
 	data = malloc(sizeof(t_data));
 	init_data(data, envp);
 	while (1)
@@ -188,6 +188,7 @@ int	main(int ac, char **av, char **envp) // rajouter variable d env
 		{
 			free(input);
 			ft_free_env(data);
+			ft_free_token(token);
 			printf("exit\n");
 			exit(exit_code);
 		}
@@ -197,15 +198,12 @@ int	main(int ac, char **av, char **envp) // rajouter variable d env
 			if (token != NULL)
 			{
 				ast = init_ast(&token);
-				// print_token(token);
-			// print_ast(ast, 0);  //PRINT_AST a modifier car mnt les cmd sont en char **;
 				ft_exec(data, ast);
-			// ft_free_token(token); // rencontreun probleme avec le free tokens;
-				ft_free_ast(ast); //la commande se retrouve vide;
+				ft_free_ast(ast);
 				ft_free_pipe(data);
 			}
 			add_history(input);
-			free(input); // Libération de la mémoire allouée
+			free(input);
 		}
 	}
 	ft_free_env(data);

@@ -1,26 +1,26 @@
 #include "test.h"
 
 
-int	check_env_value(t_env *l_word, t_data *data)
+int	check_env_value(t_env **l_word, t_data *data)
 {
 	t_env	*tmp;
 	char	*trimmed;
 
 	tmp = data->env;
-	trimmed = ft_strtrim(l_word->value, "$");
-	free(l_word->value);
-	l_word->value = trimmed;
-	while (l_word)
-	{
+	trimmed = ft_strtrim((*l_word)->value, "$");
+	free((*l_word)->value);
+	(*l_word)->value = ft_strdup(trimmed);
+	free(trimmed);
+	// while (*l_word)
+	// {
 		while (tmp)
 		{
-			if (!strcmp(l_word->value, tmp->value))
+			if (!strcmp((*l_word)->value, tmp->value))
 				return (1);
 			tmp = tmp->next;
 		}
-		l_word = l_word->next;
-	}
-	free(trimmed);
+	// 	*l_word = (*l_word)->next;
+	// }
 	return (0);
 }
 
@@ -62,7 +62,7 @@ void replace_var_env(t_env **l_word, t_data *data)
 			}
 			else if (context->value[1] == '\0')
 				return;
-			else if (check_env_value(context, data))
+			else if (check_env_value(&context, data))
 				replace_node(&context, data);
 			else
 			{
