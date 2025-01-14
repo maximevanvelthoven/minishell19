@@ -73,7 +73,7 @@ int	lexing(char *input)
 	char	*trimmed_input;
 
 	trimmed_input = ft_strtrim(input, "\f\t\r\n\v ");
-	if (check_cote(trimmed_input)) //check si quote bien ferme
+	if (check_cote(trimmed_input))
 	{
 		ft_putendl_fd("problem with Quote", 2);
 		free(trimmed_input);

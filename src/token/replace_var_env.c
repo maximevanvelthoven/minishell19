@@ -10,16 +10,12 @@ int	check_env_value(t_env **l_word, t_data *data)
 	free((*l_word)->value);
 	(*l_word)->value = ft_strdup(trimmed);
 	free(trimmed);
-	// while (*l_word)
-	// {
 	while (tmp)
 	{
 		if (!ft_strcmp((*l_word)->value, tmp->value))
 			return (1);
 		tmp = tmp->next;
 	}
-	// 	*l_word = (*l_word)->next;
-	// }
 	return (0);
 }
 

@@ -8,8 +8,6 @@ void	add_to_list(char **str, char *tmp, t_env **l_word)
 	result = NULL;
 	len = *str - tmp;
 	result = strndup(tmp, len);
-	// printf("%s in add to list\n", result);
-	// printf("tmp = %c str = %s\n", *tmp, *str);
 	init_l_word(result, l_word);
 	free(result);
 }
@@ -74,7 +72,7 @@ char	*quote(char **str, int c)
 		(*str)++;
 	(*str)++;
 	len = *str - tmp;
-	result = strndup(tmp, len); //malloc une partie de l'entierte du mot
+	result = strndup(tmp, len);
 	return (result);
 }
 
@@ -115,7 +113,7 @@ char	*cut_word(char **str, t_data *data)
 		if (c == '"')
 		{
 			trimmed = ft_strtrim(result, "\"");
-			free(result); //liberation de result quand encore cote
+			free(result);
 			tmp = trimmed;
 			result = search_dollar(&trimmed, &dollar_list, data);
 			free(tmp);
@@ -141,7 +139,6 @@ char	*expender(char **str, t_data *data)
 	while (**str)
 	{
 		tmp = cut_word(str, data);
-			//malloc le mot en plusieur mot en fonction des cote
 		init_l_word(tmp, &final_string);
 		free(tmp);
 	}

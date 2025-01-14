@@ -143,10 +143,10 @@ void	parsing(char **input, t_data *data, t_token **token)
 {
 	char	*str;
 
-	if (lexing(*input)) //si errerur mssg error si msg erreur return (return);
+	if (lexing(*input))
+		return;
 	init_token(*input, token, data);
 	if (check_list_token(*token))
-	//pour double pipe,>>>... si pas bon free token + return
 	{
 		ft_free_token2(token);
 		token = NULL;
@@ -186,7 +186,6 @@ int	main(int ac, char **av, char **envp)
 		{
 			free(input);
 			ft_free_env(data);
-			ft_free_token(token);
 			printf("exit\n");
 			exit(exit_code);
 		}
