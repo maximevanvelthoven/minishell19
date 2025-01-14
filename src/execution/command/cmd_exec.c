@@ -73,7 +73,6 @@ void	cmd_exec(t_data *data, t_AST *node)
 	path = get_exec(node->cmd, tmp_env, 0);
 	if (!(pid = fork()))
 	{
-		printf("<%s>\n", path);
 		if (execve(path, node->cmd, tmp_env) == -1)
 		{
 			ft_putstr_fd("bash : ", 2);

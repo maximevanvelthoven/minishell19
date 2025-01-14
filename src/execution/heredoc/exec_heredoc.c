@@ -45,6 +45,7 @@ void prepare_to_heredoc(char *str, int type, t_data *data)
     char *input;
     char *realinput;
 
+    (void)str;
     while(1)
     {
         input = readline("> ");

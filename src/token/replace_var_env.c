@@ -4,9 +4,12 @@
 int	check_env_value(t_env *l_word, t_data *data)
 {
 	t_env	*tmp;
+	char	*trimmed;
 
 	tmp = data->env;
-	l_word->value = ft_strtrim(l_word->value, "$");
+	trimmed = ft_strtrim(l_word->value, "$");
+	free(l_word->value);
+	l_word->value = trimmed;
 	while (l_word)
 	{
 		while (tmp)
@@ -17,6 +20,7 @@ int	check_env_value(t_env *l_word, t_data *data)
 		}
 		l_word = l_word->next;
 	}
+	free(trimmed);
 	return (0);
 }
 
@@ -54,7 +58,6 @@ void replace_var_env(t_env **l_word, t_data *data)
 			{
 				free(context->value);
 				context->value = ft_strdup(ft_itoa(exit_code));
-				// printf("exit code %s\n", context->value);
 				replace_node(&context, data);
 			}
 			else if (context->value[1] == '\0')

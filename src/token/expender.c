@@ -85,6 +85,7 @@ char    *inter_quote(char **str, t_data *data)
     char    *result;
     t_env  *dollar_list;
     char    *tmp1;
+    char    *tmp2;
 
     dollar_list = NULL;
     tmp = *str;
@@ -92,8 +93,9 @@ char    *inter_quote(char **str, t_data *data)
         (*str)++;
     len = *str - tmp;
     tmp1 = strndup(tmp, len);
+    tmp2 = tmp1;
     result = search_dollar(&tmp1, &dollar_list, data);
-    // free(tmp1);
+    free(tmp2);
     return (result);
 }
 
@@ -103,6 +105,7 @@ char    *cut_word(char **str, t_data *data)
     char    *result;
     char    *trimmed;
     t_env  *dollar_list;
+    char    *tmp;
 
     dollar_list = NULL;
     c = **str;
@@ -113,7 +116,9 @@ char    *cut_word(char **str, t_data *data)
         {
             trimmed = ft_strtrim(result, "\"");
             free(result); //liberation de result quand encore cote
+            tmp = trimmed;
             result = search_dollar(&trimmed, &dollar_list, data);
+            free(tmp);
         }
         else
         {

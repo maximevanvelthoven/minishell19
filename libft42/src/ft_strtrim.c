@@ -6,7 +6,7 @@
 /*   By: ssoumill <ssoumill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 14:05:58 by mvan-vel          #+#    #+#             */
-/*   Updated: 2024/12/13 17:46:22 by ssoumill         ###   ########.fr       */
+/*   Updated: 2025/01/14 14:07:47 by ssoumill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ char	*ft_strtrim(char const *s1, char const *set)
 {
 	size_t	start;
 	size_t	end;
+	char	*str;
 
 	if (!s1 || !set)
 		return (NULL);
@@ -25,7 +26,8 @@ char	*ft_strtrim(char const *s1, char const *set)
 		start++;
 	while ((ft_strchr(set, s1[end])) && end > start)
 		end--;
-	return (ft_substr(s1, start, end - start + 1));
+	str = ft_substr(s1, start, end - start + 1);
+	return (str);
 }
 // #include <stdio.h>
 // int main (void)
