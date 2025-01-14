@@ -25,9 +25,9 @@ void	pipe_exec(t_data *data, t_AST *node)
 	int	pid_left;
 	int	pid_right;
 	int	status1;
-	int status2;
+	int	status2;
 
-	if((pipe(pipefd)) == -1)
+	if ((pipe(pipefd)) == -1)
 	{
 		ft_putstr_fd("Broken pipe\n", 2);
 		exit(1);

@@ -10,26 +10,25 @@
 // 	}
 // }
 
-int ft_strlen_node_t(t_token *node)
+int	ft_strlen_node_t(t_token *node)
 {
-    t_token *current;
-    int i;
+	t_token	*current;
+	int		i;
 
-    i = 0;
-    current = node;
-    while(current)
-    {
-        i++;
-        current = current->next;
-    }
-    return(i);
+	i = 0;
+	current = node;
+	while (current)
+	{
+		i++;
+		current = current->next;
+	}
+	return (i);
 }
 
-
-void fill_cmd_node(t_AST *node, t_token **token, int size)
+void	fill_cmd_node(t_AST *node, t_token **token, int size)
 {
-	t_token *tmp;
-	int i;
+	t_token	*tmp;
+	int		i;
 
 	i = 0;
 	while (i < size)
@@ -50,7 +49,7 @@ t_AST	*create_node_ast(t_token **token)
 
 	node = malloc(sizeof(t_AST));
 	if (!node)
-	    return(NULL);
+		return (NULL);
 	node->left = NULL;
 	node->right = NULL;
 	node->cmd = NULL;
@@ -78,11 +77,10 @@ t_AST	*crea_file(t_token **token)
 t_AST	*crea_cmd(t_token **token)
 {
 	t_AST	*node;
-	int size_cmd;
+	int		size_cmd;
 
 	size_cmd = ft_strlen_node_t((*token));
 	node = malloc(sizeof(t_AST));
-	// il faudra malloc pour la cmd un double tab avec cmd1 et tous ses arg + 1 prc NULL pr execve
 	node->cmd = malloc(sizeof(char *) * (size_cmd + 1));
 	node->left = NULL;
 	node->right = NULL;
@@ -100,14 +98,15 @@ t_AST	*crea_red(t_token **token)
 	t_token	*next_token;
 
 	tmp = (*token);
-	if(!tmp)
-		return(NULL);
-	if((*token)->type >= 0 && (*token)->type < 4)
-		return(crea_and_redirec(token, tmp));
+	if (!tmp)
+		return (NULL);
+	if ((*token)->type >= 0 && (*token)->type < 4)
+		return (crea_and_redirec(token, tmp));
 	while (*token && (*token)->next)
 	{
 		next_token = (*token)->next;
-		if (next_token->type == 0 || next_token->type == 1 || next_token->type == 3 || next_token->type == 2)
+		if (next_token->type == 0 || next_token->type == 1
+			|| next_token->type == 3 || next_token->type == 2)
 		{
 			node = create_node_ast(&next_token);
 			(*token)->next = next_token->next->next;

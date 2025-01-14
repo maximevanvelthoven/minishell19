@@ -1,29 +1,28 @@
 #include "test.h"
 
-int exit_code = 0;
+int		exit_code = 0;
 
-void control_c(int sig)
+void	control_c(int sig)
 {
-    (void)sig;
+	(void)sig;
 	printf("\n");
-    rl_replace_line("", 0);
-    rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_on_new_line();
 	rl_redisplay();
 	exit_code = 130;
 }
 
-void control(void)
+void	control(void)
 {
-    signal(SIGINT, control_c);
+	signal(SIGINT, control_c);
 	signal(SIGQUIT, SIG_IGN);
 }
 
-void ft_free_env(t_data *data)
+void	ft_free_env(t_data *data)
 {
-	t_env *tmp;
+	t_env	*tmp;
 
-
-	while(data->env != NULL)
+	while (data->env != NULL)
 	{
 		tmp = data->env;
 		data->env = data->env->next;
@@ -33,20 +32,21 @@ void ft_free_env(t_data *data)
 	}
 	free(data);
 }
-void ft_free_pipe(t_data *data)
+
+void	ft_free_pipe(t_data *data)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while(i <= data->nbr_pipe)
+	while (i <= data->nbr_pipe)
 	{
-		if(data->check_ifdoc == 1)
+		if (data->check_ifdoc == 1)
 		{
-			if(data->pipefd[i][0])
+			if (data->pipefd[i][0])
 				close(data->pipefd[i][0]);
-			if(data->pipefd[i][1])
+			if (data->pipefd[i][1])
 				close(data->pipefd[i][1]);
-			if(data->pipefd[i][2])
+			if (data->pipefd[i][2])
 				close(data->pipefd[i][2]);
 		}
 		if (data->pipefd[i])
@@ -62,16 +62,16 @@ void ft_free_pipe(t_data *data)
 	data->check_ifdoc = 0;
 }
 
-void ft_free_ast(t_AST *ast)
+void	ft_free_ast(t_AST *ast)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	if(!ast)
-		return;
-	if(ast->type == 5 && ast->cmd)
+	if (!ast)
+		return ;
+	if (ast->type == 5 && ast->cmd)
 	{
-		while(ast->cmd[i])
+		while (ast->cmd[i])
 		{
 			free(ast->cmd[i]);
 			i++;
@@ -85,11 +85,11 @@ void ft_free_ast(t_AST *ast)
 	free(ast);
 }
 
-void ft_free_token(t_token *token)
+void	ft_free_token(t_token *token)
 {
-	t_token *tmp;
+	t_token	*tmp;
 
-	while(token != NULL)
+	while (token != NULL)
 	{
 		tmp = token;
 		token = token->next;
@@ -98,11 +98,11 @@ void ft_free_token(t_token *token)
 	}
 }
 
-void ft_free_token2(t_token **token)
+void	ft_free_token2(t_token **token)
 {
-	t_token *tmp;
+	t_token	*tmp;
 
-	while(*token != NULL)
+	while (*token != NULL)
 	{
 		tmp = *token;
 		*token = (*token)->next;
@@ -110,8 +110,6 @@ void ft_free_token2(t_token **token)
 		free(tmp);
 	}
 }
-///////////// A VERIFIER !!
-
 
 void	init_data(t_data *data, char **envp)
 {
@@ -126,7 +124,6 @@ void	init_data(t_data *data, char **envp)
 	data->fd_exec = 0;
 	data->flag_oldpwd = 0;
 	data->oldpwd = NULL;
-	// exit_code = 0;
 	data->env = init_env(envp);
 }
 
@@ -140,29 +137,29 @@ void	print_token(t_token *token)
 		printf("token = %s type %d\n", current->cmd, current->type);
 		current = current->next;
 	}
-} 
+}
 
 void	parsing(char **input, t_data *data, t_token **token)
 {
-	char *str;
+	char	*str;
 
-	if (lexing(*input)) //si errerur mssg error si msg erreur return
-		return;
+	if (lexing(*input)) //si errerur mssg error si msg erreur return (return);
 	init_token(*input, token, data);
-	if (check_list_token(*token)) 	//pour double pipe,>>>... si pas bon free token + return
+	if (check_list_token(*token))
+	//pour double pipe,>>>... si pas bon free token + return
 	{
 		ft_free_token2(token);
 		token = NULL;
 		ft_putendl_fd("Bad input in check_list_token", 2);
-		return;
+		return ;
 	}
 	str = last_check(*token);
-	if(str)
+	if (str)
 	{
 		*input = ft_strjoin(*input, str);
 		parsing(input, data, token);
 		free(str);
-		return;
+		return ;
 	}
 	handle_doc(data, token);
 }
@@ -171,8 +168,9 @@ int	main(int ac, char **av, char **envp)
 {
 	t_data	*data;
 	char	*input;
-	t_token *token;
-	t_AST *ast;
+	t_token	*token;
+	t_AST	*ast;
+
 	(void)av;
 	data = malloc(sizeof(t_data));
 	init_data(data, envp);
@@ -184,7 +182,7 @@ int	main(int ac, char **av, char **envp)
 		if (ac != 1)
 			break ;
 		input = readline("> minishell ");
-		if(!input)
+		if (!input)
 		{
 			free(input);
 			ft_free_env(data);

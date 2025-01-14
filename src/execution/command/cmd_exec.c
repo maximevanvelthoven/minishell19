@@ -1,12 +1,12 @@
 #include "test.h"
 
-struct stat file_info;
+struct stat	file_info;
 
 char	**get_path(char **envp, int i)
 {
 	char	**bigpath;
-	char *tmp;
-	char *tmp2;
+	char	*tmp;
+	char	*tmp2;
 
 	bigpath = NULL;
 	while (envp[i])
@@ -44,10 +44,10 @@ char	*get_exec(char **cmd, char **envp, int i)
 	{
 		tmp = ft_strjoin_cmd(bigpath[i], "/");
 		executable = ft_strjoin_cmd(tmp, cmd[0]);
-		if (access(executable, X_OK) != -1)   // potentiel de double free avec join qui free retirer les free tmp
+		if (access(executable, X_OK) != -1)
 		{
 			ft_free_cmd(bigpath, tmp, 0);
-			return(executable);
+			return (executable);
 		}
 		free(tmp);
 		free(executable);
@@ -55,7 +55,7 @@ char	*get_exec(char **cmd, char **envp, int i)
 	}
 	exit_code = 127;
 	if (bigpath == NULL)
-		return(ft_strdup(""));
+		return (ft_strdup(""));
 	ft_free_cmd(bigpath, NULL, 0);
 	return (ft_strdup(cmd[0]));
 }
@@ -65,10 +65,10 @@ void	cmd_exec(t_data *data, t_AST *node)
 	int		pid;
 	char	*path;
 	char	**tmp_env;
-	int status;
+	int		status;
 
 	if (check_builtins(node->cmd, data))
-		return;
+		return ;
 	tmp_env = get_real_env(data, 0);
 	path = get_exec(node->cmd, tmp_env, 0);
 	if (!(pid = fork()))
@@ -89,11 +89,11 @@ void	cmd_exec(t_data *data, t_AST *node)
 			}
 			ft_putstr_fd(": command not found\n", 2);
 			exit(exit_code);
-		}		
+		}
 	}
 	else
 		waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
-		exit_code = WEXITSTATUS(status); // On récupère l'exit code du dernier processus
+		exit_code = WEXITSTATUS(status);
 	ft_free_cmd(tmp_env, path, 0);
 }

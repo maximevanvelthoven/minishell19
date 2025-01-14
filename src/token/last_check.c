@@ -10,18 +10,18 @@ t_token	*find_last_tok(t_token *token)
 	return (last_node);
 }
 
-char   *last_check(t_token *token)
+char	*last_check(t_token *token)
 {
-    t_token *last_token;
-    char    *new_input;
+	t_token *last_token;
+	char *new_input;
 
-    if (!token)
-        return (NULL);
-    last_token = find_last_tok(token);
-    if (last_token->type == 4)
-    {
-        new_input = readline("> ");
-        return (new_input);
-    }
-    return (NULL);
+	if (!token)
+		return (NULL);
+	last_token = find_last_tok(token);
+	if (last_token->type == 4)
+	{
+		new_input = readline("> ");
+		return (new_input);
+	}
+	return (NULL);
 }

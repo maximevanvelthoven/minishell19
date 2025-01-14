@@ -61,8 +61,8 @@ t_env	*init_env(char **envp)
 {
 	int		i;
 	t_env	*env;
-	// t_env	*current; utiliser pour print si necessaire
 
+	// t_env	*current; utiliser pour print si necessaire
 	i = 0;
 	env = NULL;
 	while (envp[i])

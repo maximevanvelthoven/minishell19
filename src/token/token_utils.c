@@ -87,13 +87,13 @@ char	*join_list(t_env **l_word)
 		tmp = ft_strjoin(tmp, context->value);
 		context = context->next;
 	}
-	return(tmp);
+	return (tmp);
 }
 
 char	*replace_tild(t_data *data)
 {
 	char	*result;
-	
+
 	result = NULL;
 	while (data->env)
 	{
@@ -106,9 +106,9 @@ char	*replace_tild(t_data *data)
 	}
 	return (NULL);
 }
-int		check_last_token(t_token **token)
+int	check_last_token(t_token **token)
 {
-	t_token *tmp;
+	t_token	*tmp;
 
 	if (!(*token))
 		return (0);
@@ -120,15 +120,13 @@ int		check_last_token(t_token **token)
 	return (0);
 }
 
-
-int     cote_word(char  *str)
+int	cote_word(char *str)
 {
-    while (*str)
-    {
-        if (*str == '"' || *str == '\'')
-            return (1);
-        str++;
-    }
-    return (0);
+	while (*str)
+	{
+		if (*str == '"' || *str == '\'')
+			return (1);
+		str++;
+	}
+	return (0);
 }
-

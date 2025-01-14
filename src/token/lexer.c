@@ -1,6 +1,6 @@
 #include "test.h"
 
-int	check_word(char	*word)
+int	check_word(char *word)
 {
 	while (*word)
 	{
@@ -11,7 +11,7 @@ int	check_word(char	*word)
 	return (0);
 }
 
-int	check_caract(char	*str)
+int	check_caract(char *str)
 {
 	char	*tmp;
 	char	*word;
@@ -68,12 +68,12 @@ int	check_cote(char *str)
 	return (0);
 }
 
-int lexing(char *input)
+int	lexing(char *input)
 {
-    char    *trimmed_input;
+	char	*trimmed_input;
 
-    trimmed_input = ft_strtrim(input, "\f\t\r\n\v ");
-    if (check_cote(trimmed_input)) //check si quote bien ferme
+	trimmed_input = ft_strtrim(input, "\f\t\r\n\v ");
+	if (check_cote(trimmed_input)) //check si quote bien ferme
 	{
 		ft_putendl_fd("problem with Quote", 2);
 		free(trimmed_input);
@@ -86,5 +86,5 @@ int lexing(char *input)
 		return (1);
 	}
 	free(trimmed_input);
-	return(0);
+	return (0);
 }

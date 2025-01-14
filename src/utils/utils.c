@@ -2,9 +2,9 @@
 
 void	print_ast(t_AST *ast, int depth)
 {
-    t_AST *tmp;
+	t_AST	*tmp;
 
-    tmp = ast;
+	tmp = ast;
 	if (!tmp)
 	{
 		printf("bien free\n");
@@ -14,8 +14,8 @@ void	print_ast(t_AST *ast, int depth)
 	for (int i = 0; i < depth; i++)
 		printf("    ");
 	// Affichage du type et de la commande
-	//printf("Type: %d, Command: <%s> <%s>\n", ast->type, ast->cmd[0], ast->cmd[1]);
-    printf("Type: %d, Command: <%s>\n", tmp->type, tmp->cmd[0]);
+	//printf("Type: %d, Command: <%s> <%s>\n", ast->type, ast->cmd[0],ast->cmd[1]);
+	printf("Type: %d, Command: <%s>\n", tmp->type, tmp->cmd[0]);
 	// Appels récursifs pour les sous-nœuds gauche et droit
 	if (tmp->left)
 	{
@@ -33,16 +33,16 @@ void	print_ast(t_AST *ast, int depth)
 	}
 }
 
-void ft_free_list(t_env *list)
+void	ft_free_list(t_env *list)
 {
-	t_env *tmp;
+	t_env	*tmp;
 
-	while(list != NULL)
+	while (list != NULL)
 	{
 		tmp = list;
 		list = list->next;
-        // if (tmp->content)
-        //     free(tmp->content);
+		// if (tmp->content)
+		//     free(tmp->content);
 		free(tmp->value);
 		free(tmp);
 	}

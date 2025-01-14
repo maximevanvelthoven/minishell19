@@ -1,6 +1,5 @@
 #include "test.h"
 
-
 int	check_env_value(t_env **l_word, t_data *data)
 {
 	t_env	*tmp;
@@ -13,22 +12,21 @@ int	check_env_value(t_env **l_word, t_data *data)
 	free(trimmed);
 	// while (*l_word)
 	// {
-		while (tmp)
-		{
-			if (!ft_strcmp((*l_word)->value, tmp->value))
-				return (1);
-			tmp = tmp->next;
-		}
+	while (tmp)
+	{
+		if (!ft_strcmp((*l_word)->value, tmp->value))
+			return (1);
+		tmp = tmp->next;
+	}
 	// 	*l_word = (*l_word)->next;
 	// }
 	return (0);
 }
 
-
 void	replace_node(t_env **l_word, t_data *data)
 {
-	t_env *context;
-	t_env *tmp;
+	t_env	*context;
+	t_env	*tmp;
 	char	*trimmed;
 
 	tmp = data->env;
@@ -36,7 +34,6 @@ void	replace_node(t_env **l_word, t_data *data)
 	trimmed = ft_strtrim(context->value, "$");
 	free(context->value);
 	context->value = trimmed;
-
 	while (tmp)
 	{
 		if (!ft_strcmp(tmp->value, context->value))
@@ -48,10 +45,10 @@ void	replace_node(t_env **l_word, t_data *data)
 	}
 }
 
-void replace_var_env(t_env **l_word, t_data *data)
+void	replace_var_env(t_env **l_word, t_data *data)
 {
-	t_env *context;
-	t_env *tmp;
+	t_env	*context;
+	t_env	*tmp;
 
 	context = *l_word;
 	while (context)
@@ -64,7 +61,7 @@ void replace_var_env(t_env **l_word, t_data *data)
 				context->value = ft_itoa(exit_code);
 			}
 			else if (context->value[1] == '\0')
-				return;
+				return ;
 			else if (check_env_value(&context, data))
 				replace_node(&context, data);
 			else
