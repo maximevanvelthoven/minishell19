@@ -29,10 +29,14 @@ void	replace_node(t_env **l_word, t_data *data)
 {
 	t_env *context;
 	t_env *tmp;
+	char	*trimmed;
 
 	tmp = data->env;
 	context = *l_word;
-	context->value = ft_strtrim(context->value, "$");
+	trimmed = ft_strtrim(context->value, "$");
+	free(context->value);
+	context->value = trimmed;
+
 	while (tmp)
 	{
 		if (!strcmp(tmp->value, context->value))
@@ -57,8 +61,8 @@ void replace_var_env(t_env **l_word, t_data *data)
 			if (context->value[1] == '?')
 			{
 				free(context->value);
-				context->value = ft_strdup(ft_itoa(exit_code));
-				replace_node(&context, data);
+				context->value = ft_itoa(exit_code);
+				//replace_node(&context, data);
 			}
 			else if (context->value[1] == '\0')
 				return;
