@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exit.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mvan-vel <mvan-vel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/15 17:48:36 by mvan-vel          #+#    #+#             */
+/*   Updated: 2025/01/15 17:48:54 by mvan-vel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "test.h"
 
 int	check_overflow(long int tmp, long int nb)
@@ -6,6 +18,7 @@ int	check_overflow(long int tmp, long int nb)
 		return (1);
 	return (0);
 }
+
 long	ft_atol(const char *str)
 {
 	long		signe;

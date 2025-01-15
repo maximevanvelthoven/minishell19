@@ -1,13 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cmd_exec.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mvan-vel <mvan-vel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/15 16:43:40 by mvan-vel          #+#    #+#             */
+/*   Updated: 2025/01/15 16:43:48 by mvan-vel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "test.h"
 
-int		test_cmd(char *str)
+int	test_cmd(char *str)
 {
 	if (access(str, X_OK) != -1)
 	{
 		g_exit_code = 126;
 		return (0);
 	}
-	return(1);
+	return (1);
 }
 
 char	*handle_exec(char **bigpath, char *str)
@@ -50,7 +62,7 @@ char	*get_exec(char **cmd, char **envp, int i)
 	char	*executable;
 
 	if (!test_cmd(cmd[0]))
-		return(ft_strdup(cmd[0]));
+		return (ft_strdup(cmd[0]));
 	if (!envp[0])
 		return (NULL);
 	bigpath = get_path(envp, 0);
@@ -67,7 +79,7 @@ char	*get_exec(char **cmd, char **envp, int i)
 		free(executable);
 		i++;
 	}
-	return(handle_exec(bigpath, cmd[0]));
+	return (handle_exec(bigpath, cmd[0]));
 }
 
 void	cmd_exec(t_data *data, t_ast *node)
@@ -82,7 +94,7 @@ void	cmd_exec(t_data *data, t_ast *node)
 	tmp_env = get_real_env(data, 0);
 	path = get_exec(node->cmd, tmp_env, 0);
 	pid = fork();
-	if(pid == -1)
+	if (pid == -1)
 		exit(1);
 	if (!pid)
 	{

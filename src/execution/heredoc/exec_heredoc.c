@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec_heredoc.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mvan-vel <mvan-vel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/15 17:15:05 by mvan-vel          #+#    #+#             */
+/*   Updated: 2025/01/15 17:15:53 by mvan-vel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "test.h"
 
@@ -14,6 +25,7 @@ int	find_cote(char *str)
 	}
 	return (0);
 }
+
 char	*convert_input(char *str, int type, t_data *data)
 {
 	char	*tmp;
@@ -52,7 +64,7 @@ void	prepare_to_heredoc(char *str, int type, t_data *data)
 		if (realinput)
 		{
 			write(data->pipefd[data->pipe_doc][1], realinput,
-					ft_strlen(realinput));
+				ft_strlen(realinput));
 			write(data->pipefd[data->pipe_doc][1], "\n", 1);
 			free(realinput);
 		}
@@ -66,7 +78,8 @@ void	fork_and_exec_doc(t_data *data, t_ast *node)
 	int	pid;
 	int	status;
 
-	if ((pid = fork()) == -1)
+	pid = fork();
+	if (pid == -1)
 		exit(1);
 	if (!pid)
 	{

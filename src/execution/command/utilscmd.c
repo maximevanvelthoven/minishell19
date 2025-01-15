@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utilscmd.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mvan-vel <mvan-vel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/15 16:41:07 by mvan-vel          #+#    #+#             */
+/*   Updated: 2025/01/15 16:41:08 by mvan-vel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "test.h"
 
 char	*ft_strjoin_cmd(char const *s1, char const *s2)
@@ -36,7 +48,7 @@ int	ft_strlen_node(t_data *node)
 	i = 0;
 	current = node->env;
 	if (!current)
-		return(0);
+		return (0);
 	while (current)
 	{
 		i++;
@@ -56,7 +68,7 @@ char	**get_real_env(t_data *node, int i)
 	size = ft_strlen_node(node);
 	env = malloc(sizeof(char *) * (size + 1));
 	if (!env)
-		return(NULL);
+		return (NULL);
 	current = node->env;
 	while (current)
 	{

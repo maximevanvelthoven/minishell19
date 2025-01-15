@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipe_exec.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mvan-vel <mvan-vel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/15 16:44:19 by mvan-vel          #+#    #+#             */
+/*   Updated: 2025/01/15 17:10:49 by mvan-vel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "test.h"
 
 void	wait_exit(t_data *data)
@@ -9,6 +21,7 @@ void	wait_exit(t_data *data)
 	else
 		g_exit_code = 1;
 }
+
 void	child_left(t_data *data, t_ast *node, int pipefd[2])
 {
 	dup2(pipefd[1], STDOUT_FILENO);
@@ -36,11 +49,13 @@ void	pipe_exec(t_data *data, t_ast *node)
 		ft_putstr_fd("Broken pipe\n", 2);
 		exit(1);
 	}
-	if ((data->pid_left = fork()) == -1)
+	data->pid_left = fork();
+	if (data->pid_left == -1)
 		exit(1);
 	if (!data->pid_left)
 		child_left(data, node, pipefd);
-	if ((data->pid_right = fork()) == -1)
+	data->pid_right = fork();
+	if (data->pid_right == -1)
 		exit(1);
 	if (!data->pid_right)
 	{

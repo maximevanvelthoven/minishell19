@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   test.h                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mvan-vel <mvan-vel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/15 16:39:26 by mvan-vel          #+#    #+#             */
+/*   Updated: 2025/01/15 17:27:46 by mvan-vel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef TEST_H
 # define TEST_H
 
@@ -43,8 +55,8 @@ typedef struct s_data
 {
 	struct s_ast	*ast;
 	struct s_token	*token;
-	int				FD_IN;
-	int				FD_OUT;
+	int				fd_in;
+	int				fd_out;
 	int				nbr_pipe;
 	int				**pipefd;
 	int				pid_left;
@@ -107,6 +119,8 @@ t_ast				*crea_and_redirec(t_token **token, t_token *tmp);
 t_ast				*create_node_ast(t_token **token);
 t_ast				*crea_file(t_token **token);
 t_ast				*crea_red(t_token **token);
+int					ft_strlen_node_t(t_token *node);
+void				fill_cmd_node(t_ast *node, t_token **token, int size);
 
 // execution
 void				ft_exec(t_data *data, t_ast *node);

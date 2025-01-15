@@ -1,49 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ast.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mvan-vel <mvan-vel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/15 17:23:40 by mvan-vel          #+#    #+#             */
+/*   Updated: 2025/01/15 17:28:19 by mvan-vel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "test.h"
 
-// void print_cmd(char **tab)
-// {
-// 	int i = 0;
-// 	while (tab[i])
-// 	{
-// 		printf("%s\n", tab[i]);
-// 		i++;
-// 	}
-// }
-
-int	ft_strlen_node_t(t_token *node)
-{
-	t_token	*current;
-	int		i;
-
-	i = 0;
-	current = node;
-	while (current)
-	{
-		i++;
-		current = current->next;
-	}
-	return (i);
-}
-
-void	fill_cmd_node(t_ast *node, t_token **token, int size)
-{
-	t_token	*tmp;
-	int		i;
-
-	i = 0;
-	while (i < size)
-	{
-		node->cmd[i] = ft_strdup((*token)->cmd);
-		tmp = (*token);
-		*token = (*token)->next;
-		free(tmp->cmd);
-		free(tmp);
-		i++;
-	}
-	node->cmd[size] = NULL;
-}
-
-t_ast	*create_node_ast(t_token **token)
+t_ast	*crea_file(t_token **token)
 {
 	t_ast	*node;
 
@@ -52,20 +21,9 @@ t_ast	*create_node_ast(t_token **token)
 		return (NULL);
 	node->left = NULL;
 	node->right = NULL;
-	node->cmd = NULL;
-	node->type = (*token)->type;
-	return (node);
-}
-
-t_ast	*crea_file(t_token **token)
-{
-	t_ast	*node;
-
-	node = malloc(sizeof(t_ast));
-	// il faudra malloc pour le fichier un double tab avec le 2eme arg a NULL
-	node->left = NULL;
-	node->right = NULL;
 	node->cmd = malloc(sizeof(char *) * 2);
+	if (!node->cmd)
+		return (NULL);
 	node->cmd[0] = ft_strdup((*token)->cmd);
 	node->cmd[1] = NULL;
 	node->type = (*token)->type;
@@ -81,13 +39,15 @@ t_ast	*crea_cmd(t_token **token)
 
 	size_cmd = ft_strlen_node_t((*token));
 	node = malloc(sizeof(t_ast));
+	if (!node)
+		return (NULL);
 	node->cmd = malloc(sizeof(char *) * (size_cmd + 1));
+	if (!node->cmd)
+		return (NULL);
 	node->left = NULL;
 	node->right = NULL;
 	fill_cmd_node(node, token, size_cmd);
 	node->type = 5;
-	// free((*token)->cmd);
-	// free(*token);
 	return (node);
 }
 
@@ -110,11 +70,10 @@ t_ast	*crea_red(t_token **token)
 		{
 			node = create_node_ast(&next_token);
 			(*token)->next = next_token->next->next;
-			node->right = crea_file(&(next_token->next)); // create file
+			node->right = crea_file(&(next_token->next));
 			node->left = crea_red(&tmp);
 			free(next_token->cmd);
-			free(next_token);
-			return (node);
+			return (free(next_token), node);
 		}
 		*token = next_token;
 	}
@@ -144,10 +103,9 @@ t_ast	*crea_ast(t_token **token)
 		*token = next_token;
 	}
 	return (crea_red(&tmp));
-	// return (node);
 }
+
 t_ast	*init_ast(t_token **token)
 {
-	// mettre securite si token vide ou inexistant
 	return (crea_ast(token));
 }

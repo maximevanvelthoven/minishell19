@@ -113,8 +113,8 @@ void	init_data(t_data *data, char **envp)
 {
 	data->ast = NULL;
 	data->token = NULL;
-	data->FD_IN = STDIN_FILENO;
-	data->FD_OUT = STDOUT_FILENO;
+	data->fd_in = STDIN_FILENO;
+	data->fd_out = STDOUT_FILENO;
 	data->nbr_pipe = 0;
 	data->pipe_doc = 0;
 	data->flag_doc = 0;

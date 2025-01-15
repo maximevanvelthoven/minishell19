@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mvan-vel <mvan-vel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/15 16:40:36 by mvan-vel          #+#    #+#             */
+/*   Updated: 2025/01/15 16:40:38 by mvan-vel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "test.h"
 
 void	ctrl_c(int sig)
@@ -19,19 +31,20 @@ void	control_child(void)
 	signal(SIGINT, ctrl_c);
 	signal(SIGQUIT, ctrl_b);
 }
+
 void	ft_exec(t_data *data, t_ast *node)
 {
 	control_child();
-	if (node->type == 4) // |
+	if (node->type == 4)
 		pipe_exec(data, node);
-	else if (node->type == 1) // >
+	else if (node->type == 1)
 		red_out_exec(data, node);
-	else if (node->type == 0) // <
+	else if (node->type == 0)
 		red_in_exec(data, node);
-	else if (node->type == 5) // cmd
+	else if (node->type == 5)
 		cmd_exec(data, node);
-	else if (node->type == 2) // append
+	else if (node->type == 2)
 		red_append_exec(data, node);
-	else if (node->type == 3) // heredoc
+	else if (node->type == 3)
 		fork_and_exec_doc(data, node);
 }

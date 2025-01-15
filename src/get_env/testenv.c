@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   testenv.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mvan-vel <mvan-vel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/15 17:16:49 by mvan-vel          #+#    #+#             */
+/*   Updated: 2025/01/15 17:17:06 by mvan-vel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "test.h"
 
 int	find_equal(char *str)
@@ -31,6 +43,7 @@ char	*ft_strndup(int start, int lenght, char *src)
 	str[i] = '\0';
 	return (str);
 }
+
 t_env	*create_node_env(char *str, t_env **list)
 {
 	int		i;

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   handle_doc.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mvan-vel <mvan-vel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/15 17:17:29 by mvan-vel          #+#    #+#             */
+/*   Updated: 2025/01/15 17:18:03 by mvan-vel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "test.h"
 
 void	set_pipe(t_data *data)
@@ -9,10 +21,11 @@ void	set_pipe(t_data *data)
 	{
 		data->pipefd[i] = malloc(sizeof(int *) * 2);
 		if (!data->pipefd[i])
-			return;
+			return ;
 		i++;
 	}
 }
+
 void	find_doc(t_data *data, t_token **token)
 {
 	t_token	*tmp;
@@ -34,6 +47,7 @@ void	find_doc(t_data *data, t_token **token)
 		tmp = tmp->next;
 	}
 }
+
 void	handle_doc(t_data *data, t_token **token)
 {
 	if (!data->nbr_pipe)
