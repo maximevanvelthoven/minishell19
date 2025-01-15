@@ -1,8 +1,8 @@
 #include "test.h"
 
-t_AST	*crea_and_redirec(t_token **token, t_token *tmp)
+t_ast	*crea_and_redirec(t_token **token, t_token *tmp)
 {
-	t_AST	*node;
+	t_ast	*node;
 
 	node = create_node_ast(&(*token));
 	(*token) = (*token)->next->next;

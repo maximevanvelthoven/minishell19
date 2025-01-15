@@ -1,8 +1,8 @@
 #include "test.h"
 
-void	print_ast(t_AST *ast, int depth)
+void	print_ast(t_ast *ast, int depth)
 {
-	t_AST	*tmp;
+	t_ast	*tmp;
 
 	tmp = ast;
 	if (!tmp)

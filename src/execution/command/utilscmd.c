@@ -35,6 +35,8 @@ int	ft_strlen_node(t_data *node)
 
 	i = 0;
 	current = node->env;
+	if (!current)
+		return(0);
 	while (current)
 	{
 		i++;
@@ -53,17 +55,17 @@ char	**get_real_env(t_data *node, int i)
 
 	size = ft_strlen_node(node);
 	env = malloc(sizeof(char *) * (size + 1));
+	if (!env)
+		return(NULL);
 	current = node->env;
 	while (current)
 	{
 		if (current->content)
 		{
 			tmp1 = ft_strdup(current->value);
-			tmp2 = ft_strjoin_cmd(tmp1, "=");
-			env[i] = ft_strjoin_cmd(tmp2, current->content);
+			tmp2 = ft_strjoin(tmp1, "=");
+			env[i] = ft_strjoin(tmp2, current->content);
 			i++;
-			free(tmp1);
-			free(tmp2);
 		}
 		current = current->next;
 	}
@@ -84,4 +86,22 @@ void	ft_free_cmd(char **tab, char *str, int i)
 	}
 	if (str)
 		free(str);
+}
+
+void	error_cmd(t_ast *node, char *path)
+{
+	ft_putstr_fd("bash : ", 2);
+	ft_putstr_fd(node->cmd[0], 2);
+	if (access(path, F_OK) != -1 && path[0] == '/')
+	{
+		ft_putstr_fd(": Is a directory\n", 2);
+		exit(g_exit_code);
+	}
+	if (path[0] == '.' || path[0] == '/' || path[0] == '\0')
+	{
+		ft_putstr_fd(": No such file or directory\n", 2);
+		exit(g_exit_code);
+	}
+	ft_putstr_fd(": command not found\n", 2);
+	exit(g_exit_code);
 }

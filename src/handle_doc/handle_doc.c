@@ -8,6 +8,8 @@ void	set_pipe(t_data *data)
 	while (i <= data->nbr_pipe)
 	{
 		data->pipefd[i] = malloc(sizeof(int *) * 2);
+		if (!data->pipefd[i])
+			return ;
 		i++;
 	}
 }
@@ -34,11 +36,18 @@ void	find_doc(t_data *data, t_token **token)
 }
 void	handle_doc(t_data *data, t_token **token)
 {
-	//control_heredoc();
 	if (!data->nbr_pipe)
+	{
 		data->pipefd = malloc(sizeof(int **) * 1);
+		if (!data->pipefd)
+			return ;
+	}
 	else
+	{
 		data->pipefd = malloc(sizeof(int **) * (data->nbr_pipe + 1));
+		if (!data->pipefd)
+			return ;
+	}
 	set_pipe(data);
 	find_doc(data, token);
 }

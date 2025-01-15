@@ -21,6 +21,8 @@ char	*ft_strndup(int start, int lenght, char *src)
 
 	i = 0;
 	str = malloc(sizeof(char) * lenght + 1);
+	if (!str)
+		return (NULL);
 	while (i < lenght)
 	{
 		str[i] = src[i + start];
@@ -41,6 +43,8 @@ t_env	*create_node_env(char *str, t_env **list)
 	j = find_equal(str);
 	k = ft_strlen(str);
 	node = malloc(sizeof(t_env));
+	if (!node)
+		return (NULL);
 	node->value = ft_strndup(i, j, str);
 	node->content = ft_strndup(j + 1, k - j, str);
 	node->next = NULL;

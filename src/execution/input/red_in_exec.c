@@ -1,6 +1,6 @@
 #include "test.h"
 
-void	red_in_exec(t_data *data, t_AST *node)
+void	red_in_exec(t_data *data, t_ast *node)
 {
 	int	pid;
 	int	status;

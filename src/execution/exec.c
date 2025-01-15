@@ -4,12 +4,14 @@ void	ctrl_c(int sig)
 {
 	(void)sig;
 	printf("\n");
+	g_exit_code = 130;
 }
 
 void	ctrl_b(int sig)
 {
 	(void)sig;
 	printf("Quit (core dumped)\n");
+	g_exit_code = 131;
 }
 
 void	control_child(void)
@@ -17,7 +19,7 @@ void	control_child(void)
 	signal(SIGINT, ctrl_c);
 	signal(SIGQUIT, ctrl_b);
 }
-void	ft_exec(t_data *data, t_AST *node)
+void	ft_exec(t_data *data, t_ast *node)
 {
 	control_child();
 	if (node->type == 4) // |

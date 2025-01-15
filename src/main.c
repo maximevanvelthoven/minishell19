@@ -62,7 +62,7 @@ void	ft_free_pipe(t_data *data)
 	data->check_ifdoc = 0;
 }
 
-void	ft_free_ast(t_AST *ast)
+void	ft_free_ast(t_ast *ast)
 {
 	int	i;
 
@@ -169,7 +169,7 @@ int	main(int ac, char **av, char **envp)
 	t_data	*data;
 	char	*input;
 	t_token	*token;
-	t_AST	*ast;
+	t_ast	*ast;
 
 	(void)av;
 	data = malloc(sizeof(t_data));

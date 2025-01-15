@@ -25,7 +25,7 @@ int	ft_strlen_node_t(t_token *node)
 	return (i);
 }
 
-void	fill_cmd_node(t_AST *node, t_token **token, int size)
+void	fill_cmd_node(t_ast *node, t_token **token, int size)
 {
 	t_token	*tmp;
 	int		i;
@@ -43,11 +43,11 @@ void	fill_cmd_node(t_AST *node, t_token **token, int size)
 	node->cmd[size] = NULL;
 }
 
-t_AST	*create_node_ast(t_token **token)
+t_ast	*create_node_ast(t_token **token)
 {
-	t_AST	*node;
+	t_ast	*node;
 
-	node = malloc(sizeof(t_AST));
+	node = malloc(sizeof(t_ast));
 	if (!node)
 		return (NULL);
 	node->left = NULL;
@@ -57,11 +57,11 @@ t_AST	*create_node_ast(t_token **token)
 	return (node);
 }
 
-t_AST	*crea_file(t_token **token)
+t_ast	*crea_file(t_token **token)
 {
-	t_AST	*node;
+	t_ast	*node;
 
-	node = malloc(sizeof(t_AST));
+	node = malloc(sizeof(t_ast));
 	// il faudra malloc pour le fichier un double tab avec le 2eme arg a NULL
 	node->left = NULL;
 	node->right = NULL;
@@ -74,13 +74,13 @@ t_AST	*crea_file(t_token **token)
 	return (node);
 }
 
-t_AST	*crea_cmd(t_token **token)
+t_ast	*crea_cmd(t_token **token)
 {
-	t_AST	*node;
+	t_ast	*node;
 	int		size_cmd;
 
 	size_cmd = ft_strlen_node_t((*token));
-	node = malloc(sizeof(t_AST));
+	node = malloc(sizeof(t_ast));
 	node->cmd = malloc(sizeof(char *) * (size_cmd + 1));
 	node->left = NULL;
 	node->right = NULL;
@@ -91,9 +91,9 @@ t_AST	*crea_cmd(t_token **token)
 	return (node);
 }
 
-t_AST	*crea_red(t_token **token)
+t_ast	*crea_red(t_token **token)
 {
-	t_AST	*node;
+	t_ast	*node;
 	t_token	*tmp;
 	t_token	*next_token;
 
@@ -121,9 +121,9 @@ t_AST	*crea_red(t_token **token)
 	return (crea_cmd(&tmp));
 }
 
-t_AST	*crea_ast(t_token **token)
+t_ast	*crea_ast(t_token **token)
 {
-	t_AST	*node;
+	t_ast	*node;
 	t_token	*tmp;
 	t_token	*next_token;
 
@@ -146,7 +146,7 @@ t_AST	*crea_ast(t_token **token)
 	return (crea_red(&tmp));
 	// return (node);
 }
-t_AST	*init_ast(t_token **token)
+t_ast	*init_ast(t_token **token)
 {
 	// mettre securite si token vide ou inexistant
 	return (crea_ast(token));
