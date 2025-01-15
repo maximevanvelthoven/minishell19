@@ -1,39 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   last_check.c                                       :+:      :+:    :+:   */
+/*   ft_strndup2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ssoumill <ssoumill@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/15 17:12:14 by ssoumill          #+#    #+#             */
-/*   Updated: 2025/01/15 17:12:56 by ssoumill         ###   ########.fr       */
+/*   Created: 2024/05/02 17:00:01 by mvan-vel          #+#    #+#             */
+/*   Updated: 2025/01/15 17:44:09 by ssoumill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "test.h"
+#include "libft.h"
 
-t_token	*find_last_tok(t_token *token)
+char	*ft_strndup2(char *s, size_t len)
 {
-	t_token	*last_node;
+	char	*dup;
+	size_t	i;
 
-	last_node = token;
-	while (last_node->next)
-		last_node = last_node->next;
-	return (last_node);
-}
-
-char	*last_check(t_token *token)
-{
-	t_token	*last_token;
-	char	*new_input;
-
-	if (!token)
+	i = 0;
+	dup = malloc(sizeof(char *) * (len + 1));
+	if (dup == NULL)
 		return (NULL);
-	last_token = find_last_tok(token);
-	if (last_token->type == 4)
+	while (i < len && s[i])
 	{
-		new_input = readline("> ");
-		return (new_input);
+		dup[i] = s[i];
+		i++;
 	}
-	return (NULL);
+	dup[i] = '\0';
+	return (dup);
 }

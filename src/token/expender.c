@@ -1,38 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expender.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ssoumill <ssoumill@student.s19.be>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/15 17:13:45 by ssoumill          #+#    #+#             */
+/*   Updated: 2025/01/15 18:20:09 by ssoumill         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "test.h"
 
-void	add_to_list(char **str, char *tmp, t_env **l_word)
-{
-	size_t	len;
-	char	*result;
-
-	result = NULL;
-	len = *str - tmp;
-	result = strndup(tmp, len);
-	init_l_word(result, l_word);
-	free(result);
-}
-
-int	check_exit_code(char **str, char *tmp, t_env **l_word)
-{
-	if (*(*str + 1) == '?')
-	{
-		(*str)++;
-		(*str)++;
-		add_to_list(str, tmp, l_word);
-		return (1);
-	}
-	return (0);
-}
-
-char	*final_string(t_env **l_word, t_data *data)
-{
-	char	*result;
-
-	replace_var_env(l_word, data);
-	result = join_list(l_word);
-	ft_free_list(*l_word);
-	return (result);
-}
 char	*search_dollar(char **str, t_env **l_word, t_data *data)
 {
 	char	*tmp;
@@ -78,22 +57,15 @@ char	*quote(char **str, int c)
 
 char	*inter_quote(char **str, t_data *data)
 {
-	size_t	len;
 	char	*tmp;
 	char	*result;
 	t_env	*dollar_list;
-	char	*tmp1;
-	char	*tmp2;
 
 	dollar_list = NULL;
 	tmp = *str;
 	while (**str != '"' && **str != '\'' && **str)
 		(*str)++;
-	len = *str - tmp;
-	tmp1 = strndup(tmp, len);
-	tmp2 = tmp1;
-	result = search_dollar(&tmp1, &dollar_list, data);
-	free(tmp2);
+	result = get_word(*str, tmp, &dollar_list, data);
 	return (result);
 }
 

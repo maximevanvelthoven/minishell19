@@ -79,6 +79,9 @@ void				ft_free_list(t_env *list);
 void				add_to_list(char **str, char *tmp, t_env **l_word);
 char				*final_string(t_env **l_word, t_data *data);
 int					check_exit_code(char **str, char *tmp, t_env **l_word);
+char				*get_word(char *str, char *tmp, t_env **dollar_list,
+						t_data *data);
+char				*get_trimmed(char **result, char *c);
 
 //fonction lexing
 void				handle_cote(char **str);

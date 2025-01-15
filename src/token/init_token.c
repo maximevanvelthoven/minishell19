@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init_token.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ssoumill <ssoumill@student.s19.be>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/15 17:00:36 by ssoumill          #+#    #+#             */
+/*   Updated: 2025/01/15 17:00:39 by ssoumill         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "test.h"
 
 void	token_separator(t_token **token, char **str, t_data *data)
@@ -42,11 +54,10 @@ void	handle_word(char *word, t_token **token, t_data *data)
 	{
 		result = expender(&word, data);
 		init_struct_t(result, token);
-		free(result);
 	}
 	else
 	{
-		result = search_dollar(&word, &list, data);  
+		result = search_dollar(&word, &list, data);
 		if (ft_strlen(result) == 1 && *result == '~')
 		{
 			free(result);
@@ -54,9 +65,9 @@ void	handle_word(char *word, t_token **token, t_data *data)
 		}
 		if ((*result))
 			init_struct_t(result, token);
-		free(result);
-		result = NULL;
 	}
+	free(result);
+	result = NULL;
 }
 
 char	*token_word(char **str)

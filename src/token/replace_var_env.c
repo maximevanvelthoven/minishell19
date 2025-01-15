@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   replace_var_env.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ssoumill <ssoumill@student.s19.be>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/15 17:51:41 by ssoumill          #+#    #+#             */
+/*   Updated: 2025/01/15 18:30:10 by ssoumill         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "test.h"
 
 int	check_env_value(t_env **l_word, t_data *data)
@@ -63,11 +75,13 @@ void	replace_var_env(t_env **l_word, t_data *data)
 			else
 			{
 				tmp->next = context->next;
+				free(tmp->value);
 				free(context->value);
-				free(context);
+				//free(context); // free context en egalant a une tmp
 			}
 		}
 		tmp = context;
+		free(tmp);
 		context = context->next;
 	}
 }

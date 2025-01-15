@@ -144,7 +144,7 @@ void	parsing(char **input, t_data *data, t_token **token)
 	char	*str;
 
 	if (lexing(*input))
-		return;
+		return; 
 	init_token(*input, token, data);
 	if (check_list_token(*token))
 	{
