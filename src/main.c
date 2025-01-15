@@ -46,8 +46,6 @@ void	ft_free_pipe(t_data *data)
 				close(data->pipefd[i][0]);
 			if (data->pipefd[i][1])
 				close(data->pipefd[i][1]);
-			if (data->pipefd[i][2])
-				close(data->pipefd[i][2]);
 		}
 		if (data->pipefd[i])
 			free(data->pipefd[i]);

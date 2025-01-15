@@ -1,3 +1,4 @@
+
 #include "test.h"
 
 int	find_cote(char *str)
@@ -70,8 +71,10 @@ void	fork_and_exec_doc(t_data *data, t_ast *node)
 	if (!pid)
 	{
 		dup2(data->pipefd[data->fd_exec][0], STDIN_FILENO);
-		ft_exec(data, node->left);
+		if (node->left)
+			ft_exec(data, node->left);
 		close(data->pipefd[data->fd_exec][0]);
+		close(data->pipefd[data->fd_exec][1]);
 		exit(g_exit_code);
 	}
 	else
@@ -80,6 +83,8 @@ void	fork_and_exec_doc(t_data *data, t_ast *node)
 		g_exit_code = WEXITSTATUS(status);
 	else
 		g_exit_code = 1;
+	close(data->pipefd[data->fd_exec][0]);
+	close(data->pipefd[data->fd_exec][1]);
 }
 
 void	exec_heredoc(t_data *data, char *delim)

@@ -9,7 +9,7 @@ void	set_pipe(t_data *data)
 	{
 		data->pipefd[i] = malloc(sizeof(int *) * 2);
 		if (!data->pipefd[i])
-			return ;
+			return;
 		i++;
 	}
 }
