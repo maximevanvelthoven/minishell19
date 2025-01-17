@@ -6,7 +6,7 @@
 /*   By: mvan-vel <mvan-vel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 17:14:09 by mvan-vel          #+#    #+#             */
-/*   Updated: 2025/01/15 17:14:10 by mvan-vel         ###   ########.fr       */
+/*   Updated: 2025/01/17 14:41:10 by mvan-vel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,6 @@ int	check_builtins(char **cmd, t_data *data)
 	if (!ft_strcmp(cmd[0], "cd"))
 		return (cd_test(cmd, data), 1);
 	if (!ft_strcmp(cmd[0], "exit"))
-		return (exit_test(cmd), 1);
+		return (exit_test(cmd, data), 1);
 	return (0);
 }

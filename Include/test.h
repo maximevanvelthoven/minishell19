@@ -6,7 +6,7 @@
 /*   By: mvan-vel <mvan-vel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 16:39:26 by mvan-vel          #+#    #+#             */
-/*   Updated: 2025/01/15 17:27:46 by mvan-vel         ###   ########.fr       */
+/*   Updated: 2025/01/17 15:05:16 by mvan-vel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ typedef struct s_data
 	int				pid_right;
 	int				status1;
 	int				status2;
+	int				running;
 	int				pipe_doc;
 	int				flag_doc;
 	int				check_ifdoc;
@@ -165,6 +166,23 @@ t_env				*find_last_node(t_env *env);
 void				ft_free_tab(char **tab, int i);
 void				ft_unset(char **cmd, t_data *data);
 void				cd_test(char **cmd, t_data *data);
-void				exit_test(char **cmd);
+int					check_nbr_args(char **cmd);
+char				*check_cd_env(t_data *data, char *str);
+void				set_old_pwd(t_data *data, char *str);
+void				set_new_pwd(t_data *data, char *str);
+void				exit_test(char **cmd, t_data *data);
+
+//signal
+void				control_exit(char *input, t_data *data);
+void				control(void);
+void				control_c(int sig);
+
+//utils
+void				ft_free_pipe(t_data *data);
+void				ft_free_ast(t_ast *ast);
+void				ft_free_token(t_token *token);
+void				ft_free_token2(t_token **token);
+void				init_data(t_data *data, char **envp);
+void				ft_free_env(t_data *data);
 
 #endif
