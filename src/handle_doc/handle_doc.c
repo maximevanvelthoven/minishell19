@@ -1,18 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   handle_doc.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mvan-vel <mvan-vel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/15 17:17:29 by mvan-vel          #+#    #+#             */
+/*   Updated: 2025/01/15 17:18:03 by mvan-vel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "test.h"
-
-// void heredoc_signal_handler(int sig)
-// {
-//     (void)sig;
-//     printf("\n");
-//     rl_replace_line("", 0);
-//     rl_on_new_line();
-// 	rl_redisplay();
-// }
-
-// void control_heredoc(void)
-// {
-//     signal(SIGINT, heredoc_signal_handler);  // Pour les heredocs
-// }
 
 void	set_pipe(t_data *data)
 {
@@ -22,9 +20,12 @@ void	set_pipe(t_data *data)
 	while (i <= data->nbr_pipe)
 	{
 		data->pipefd[i] = malloc(sizeof(int *) * 2);
+		if (!data->pipefd[i])
+			return ;
 		i++;
 	}
 }
+
 void	find_doc(t_data *data, t_token **token)
 {
 	t_token	*tmp;
@@ -46,13 +47,21 @@ void	find_doc(t_data *data, t_token **token)
 		tmp = tmp->next;
 	}
 }
+
 void	handle_doc(t_data *data, t_token **token)
 {
-	//control_heredoc();
 	if (!data->nbr_pipe)
+	{
 		data->pipefd = malloc(sizeof(int **) * 1);
+		if (!data->pipefd)
+			return ;
+	}
 	else
+	{
 		data->pipefd = malloc(sizeof(int **) * (data->nbr_pipe + 1));
+		if (!data->pipefd)
+			return ;
+	}
 	set_pipe(data);
 	find_doc(data, token);
 }

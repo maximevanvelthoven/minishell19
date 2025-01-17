@@ -1,31 +1,57 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   red_out_exec.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mvan-vel <mvan-vel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/15 16:44:30 by mvan-vel          #+#    #+#             */
+/*   Updated: 2025/01/15 17:07:36 by mvan-vel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "test.h"
 
-void	red_out_exec(t_data *data, t_AST *node)
+void	wait_exit_out(int pid)
 {
-	int	pid;
 	int	status;
 
-	if ((data->FD_OUT = open(node->right->cmd[0], O_WRONLY | O_CREAT | O_TRUNC,
-				0644)) == -1)
+	waitpid(pid, &status, 0);
+	if (WIFEXITED(status))
+		g_exit_code = WEXITSTATUS(status);
+	else
+		g_exit_code = 1;
+}
+
+void	handle_error_out(t_ast *node)
+{
+	ft_putstr_fd("bash: ", 2);
+	ft_putstr_fd(node->right->cmd[0], 2);
+	ft_putstr_fd(": No such file or directory\n", 2);
+	g_exit_code = 1;
+}
+
+void	red_out_exec(t_data *data, t_ast *node)
+{
+	int	pid;
+
+	data->fd_out = open(node->right->cmd[0], O_WRONLY | O_CREAT | O_TRUNC,
+			0644);
+	if (data->fd_out == -1)
 	{
-		ft_putstr_fd("bash: ", 2);
-		ft_putstr_fd(node->right->cmd[0], 2);
-		ft_putstr_fd(": No such file or directory\n", 2);
-		exit_code = 1;
+		handle_error_out(node);
 		return ;
 	}
-	if (!(pid = fork()))
+	pid = fork();
+	if (pid == -1)
+		exit(1);
+	if (!pid)
 	{
-		dup2(data->FD_OUT, STDOUT_FILENO);
+		dup2(data->fd_out, STDOUT_FILENO);
 		if (node->left)
 			ft_exec(data, node->left);
-		close(data->FD_OUT);
-		exit(exit_code);
+		close(data->fd_out);
+		exit(g_exit_code);
 	}
-	else
-		waitpid(pid, &status, 0);
-	if (WIFEXITED(status))
-		exit_code = WEXITSTATUS(status);
-	else
-		exit_code = 1;
+	wait_exit_out(pid);
 }

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   unset.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mvan-vel <mvan-vel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/15 17:49:15 by mvan-vel          #+#    #+#             */
+/*   Updated: 2025/01/15 17:49:40 by mvan-vel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "test.h"
 
 void	check_var_exist(t_data *data, char *str)
@@ -23,7 +35,7 @@ void	check_var_exist(t_data *data, char *str)
 
 void	ft_unset(char **cmd, t_data *data)
 {
-	int i;
+	int	i;
 
 	i = 1;
 	if (!cmd[1])

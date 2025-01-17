@@ -1,13 +1,16 @@
-#include "test.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec_heredoc.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mvan-vel <mvan-vel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/15 17:15:05 by mvan-vel          #+#    #+#             */
+/*   Updated: 2025/01/15 17:15:53 by mvan-vel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-// void ctrl_c_doc(int sig)
-// {
-//     (void)sig;
-//     //exit_code = 1;
-//     rl_on_new_line();
-// 	rl_redisplay();
-//     exit(1);
-// }
+#include "test.h"
 
 int	find_cote(char *str)
 {
@@ -22,6 +25,7 @@ int	find_cote(char *str)
 	}
 	return (0);
 }
+
 char	*convert_input(char *str, int type, t_data *data)
 {
 	char	*tmp;
@@ -32,7 +36,8 @@ char	*convert_input(char *str, int type, t_data *data)
 	if (type)
 	{
 		tmp = ft_strdup(str);
-		printf("je passe sans chengement\n");
+		if (!tmp)
+			return (NULL);
 		return (tmp);
 	}
 	tmp = search_dollar_doc(&str, &l_word, data);
@@ -59,7 +64,7 @@ void	prepare_to_heredoc(char *str, int type, t_data *data)
 		if (realinput)
 		{
 			write(data->pipefd[data->pipe_doc][1], realinput,
-					ft_strlen(realinput));
+				ft_strlen(realinput));
 			write(data->pipefd[data->pipe_doc][1], "\n", 1);
 			free(realinput);
 		}
@@ -68,25 +73,31 @@ void	prepare_to_heredoc(char *str, int type, t_data *data)
 	close(data->pipefd[data->pipe_doc][1]);
 }
 
-void	fork_and_exec_doc(t_data *data, t_AST *node)
+void	fork_and_exec_doc(t_data *data, t_ast *node)
 {
 	int	pid;
 	int	status;
 
-	if (!(pid = fork()))
+	pid = fork();
+	if (pid == -1)
+		exit(1);
+	if (!pid)
 	{
 		dup2(data->pipefd[data->fd_exec][0], STDIN_FILENO);
-		ft_exec(data, node->left);
+		if (node->left)
+			ft_exec(data, node->left);
 		close(data->pipefd[data->fd_exec][0]);
-		exit(exit_code);
+		close(data->pipefd[data->fd_exec][1]);
+		exit(g_exit_code);
 	}
 	else
 		waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
-		exit_code = WEXITSTATUS(status);
-			// On récupère l'exit code du dernier processus
+		g_exit_code = WEXITSTATUS(status);
 	else
-		exit_code = 1;
+		g_exit_code = 1;
+	close(data->pipefd[data->fd_exec][0]);
+	close(data->pipefd[data->fd_exec][1]);
 }
 
 void	exec_heredoc(t_data *data, char *delim)
@@ -113,6 +124,5 @@ void	exec_heredoc(t_data *data, char *delim)
 		delimiteur = ft_strdup(tmp);
 	prepare_to_heredoc(delimiteur, (find_cote(delim)), data);
 	free(tmp1);
-		//comprend pas pourquoi il dit que ca double free a verifier par la suite
 	free(delimiteur);
 }

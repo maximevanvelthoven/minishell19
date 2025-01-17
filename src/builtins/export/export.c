@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   export.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mvan-vel <mvan-vel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/15 17:31:55 by mvan-vel          #+#    #+#             */
+/*   Updated: 2025/01/15 17:31:56 by mvan-vel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "test.h"
 
 void	print_export(t_data *data)
@@ -62,7 +74,7 @@ void	export_test(char **cmd, t_data *data)
 			ft_putstr_fd("bash: export: ", 2);
 			ft_putstr_fd(cmd[i], 2);
 			ft_putendl_fd(": not a valid identifier", 2);
-			exit_code = 1;
+			g_exit_code = 1;
 		}
 		else
 			prepare_to_export(cmd[i], data);

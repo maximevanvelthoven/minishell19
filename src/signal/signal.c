@@ -1,34 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mvan-vel <mvan-vel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/15 17:49:07 by mvan-vel          #+#    #+#             */
-/*   Updated: 2025/01/15 17:49:08 by mvan-vel         ###   ########.fr       */
+/*   Created: 2025/01/17 15:02:38 by mvan-vel          #+#    #+#             */
+/*   Updated: 2025/01/17 15:04:19 by mvan-vel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "test.h"
 
-void	pwd_test(char **tab)
+void	control_c(int sig)
 {
-	char	*cwd;
-	int		size;
+	(void)sig;
+	printf("\n");
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	rl_redisplay();
+	g_exit_code = 130;
+}
 
-	size = ft_strlen_tab(tab);
-	if (size > 1)
-	{
-		if (tab[1][0] == '-' && tab[1][1] != '\0')
-		{
-			ft_putstr_fd("bash: pwd: ", 2);
-			ft_putstr_fd(tab[1], 2);
-			ft_putendl_fd(": invalid option", 2);
-			return ;
-		}
-	}
-	cwd = getcwd(NULL, 0);
-	if (cwd)
-		printf("%s\n", cwd);
+void	control(void)
+{
+	signal(SIGINT, control_c);
+	signal(SIGQUIT, SIG_IGN);
+}
+
+void	control_exit(char *input, t_data *data)
+{
+	free(input);
+	ft_free_env(data);
+	printf("exit\n");
+	exit(g_exit_code);
 }

@@ -1,41 +1,32 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   check_builtins.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mvan-vel <mvan-vel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/15 17:14:09 by mvan-vel          #+#    #+#             */
+/*   Updated: 2025/01/17 14:41:10 by mvan-vel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "test.h"
 
 int	check_builtins(char **cmd, t_data *data)
 {
 	if (!ft_strcmp(cmd[0], "echo"))
-	{
-		echo_test(cmd);
-		return (1);
-	}
+		return (echo_test(cmd), 1);
 	if (!ft_strcmp(cmd[0], "pwd"))
-	{
-		pwd_test(cmd);
-		return (1);
-	}
+		return (pwd_test(cmd), 1);
 	if (!ft_strcmp(cmd[0], "env"))
-	{
-		env_test(data);
-		return (1);
-	}
+		return (env_test(data), 1);
 	if (!ft_strcmp(cmd[0], "export"))
-	{
-		export_test(cmd, data);
-		return (1);
-	}
+		return (export_test(cmd, data), 1);
 	if (!ft_strcmp(cmd[0], "unset"))
-	{
-		ft_unset(cmd, data);
-		return (1);
-	}
+		return (ft_unset(cmd, data), 1);
 	if (!ft_strcmp(cmd[0], "cd"))
-	{
-		cd_test(cmd, data);
-		return (1);
-	}
+		return (cd_test(cmd, data), 1);
 	if (!ft_strcmp(cmd[0], "exit"))
-	{
-		exit_test(cmd);
-		return (1);
-	}
+		return (exit_test(cmd, data), 1);
 	return (0);
 }

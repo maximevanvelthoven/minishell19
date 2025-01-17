@@ -1,6 +1,35 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cmd_exec.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mvan-vel <mvan-vel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/15 16:43:40 by mvan-vel          #+#    #+#             */
+/*   Updated: 2025/01/15 16:43:48 by mvan-vel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "test.h"
 
-struct stat	file_info;
+int	test_cmd(char *str)
+{
+	if (access(str, X_OK) != -1)
+	{
+		g_exit_code = 126;
+		return (0);
+	}
+	return (1);
+}
+
+char	*handle_exec(char **bigpath, char *str)
+{
+	g_exit_code = 127;
+	if (bigpath == NULL)
+		return (ft_strdup(""));
+	ft_free_cmd(bigpath, NULL, 0);
+	return (ft_strdup(str));
+}
 
 char	**get_path(char **envp, int i)
 {
@@ -32,11 +61,8 @@ char	*get_exec(char **cmd, char **envp, int i)
 	char	*tmp;
 	char	*executable;
 
-	if (access(cmd[0], X_OK) != -1)
-	{
-		exit_code = 126;
+	if (!test_cmd(cmd[0]))
 		return (ft_strdup(cmd[0]));
-	}
 	if (!envp[0])
 		return (NULL);
 	bigpath = get_path(envp, 0);
@@ -53,14 +79,10 @@ char	*get_exec(char **cmd, char **envp, int i)
 		free(executable);
 		i++;
 	}
-	exit_code = 127;
-	if (bigpath == NULL)
-		return (ft_strdup(""));
-	ft_free_cmd(bigpath, NULL, 0);
-	return (ft_strdup(cmd[0]));
+	return (handle_exec(bigpath, cmd[0]));
 }
 
-void	cmd_exec(t_data *data, t_AST *node)
+void	cmd_exec(t_data *data, t_ast *node)
 {
 	int		pid;
 	char	*path;
@@ -71,29 +93,17 @@ void	cmd_exec(t_data *data, t_AST *node)
 		return ;
 	tmp_env = get_real_env(data, 0);
 	path = get_exec(node->cmd, tmp_env, 0);
-	if (!(pid = fork()))
+	pid = fork();
+	if (pid == -1)
+		exit(1);
+	if (!pid)
 	{
 		if (execve(path, node->cmd, tmp_env) == -1)
-		{
-			ft_putstr_fd("bash : ", 2);
-			ft_putstr_fd(node->cmd[0], 2);
-			if (access(path, F_OK) != -1 && path[0] == '/')
-			{
-				ft_putstr_fd(": Is a directory\n", 2);
-				exit(exit_code);
-			}
-			if (path[0] == '.' || path[0] == '/' || path[0] == '\0')
-			{
-				ft_putstr_fd(": No such file or directory\n", 2);
-				exit(exit_code);
-			}
-			ft_putstr_fd(": command not found\n", 2);
-			exit(exit_code);
-		}
+			error_cmd(node, path);
 	}
 	else
 		waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
-		exit_code = WEXITSTATUS(status);
+		g_exit_code = WEXITSTATUS(status);
 	ft_free_cmd(tmp_env, path, 0);
 }
