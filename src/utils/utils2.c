@@ -6,7 +6,7 @@
 /*   By: mvan-vel <mvan-vel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 14:57:15 by mvan-vel          #+#    #+#             */
-/*   Updated: 2025/01/17 15:10:33 by mvan-vel         ###   ########.fr       */
+/*   Updated: 2025/01/17 18:29:48 by mvan-vel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,6 @@ void	ft_free_list(t_env *list)
 	{
 		tmp = list;
 		list = list->next;
-		// if (tmp->content)
-		//     free(tmp->content);
 		free(tmp->value);
 		free(tmp);
 	}

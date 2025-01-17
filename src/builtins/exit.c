@@ -6,7 +6,7 @@
 /*   By: mvan-vel <mvan-vel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 17:48:36 by mvan-vel          #+#    #+#             */
-/*   Updated: 2025/01/17 14:44:13 by mvan-vel         ###   ########.fr       */
+/*   Updated: 2025/01/17 19:09:33 by mvan-vel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ long	ft_atol(const char *str)
 	{
 		tmp = nb;
 		nb = nb * 10 + (*str - '0');
-		if (check_overflow(tmp, nb))
+		if (nb / 10 > 10 && check_overflow(tmp, nb / 10))
 			return (0);
 		str++;
 	}
@@ -80,19 +80,23 @@ void	exit_test(char **cmd, t_data *data)
 {
 	long long	number;
 
+	data->running = 0;
 	printf("exit\n");
 	if (!cmd[1])
 		exit(g_exit_code);
+	if (cmd[1][0] == '0' && cmd[1][1] == '\0')
+	{
+		g_exit_code = 0;
+		return ;
+	}
 	if (cmd[1])
 	{
 		number = ft_atol(cmd[1]);
-		if (!isalpha_exit(cmd[1], 0) && ((number != 0
-					&& ft_strlen(cmd[1]) != 1) || number == 0))
+		if (!isalpha_exit(cmd[1], 0) && number != 0)
 			g_exit_code = (number % 256);
 		else
 			error_exit(cmd[1]);
 	}
 	if (cmd[2] && g_exit_code != 2)
 		error_exit(NULL);
-	data->running = 0;
 }
