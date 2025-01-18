@@ -6,7 +6,7 @@
 /*   By: ssoumill <ssoumill@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 17:13:45 by ssoumill          #+#    #+#             */
-/*   Updated: 2025/01/15 18:20:09 by ssoumill         ###   ########.fr       */
+/*   Updated: 2025/01/18 18:28:12 by ssoumill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ char	*cut_word(char **str, t_data *data)
 	char	*result;
 	char	*trimmed;
 	t_env	*dollar_list;
-	char	*tmp;
 
 	dollar_list = NULL;
 	c = **str;
@@ -84,11 +83,7 @@ char	*cut_word(char **str, t_data *data)
 		result = quote(str, c);
 		if (c == '"')
 		{
-			trimmed = ft_strtrim(result, "\"");
-			free(result);
-			tmp = trimmed;
-			result = search_dollar(&trimmed, &dollar_list, data);
-			free(tmp);
+			result = for_double(&result, &dollar_list, data);
 		}
 		else
 		{

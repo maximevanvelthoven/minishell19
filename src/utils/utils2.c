@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvan-vel <mvan-vel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssoumill <ssoumill@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 14:57:15 by mvan-vel          #+#    #+#             */
-/*   Updated: 2025/01/17 18:29:48 by mvan-vel         ###   ########.fr       */
+/*   Updated: 2025/01/18 18:26:39 by ssoumill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,17 @@ void	ft_free_list(t_env *list)
 		free(tmp->value);
 		free(tmp);
 	}
+}
+
+char	*for_double(char **result, t_env **dollard_list, t_data *data)
+{
+	char	*trimmed;
+	char	*tmp;
+
+	trimmed = ft_strtrim(*result, "\"");
+	free(*result);
+	tmp = trimmed;
+	*result = search_dollar(&trimmed, dollard_list, data);
+	free(tmp);
+	return (*result);
 }

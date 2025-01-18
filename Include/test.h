@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvan-vel <mvan-vel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssoumill <ssoumill@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 16:39:26 by mvan-vel          #+#    #+#             */
-/*   Updated: 2025/01/17 15:05:16 by mvan-vel         ###   ########.fr       */
+/*   Updated: 2025/01/18 18:27:11 by ssoumill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,8 @@ char				*replace_tild(t_data *data);
 void				print_token(t_token *token);
 
 //fontcion expender
-void				replace_var_env(t_env **l_word, t_data *data);
+void				replace_var_env(t_env **l_word, t_data *data,
+						t_env **new_list);
 char				*search_dollar(char **str, t_env **l_word, t_data *data);
 char				*cut_word(char **str, t_data *data);
 char				*expender(char **str, t_data *data);
@@ -96,6 +97,8 @@ int					check_exit_code(char **str, char *tmp, t_env **l_word);
 char				*get_word(char *str, char *tmp, t_env **dollar_list,
 						t_data *data);
 char				*get_trimmed(char **result, char *c);
+char				*for_double(char **result, t_env **dollard_list,
+						t_data *data);
 
 //fonction lexing
 void				handle_cote(char **str);

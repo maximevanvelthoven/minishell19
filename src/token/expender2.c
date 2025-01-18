@@ -6,20 +6,20 @@
 /*   By: ssoumill <ssoumill@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 17:16:30 by ssoumill          #+#    #+#             */
-/*   Updated: 2025/01/15 18:18:40 by ssoumill         ###   ########.fr       */
+/*   Updated: 2025/01/18 18:06:59 by ssoumill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "test.h"
 
-char    *get_trimmed(char **result, char *c)
+char	*get_trimmed(char **result, char *c)
 {
-    char    *trimmed;
+	char	*trimmed;
 
-    trimmed = ft_strtrim(*result, c);
-    free(*result);
-    result = NULL;
-    return (trimmed);
+	trimmed = ft_strtrim(*result, c);
+	free(*result);
+	result = NULL;
+	return (trimmed);
 }
 
 char	*get_word(char *str, char *tmp, t_env **dollar_list, t_data *data)
@@ -64,9 +64,12 @@ int	check_exit_code(char **str, char *tmp, t_env **l_word)
 char	*final_string(t_env **l_word, t_data *data)
 {
 	char	*result;
+	t_env	*new_list;
 
-	replace_var_env(l_word, data);
-	result = join_list(l_word);
+	new_list = NULL;
+	replace_var_env(l_word, data, &new_list);
+	result = join_list(&new_list);
 	ft_free_list(*l_word);
+	ft_free_list(new_list);
 	return (result);
 }
