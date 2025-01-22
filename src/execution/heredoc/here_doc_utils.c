@@ -6,7 +6,7 @@
 /*   By: mvan-vel <mvan-vel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 17:16:05 by mvan-vel          #+#    #+#             */
-/*   Updated: 2025/01/15 17:16:18 by mvan-vel         ###   ########.fr       */
+/*   Updated: 2025/01/21 16:13:10 by mvan-vel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ char	*quote_doc(char **str, int c)
 	len = *str - tmp;
 	result = strndup(tmp, len);
 	if (c == '"')
-		result = ft_strtrim(result, "\"");
+		result = get_trimmed(&result, "\"");
 	else
-		result = ft_strtrim(result, "'");
+		result = get_trimmed(&result, "'");
 	return (result);
 }
 

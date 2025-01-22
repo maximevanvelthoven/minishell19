@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expender.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssoumill <ssoumill@student.s19.be>         +#+  +:+       +#+        */
+/*   By: mvan-vel <mvan-vel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 17:13:45 by ssoumill          #+#    #+#             */
-/*   Updated: 2025/01/18 18:28:12 by ssoumill         ###   ########.fr       */
+/*   Updated: 2025/01/21 17:31:18 by mvan-vel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,11 +80,10 @@ char	*cut_word(char **str, t_data *data)
 	c = **str;
 	if (c == '\'' || c == '"')
 	{
+		data->flag = 1;
 		result = quote(str, c);
 		if (c == '"')
-		{
 			result = for_double(&result, &dollar_list, data);
-		}
 		else
 		{
 			trimmed = ft_strtrim(result, "'");

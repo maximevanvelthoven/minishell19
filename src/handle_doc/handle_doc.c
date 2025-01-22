@@ -6,7 +6,7 @@
 /*   By: mvan-vel <mvan-vel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 17:17:29 by mvan-vel          #+#    #+#             */
-/*   Updated: 2025/01/15 17:18:03 by mvan-vel         ###   ########.fr       */
+/*   Updated: 2025/01/21 16:29:09 by mvan-vel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ void	set_pipe(t_data *data)
 		data->pipefd[i] = malloc(sizeof(int *) * 2);
 		if (!data->pipefd[i])
 			return ;
+		data->pipefd[i][0] = -1;
+		data->pipefd[i][1] = -1;
 		i++;
 	}
 }

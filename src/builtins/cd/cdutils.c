@@ -6,7 +6,7 @@
 /*   By: mvan-vel <mvan-vel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 14:46:27 by mvan-vel          #+#    #+#             */
-/*   Updated: 2025/01/17 14:55:00 by mvan-vel         ###   ########.fr       */
+/*   Updated: 2025/01/21 19:32:42 by mvan-vel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,10 @@ void	set_new_pwd(t_data *data, char *str)
 		if (!strcmp(env->value, "PWD"))
 		{
 			free(env->content);
-			env->content = ft_strdup(str);
+			if (!str)
+				env->content = ft_strdup("");
+			else
+				env->content = ft_strdup(str);
 			return ;
 		}
 		env = env->next;
@@ -34,16 +37,22 @@ void	set_old_pwd(t_data *data, char *str)
 {
 	t_env	*env;
 
-	env = data->env;
-	while (env)
+	if (str != NULL)
 	{
-		if (!strcmp(env->value, "OLDPWD"))
+		env = data->env;
+		while (env)
 		{
-			free(env->content);
-			env->content = ft_strdup(str);
-			return ;
+			if (!strcmp(env->value, "OLDPWD"))
+			{
+				if (str)
+				{
+					free(env->content);
+					env->content = ft_strdup(str);
+				}
+				return ;
+			}
+			env = env->next;
 		}
-		env = env->next;
 	}
 	return ;
 }

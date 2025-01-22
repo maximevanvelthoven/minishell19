@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_utils2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssoumill <ssoumill@student.s19.be>         +#+  +:+       +#+        */
+/*   By: mvan-vel <mvan-vel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 17:50:06 by ssoumill          #+#    #+#             */
-/*   Updated: 2025/01/15 17:50:45 by ssoumill         ###   ########.fr       */
+/*   Updated: 2025/01/22 17:00:47 by mvan-vel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,29 +28,32 @@ void	handle_cote(char **str)
 	}
 }
 
-int	findtype(char *str)
+int	findtype(char *str, t_data *data)
 {
-	if (!ft_strcmp(str, "<"))
+	if (!ft_strcmp(str, "<") && data->flag == 0)
 		return (0);
-	else if (!ft_strcmp(str, ">"))
+	else if (!ft_strcmp(str, ">") && data->flag == 0)
 		return (1);
-	else if (!ft_strcmp(str, ">>"))
+	else if (!ft_strcmp(str, ">>") && data->flag == 0)
 		return (2);
-	else if (!ft_strcmp(str, "<<"))
+	else if (!ft_strcmp(str, "<<") && data->flag == 0)
 		return (3);
-	else if (!ft_strcmp(str, "|"))
+	else if (!ft_strcmp(str, "|") && data->flag == 0)
 		return (4);
 	else
+	{
+		data->flag = 0;
 		return (5);
+	}
 }
 
-void	init_struct_t(char *str, t_token **token)
+void	init_struct_t(char *str, t_token **token, t_data *data)
 {
 	t_token	*node;
 	t_token	*current;
 
 	node = malloc(sizeof(t_token));
-	node->type = findtype(str);
+	node->type = findtype(str, data);
 	node->cmd = ft_strdup(str);
 	node->next = NULL;
 	if (!(*token))

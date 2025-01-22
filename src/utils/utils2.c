@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssoumill <ssoumill@student.s19.be>         +#+  +:+       +#+        */
+/*   By: mvan-vel <mvan-vel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 14:57:15 by mvan-vel          #+#    #+#             */
-/*   Updated: 2025/01/18 18:26:39 by ssoumill         ###   ########.fr       */
+/*   Updated: 2025/01/21 17:26:43 by mvan-vel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ void	ft_free_pipe(t_data *data)
 	{
 		if (data->check_ifdoc == 1)
 		{
-			if (data->pipefd[i][0])
+			if (data->pipefd[i][0] >= 0)
 				close(data->pipefd[i][0]);
-			if (data->pipefd[i][1])
+			if (data->pipefd[i][1] >= 0)
 				close(data->pipefd[i][1]);
 		}
 		if (data->pipefd[i])
@@ -34,6 +34,7 @@ void	ft_free_pipe(t_data *data)
 	data->pipefd = NULL;
 	data->nbr_pipe = 0;
 	data->pipe_doc = 0;
+	data->flag = 0;
 	data->flag_doc = 0;
 	data->fd_exec = 0;
 	data->check_ifdoc = 0;

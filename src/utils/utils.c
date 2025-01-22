@@ -6,7 +6,7 @@
 /*   By: mvan-vel <mvan-vel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 18:29:38 by mvan-vel          #+#    #+#             */
-/*   Updated: 2025/01/17 18:30:07 by mvan-vel         ###   ########.fr       */
+/*   Updated: 2025/01/22 16:56:56 by mvan-vel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@
 // 		printf("    ");
 // 	// Affichage du type et de la commande
 // 	//printf("Type: %d, Command: <%s> <%s>\n", ast->type,
-			//ast->cmd[0],ast->cmd[1]);
+//ast->cmd[0],ast->cmd[1]);
 // 	printf("Type: %d, Command: <%s>\n", tmp->type, tmp->cmd[0]);
 // 	// Appels récursifs pour les sous-nœuds gauche et droit
 // 	if (tmp->left)
@@ -115,6 +115,7 @@ void	init_data(t_data *data, char **envp)
 	data->nbr_pipe = 0;
 	data->pipe_doc = 0;
 	data->flag_doc = 0;
+	data->flag = 0;
 	data->running = 1;
 	data->check_ifdoc = 0;
 	data->fd_exec = 0;
@@ -127,6 +128,8 @@ void	ft_free_env(t_data *data)
 {
 	t_env	*tmp;
 
+	if (data->oldpwd)
+		free(data->oldpwd);
 	while (data->env != NULL)
 	{
 		tmp = data->env;

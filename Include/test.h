@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssoumill <ssoumill@student.s19.be>         +#+  +:+       +#+        */
+/*   By: mvan-vel <mvan-vel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 16:39:26 by mvan-vel          #+#    #+#             */
-/*   Updated: 2025/01/18 18:27:11 by ssoumill         ###   ########.fr       */
+/*   Updated: 2025/01/21 17:24:32 by mvan-vel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ typedef struct s_data
 	int				status1;
 	int				status2;
 	int				running;
+	int				flag;
 	int				pipe_doc;
 	int				flag_doc;
 	int				check_ifdoc;
@@ -74,7 +75,7 @@ typedef struct s_data
 }					t_data;
 
 //initialisation liste token
-void				init_struct_t(char *str, t_token **token);
+void				init_struct_t(char *str, t_token **token, t_data *data);
 int					check_last_token(t_token **token);
 int					cote_word(char *str);
 void				init_data(t_data *data, char **envp);

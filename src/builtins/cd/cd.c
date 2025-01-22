@@ -6,21 +6,34 @@
 /*   By: mvan-vel <mvan-vel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 14:54:09 by mvan-vel          #+#    #+#             */
-/*   Updated: 2025/01/17 14:54:32 by mvan-vel         ###   ########.fr       */
+/*   Updated: 2025/01/22 17:00:25 by mvan-vel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "test.h"
 
-void	cd_end(char *tmp, char *pwd, t_data *data)
+void	cd_end(char *tmp, char *pwd, t_data *data, int i)
 {
+	if (i == 1)
+		return ;
+	if (i == 2)
+	{
+		ft_putstr_fd("cd: error retrieving current directory: getcwd:", 2);
+		ft_putstr_fd(" cannot access parent directories:", 2);
+		ft_putstr_fd(" No such file or directory\n", 2);
+		return ;
+	}
 	if (ft_strcmp(tmp, pwd))
 	{
 		set_new_pwd(data, tmp);
 		if (data->flag_oldpwd == 0)
 			set_old_pwd(data, pwd);
 		else
+		{
+			if (data->oldpwd)
+				free(data->oldpwd);
 			data->oldpwd = ft_strdup(pwd);
+		}
 	}
 }
 
@@ -74,10 +87,13 @@ void	cd_test(char **cmd, t_data *data)
 {
 	char	pwd[1024];
 	char	tmp[1024];
+	int		i;
 
+	i = 0;
 	if (!check_nbr_args(cmd))
 		return ;
-	getcwd(pwd, sizeof(pwd));
+	if (!getcwd(pwd, sizeof(pwd)))
+		i = 1;
 	if (!cmd[1])
 		cd_no_args(data);
 	else if (!ft_strcmp(cmd[1], "-"))
@@ -89,7 +105,8 @@ void	cd_test(char **cmd, t_data *data)
 		else
 			return (error_cd(cmd[1]));
 	}
-	getcwd(tmp, sizeof(tmp));
-	cd_end(tmp, pwd, data);
+	if (!getcwd(tmp, sizeof(tmp)))
+		i = 2;
+	cd_end(tmp, pwd, data, i);
 	return ;
 }

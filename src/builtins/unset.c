@@ -6,11 +6,26 @@
 /*   By: mvan-vel <mvan-vel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 17:49:15 by mvan-vel          #+#    #+#             */
-/*   Updated: 2025/01/19 19:46:46 by mvan-vel         ###   ########.fr       */
+/*   Updated: 2025/01/22 17:38:59 by mvan-vel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "test.h"
+
+void	ft_free_env3(t_env **env)
+{
+	t_env	*tmp;
+
+	while (*env != NULL)
+	{
+		tmp = *env;
+		*env = (*env)->next;
+		free(tmp->value);
+		free(tmp->content);
+		free(tmp);
+	}
+	*env = NULL;
+}
 
 void	ft_free_env2(t_data *data)
 {
@@ -64,6 +79,7 @@ void	ft_unset(char **cmd, t_data *data)
 {
 	int		i;
 	t_env	*current;
+	t_env	*tmp;
 
 	i = 1;
 	current = NULL;
@@ -75,7 +91,13 @@ void	ft_unset(char **cmd, t_data *data)
 			data->flag_oldpwd = 1;
 		check_var_exist(data, cmd[i], &current);
 		ft_free_env2(data);
-		data->env = current;
+		tmp = current;
+		while (tmp)
+		{
+			init_l_word2(tmp->content, tmp->value, &data->env);
+			tmp = tmp->next;
+		}
+		ft_free_env3(&current);
 		i++;
 	}
 }

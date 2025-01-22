@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_token.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssoumill <ssoumill@student.s19.be>         +#+  +:+       +#+        */
+/*   By: mvan-vel <mvan-vel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 17:00:36 by ssoumill          #+#    #+#             */
-/*   Updated: 2025/01/15 17:00:39 by ssoumill         ###   ########.fr       */
+/*   Updated: 2025/01/21 17:25:30 by mvan-vel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,26 +18,26 @@ void	token_separator(t_token **token, char **str, t_data *data)
 	{
 		if (*(*str + 1) == '<')
 		{
-			init_struct_t("<<", token);
+			init_struct_t("<<", token, data);
 			(*str)++;
 		}
 		else
-			init_struct_t("<", token);
+			init_struct_t("<", token, data);
 	}
 	else if (**str == '>')
 	{
 		if (*(*str + 1) == '>')
 		{
-			init_struct_t(">>", token);
+			init_struct_t(">>", token, data);
 			(*str)++;
 		}
 		else
-			init_struct_t(">", token);
+			init_struct_t(">", token, data);
 	}
 	else if (**str == '|')
 	{
 		data->nbr_pipe++;
-		init_struct_t("|", token);
+		init_struct_t("|", token, data);
 	}
 }
 
@@ -49,11 +49,11 @@ void	handle_word(char *word, t_token **token, t_data *data)
 	list = NULL;
 	result = NULL;
 	if (check_last_token(token))
-		init_struct_t(word, token);
+		init_struct_t(word, token, data);
 	else if (cote_word(word))
 	{
 		result = expender(&word, data);
-		init_struct_t(result, token);
+		init_struct_t(result, token, data);
 	}
 	else
 	{
@@ -64,7 +64,7 @@ void	handle_word(char *word, t_token **token, t_data *data)
 			result = ft_strdup(getenv("HOME"));
 		}
 		if ((*result))
-			init_struct_t(result, token);
+			init_struct_t(result, token, data);
 	}
 	free(result);
 	result = NULL;
