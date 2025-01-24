@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_token_list.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssoumill <ssoumill@student.s19.be>         +#+  +:+       +#+        */
+/*   By: mvan-vel <mvan-vel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 17:11:18 by ssoumill          #+#    #+#             */
-/*   Updated: 2025/01/15 17:11:19 by ssoumill         ###   ########.fr       */
+/*   Updated: 2025/01/24 16:50:03 by mvan-vel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ int	mid_check(t_token *tmp)
 		if ((tmp->type == 2 && tmp->next->type == 1) || (tmp->type == 1
 				&& tmp->next->type == 2))
 			return (1);
+		if (tmp->type >= 0 && tmp->type <= 4 && tmp->next->type == 4)
+			return (1);
 		if (tmp->type == 4 && tmp->next->type == 4)
 			return (1);
 		if (tmp->type == 0 && tmp->next->type == 1)
@@ -32,7 +34,7 @@ int	mid_check(t_token *tmp)
 			return (1);
 		tmp = tmp->next;
 	}
-	if (tmp->type == 3)
+	if (tmp->type == 3 || tmp->type == 1 || tmp->type == 2 || tmp->type == 0)
 		return (1);
 	return (0);
 }
