@@ -6,7 +6,7 @@
 /*   By: mvan-vel <mvan-vel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 14:54:09 by mvan-vel          #+#    #+#             */
-/*   Updated: 2025/01/22 17:00:25 by mvan-vel         ###   ########.fr       */
+/*   Updated: 2025/01/25 15:08:28 by mvan-vel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,5 +108,5 @@ void	cd_test(char **cmd, t_data *data)
 	if (!getcwd(tmp, sizeof(tmp)))
 		i = 2;
 	cd_end(tmp, pwd, data, i);
-	return ;
+	g_exit_code = 0;
 }

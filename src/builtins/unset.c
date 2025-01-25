@@ -6,7 +6,7 @@
 /*   By: mvan-vel <mvan-vel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 17:49:15 by mvan-vel          #+#    #+#             */
-/*   Updated: 2025/01/22 17:38:59 by mvan-vel         ###   ########.fr       */
+/*   Updated: 2025/01/25 15:06:41 by mvan-vel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,4 +100,5 @@ void	ft_unset(char **cmd, t_data *data)
 		ft_free_env3(&current);
 		i++;
 	}
+	g_exit_code = 0;
 }

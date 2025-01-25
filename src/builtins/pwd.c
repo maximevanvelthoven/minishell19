@@ -6,7 +6,7 @@
 /*   By: mvan-vel <mvan-vel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 17:49:07 by mvan-vel          #+#    #+#             */
-/*   Updated: 2025/01/21 19:16:53 by mvan-vel         ###   ########.fr       */
+/*   Updated: 2025/01/25 15:06:59 by mvan-vel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,5 @@ void	pwd_test(char **tab)
 	if (cwd)
 		printf("%s\n", cwd);
 	free(cwd);
+	g_exit_code = 0;
 }
