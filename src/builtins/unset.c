@@ -6,7 +6,7 @@
 /*   By: mvan-vel <mvan-vel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 17:49:15 by mvan-vel          #+#    #+#             */
-/*   Updated: 2025/01/25 15:06:41 by mvan-vel         ###   ########.fr       */
+/*   Updated: 2025/01/25 18:01:44 by mvan-vel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,10 @@ void	ft_free_env3(t_env **env)
 	{
 		tmp = *env;
 		*env = (*env)->next;
-		free(tmp->value);
-		free(tmp->content);
+		if (tmp->value)
+			free(tmp->value);
+		if (tmp->content)
+			free(tmp->content);
 		free(tmp);
 	}
 	*env = NULL;
@@ -31,12 +33,16 @@ void	ft_free_env2(t_data *data)
 {
 	t_env	*tmp;
 
+	if (!data->env)
+		return ;
 	while (data->env != NULL)
 	{
 		tmp = data->env;
 		data->env = data->env->next;
-		free(tmp->value);
-		free(tmp->content);
+		if (tmp->value)
+			free(tmp->value);
+		if (tmp->content)
+			free(tmp->content);
 		free(tmp);
 	}
 	data->env = NULL;
@@ -48,7 +54,10 @@ void	init_l_word2(char *s1, char *s2, t_env **l_word)
 	t_env	*current;
 
 	node = malloc(sizeof(t_env));
-	node->content = ft_strdup(s1);
+	if (s1)
+		node->content = ft_strdup(s1);
+	else
+		node->content = NULL;
 	node->value = ft_strdup(s2);
 	node->next = NULL;
 	if (!(*l_word))

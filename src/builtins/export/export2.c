@@ -6,7 +6,7 @@
 /*   By: mvan-vel <mvan-vel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 17:32:02 by mvan-vel          #+#    #+#             */
-/*   Updated: 2025/01/15 17:47:40 by mvan-vel         ###   ########.fr       */
+/*   Updated: 2025/01/25 18:11:22 by mvan-vel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ void	create_export(char **tab, t_data *data, int type)
 void	check_exist(t_data *data, char **str, int type)
 {
 	t_env	*env;
-	char	*tmp;
 
 	env = data->env;
 	while (env)
@@ -46,11 +45,7 @@ void	check_exist(t_data *data, char **str, int type)
 				env->content = ft_strdup(str[1]);
 			}
 			if (type == 3)
-			{
-				tmp = ft_strjoin(env->content, str[1]);
-				env->content = ft_strdup(tmp);
-				free(tmp);
-			}
+				type3_handle(&env, str);
 			return ;
 		}
 		env = env->next;

@@ -6,7 +6,7 @@
 /*   By: mvan-vel <mvan-vel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 16:39:26 by mvan-vel          #+#    #+#             */
-/*   Updated: 2025/01/21 17:24:32 by mvan-vel         ###   ########.fr       */
+/*   Updated: 2025/01/25 18:10:45 by mvan-vel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,6 +168,7 @@ int					ft_strlen_tab(char **tab);
 void				pwd_test(char **tab);
 void				env_test(t_data *data);
 void				export_test(char **cmd, t_data *data);
+void				type3_handle(t_env **env, char **str);
 void				prepare_to_export(char *str, t_data *data);
 t_env				*find_last_node(t_env *env);
 void				ft_free_tab(char **tab, int i);
