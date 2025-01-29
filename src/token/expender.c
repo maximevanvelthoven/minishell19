@@ -6,7 +6,7 @@
 /*   By: mvan-vel <mvan-vel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 17:13:45 by ssoumill          #+#    #+#             */
-/*   Updated: 2025/01/29 16:01:41 by mvan-vel         ###   ########.fr       */
+/*   Updated: 2025/01/29 16:44:21 by mvan-vel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ char	*quote(char **str, int c)
 		(*str)++;
 	(*str)++;
 	len = *str - tmp;
-	(void)len
+	(void)len;
 	result = strndup(tmp, len);
 	return (result);
 }
