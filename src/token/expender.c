@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expender.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvan-vel <mvan-vel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssoumill <ssoumill@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 17:13:45 by ssoumill          #+#    #+#             */
-/*   Updated: 2025/01/29 16:44:21 by mvan-vel         ###   ########.fr       */
+/*   Updated: 2025/01/29 18:39:25 by ssoumill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,7 @@ char	*quote(char **str, int c)
 		(*str)++;
 	(*str)++;
 	len = *str - tmp;
-	(void)len;
-	result = strndup(tmp, len);
+	result = ft_strndup2(tmp, len);
 	return (result);
 }
 

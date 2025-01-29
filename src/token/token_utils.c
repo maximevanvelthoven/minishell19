@@ -6,7 +6,7 @@
 /*   By: ssoumill <ssoumill@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 17:50:53 by ssoumill          #+#    #+#             */
-/*   Updated: 2025/01/15 17:51:17 by ssoumill         ###   ########.fr       */
+/*   Updated: 2025/01/29 18:47:26 by ssoumill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ void	init_l_word(char *str, t_env **l_word)
 	t_env	*current;
 
 	node = malloc(sizeof(t_env));
+	if (!node)
+		return ;
 	node->content = NULL;
 	node->value = ft_strdup(str);
 	node->next = NULL;

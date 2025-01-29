@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvan-vel <mvan-vel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssoumill <ssoumill@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 15:19:15 by mvan-vel          #+#    #+#             */
-/*   Updated: 2025/01/29 15:51:21 by mvan-vel         ###   ########.fr       */
+/*   Updated: 2025/01/29 18:38:24 by ssoumill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	main(int ac, char **av, char **envp)
 	if (ac != 1)
 		return (1);
 	data = malloc(sizeof(t_data));
-	if(!data)
+	if (!data)
 		return (1);
 	init_data(data, envp);
 	while (data->running)

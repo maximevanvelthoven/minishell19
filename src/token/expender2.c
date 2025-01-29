@@ -6,7 +6,7 @@
 /*   By: ssoumill <ssoumill@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 17:16:30 by ssoumill          #+#    #+#             */
-/*   Updated: 2025/01/18 18:06:59 by ssoumill         ###   ########.fr       */
+/*   Updated: 2025/01/29 18:45:58 by ssoumill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	add_to_list(char **str, char *tmp, t_env **l_word)
 
 	result = NULL;
 	len = *str - tmp;
-	result = strndup(tmp, len);
+	result = ft_strndup2(tmp, len);
 	init_l_word(result, l_word);
 	free(result);
 }
