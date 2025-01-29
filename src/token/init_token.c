@@ -6,7 +6,7 @@
 /*   By: mvan-vel <mvan-vel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 17:00:36 by ssoumill          #+#    #+#             */
-/*   Updated: 2025/01/21 17:25:30 by mvan-vel         ###   ########.fr       */
+/*   Updated: 2025/01/29 16:00:47 by mvan-vel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,10 @@ char	*token_word(char **str)
 		(*str)++;
 	}
 	len = *str - tmp;
-	result = strndup(tmp, len);
+	(void)len;
+	result = ft_strndup2(tmp, len);
+	if(!result)
+		exit(1);
 	return (result);
 }
 
